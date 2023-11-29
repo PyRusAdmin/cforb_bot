@@ -2,6 +2,7 @@ from aiogram import executor
 from loguru import logger
 
 from handlers.greeting_handlers import register_greeting_handler
+from handlers.services_and_prices_handlers import register_services_and_prices_handler
 from system.dispatcher import dp
 
 logger.add("logs/log.log", retention="1 days", enqueue=True)  # Логирование бота
@@ -14,6 +15,7 @@ def main() -> None:
     except Exception as error:
         logger.exception(error)
     register_greeting_handler()
+    register_services_and_prices_handler()
 
 
 if __name__ == '__main__':
