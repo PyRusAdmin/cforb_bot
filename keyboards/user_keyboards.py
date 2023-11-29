@@ -35,7 +35,7 @@ def services_and_prices_key():
     button_2 = InlineKeyboardButton(text='Белая доставка грузов с ГТД',
                                     callback_data='white_cargo_delivery_with_gas_turbine_engine')
     button_3 = InlineKeyboardButton(text='Услуга Выкупа товаров',
-                                    callback_data='order_form')
+                                    callback_data='goods_redemption_service')
     button_4 = InlineKeyboardButton(text='Услуга Поиска товаров (производителей в Китае)',
                                     callback_data='order_form')
     button_5 = InlineKeyboardButton(text='Инспекция поставщиков по провинциям (выезд на производство)',
