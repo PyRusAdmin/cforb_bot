@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext  # Состояния пользователя
 from loguru import logger
 
-from keyboards.user_keyboards import create_greeting_keyboard
+from keyboards.user_keyboards import services_and_prices_key
 from system.dispatcher import bot, dp
 
 
@@ -13,10 +13,10 @@ async def services_and_prices(callback_query: types.CallbackQuery, state: FSMCon
         await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
         from_user_name = callback_query.from_user.first_name  # Получаем фамилию пользователя
         greeting_message = f"{from_user_name}, ознакомьтесь с нашими услугами и ценами!\n\n"
-        keyboards_greeting = create_greeting_keyboard()  # Клавиатуры поста приветствия 👋
+        services_and_prices_keyboard = services_and_prices_key()  # Клавиатуры поста приветствия 👋
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
-                               reply_markup=keyboards_greeting,  # Клавиатура приветствия 👋
+                               reply_markup=services_and_prices_keyboard,  # Клавиатура приветствия 👋
                                parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)

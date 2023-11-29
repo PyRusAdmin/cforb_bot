@@ -27,7 +27,7 @@ def create_greeting_keyboard():
     return greeting_keyboard
 
 
-def services_and_prices():
+def services_and_prices_key():
     """Клавиатура услуг и цен"""
     services_and_prices_keyboard = InlineKeyboardMarkup()
     button_1 = InlineKeyboardButton(text='Прайсы на доставку Карго',
