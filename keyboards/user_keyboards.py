@@ -31,9 +31,9 @@ def services_and_prices_key():
     """Клавиатура услуг и цен"""
     services_and_prices_keyboard = InlineKeyboardMarkup()
     button_1 = InlineKeyboardButton(text='Прайсы на доставку Карго',
-                                    callback_data='order_form')
+                                    callback_data='cargo_delivery_prices')
     button_2 = InlineKeyboardButton(text='Белая доставка грузов с ГТД',
-                                    callback_data='order_form')
+                                    callback_data='white_cargo_delivery_with_gas_turbine_engine')
     button_3 = InlineKeyboardButton(text='Услуга Выкупа товаров',
                                     callback_data='order_form')
     button_4 = InlineKeyboardButton(text='Услуга Поиска товаров (производителей в Китае)',
