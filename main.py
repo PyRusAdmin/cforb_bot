@@ -2,6 +2,7 @@ from aiogram import executor
 from loguru import logger
 
 from handlers.greeting_handlers import register_greeting_handler
+from handlers.order_form_handlers import register_order_form_handler
 from handlers.services_and_prices_handlers import register_services_and_prices_handler
 from system.dispatcher import dp
 
@@ -16,6 +17,7 @@ def main() -> None:
         logger.exception(error)
     register_greeting_handler()
     register_services_and_prices_handler()
+    register_order_form_handler() # Кнопка "Бланк заказа"
 
 
 if __name__ == '__main__':

@@ -61,7 +61,7 @@ async def send_start(message: types.Message, state: FSMContext):
                                parse_mode=ParseMode.HTML,
                                disable_web_page_preview=True)
 
-@dp.callback_query_handler(lambda c: c.data == "order_form")
+@dp.callback_query_handler(lambda c: c.data == "main_menu")
 async def send_start(message: types.Message, state: FSMContext):
     """Обработчик команды /start, он же пост приветствия 👋"""
     try:

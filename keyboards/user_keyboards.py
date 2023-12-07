@@ -53,7 +53,7 @@ def services_and_prices_key():
     button_9 = InlineKeyboardButton(text='Как совершается оплата?',
                                     callback_data='how_is_payment_made')
     button_10 = InlineKeyboardButton(text='↩️ Главное меню',
-                                     callback_data='order_form')
+                                     callback_data='main_menu')
     services_and_prices_keyboard.row(button_1)
     services_and_prices_keyboard.row(button_2)
     services_and_prices_keyboard.row(button_3)
@@ -65,6 +65,15 @@ def services_and_prices_key():
     services_and_prices_keyboard.row(button_9)
     services_and_prices_keyboard.row(button_10)
     return services_and_prices_keyboard
+
+
+def keyboard_to_main_menu():
+    """Создает клавиатуру для кнопки 'Главное меню'"""
+    main_menu_keyboard = InlineKeyboardMarkup()
+    main_menu_button = InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')
+
+    main_menu_keyboard.row(main_menu_button)
+    return main_menu_keyboard
 
 
 def create_my_details_keyboard():
