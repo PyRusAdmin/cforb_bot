@@ -51,7 +51,7 @@ def create_greeting_keyboard():
                                                      callback_data='reviews')
     helpful_information_batton = InlineKeyboardButton(text='📚 Полезная информация', callback_data='useful_information')
     leave_review_button = InlineKeyboardButton(text="📞 Связаться с менеджером",
-                                               callback_data='contact_the_manager')
+                                               url='https://t.me/cargo_cfb')
     greeting_keyboard.row(ask_anonymous_question_button,
                           partnership_conditions_for_intermediaries_button)  # Услуги и цены
     greeting_keyboard.row(sign_up_button, contact_operator_button)  # Самовыкуп
