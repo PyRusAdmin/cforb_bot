@@ -1,6 +1,38 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
 
+def types_of_packaging_keyboard_menu():
+    """Создаем клавиатуру для видов упаковки"""
+    types_of_packaging_key = InlineKeyboardMarkup()
+    button_6 = InlineKeyboardButton(text='Назад к упаковкам', callback_data='types_of_packaging')
+    button_7 = InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')
+    types_of_packaging_key.add(button_6)
+    types_of_packaging_key.add(button_7)
+    return types_of_packaging_key
+
+
+def types_of_packaging_keyboard():
+    """Создаем клавиатуру для видов упаковки"""
+    types_of_packaging_key = InlineKeyboardMarkup()
+    button_1 = InlineKeyboardButton(text='Мешок + скотч', callback_data='bag_tape')
+    button_2 = InlineKeyboardButton(text='Коробка + мешок + скотч', callback_data='box_bag_tape')
+    button_3 = InlineKeyboardButton(text='Деревянная обрешетка + мешок + скотч',
+                                    callback_data='wooden_sheathing_bag_tape')
+    button_4 = InlineKeyboardButton(text='Деревянные уголки + мешок + скотч', callback_data='wooden_corners_bag_tape')
+    button_5 = InlineKeyboardButton(text='Паллет в обрешетке', callback_data='pallet_in_crate')
+    button_6 = InlineKeyboardButton(text='Паллет с глухим деревянным коробом',
+                                    callback_data='pallet_with_a_solid_wooden_box')
+    button_7 = InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')
+    types_of_packaging_key.add(button_1)
+    types_of_packaging_key.add(button_2)
+    types_of_packaging_key.add(button_3)
+    types_of_packaging_key.add(button_4)
+    types_of_packaging_key.add(button_5)
+    types_of_packaging_key.add(button_6)
+    types_of_packaging_key.add(button_7)
+    return types_of_packaging_key
+
+
 def create_greeting_keyboard():
     """Создаем клавиатуру для приветственного сообщения 👋"""
     greeting_keyboard = InlineKeyboardMarkup()
