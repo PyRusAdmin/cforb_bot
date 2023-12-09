@@ -99,6 +99,17 @@ def services_and_prices_key():
     return services_and_prices_keyboard
 
 
+def keyboard_to_services_and_prices_main_menu():
+    """Создает клавиатуру для кнопки 'Главное меню'"""
+    main_menu_keyboard = InlineKeyboardMarkup()
+    bat_1 = InlineKeyboardButton(text='Назад к услугам', callback_data='services_and_prices')
+    main_menu_button = InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')
+
+    main_menu_keyboard.row(bat_1)
+    main_menu_keyboard.row(main_menu_button)
+    return main_menu_keyboard
+
+
 def keyboard_to_main_menu():
     """Создает клавиатуру для кнопки 'Главное меню'"""
     main_menu_keyboard = InlineKeyboardMarkup()

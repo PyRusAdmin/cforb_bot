@@ -12,7 +12,8 @@ async def order_form(callback_query: types.CallbackQuery, state: FSMContext):
     try:
         await state.finish()  # Завершаем текущее состояние машины состояний
         await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
-        greeting_message = (f"<b>Скачайте и заполните наш фирменный бланк заказа, если возникнут какие-то вопросы, вы всегда можете обратиться к менеджеру @cargo_cfb.</b>\n\n"
+        greeting_message = (f"<b>Скачайте и заполните наш фирменный бланк заказа, если возникнут какие-то вопросы, "
+                            f"вы всегда можете обратиться к менеджеру @cargo_cfb.</b>\n\n"
                             f"Пароль к бланку - cforb\n\n"
                             f"<b>Связаться с менеджерами: @cargo_cfb</b>\n\n"
                             f"ПРИКРЕПЛЯЕТСЯ ФАЙЛ БЛАНК ЗАКАЗА")
@@ -23,6 +24,7 @@ async def order_form(callback_query: types.CallbackQuery, state: FSMContext):
                                parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
+
 
 def register_order_form_handler():
     """Регистрируем handlers для бота"""
