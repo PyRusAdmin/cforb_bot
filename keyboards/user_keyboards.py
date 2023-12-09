@@ -2,7 +2,11 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeybo
 
 
 def types_of_packaging_keyboard_menu():
-    """Создаем клавиатуру для видов упаковки"""
+    """
+    Создаем клавиатуру для видов упаковки:
+    Назад к упаковкам - 'types_of_packaging'
+    ↩️ Главное меню - 'main_menu'
+    """
     types_of_packaging_key = InlineKeyboardMarkup()
     button_6 = InlineKeyboardButton(text='Назад к упаковкам', callback_data='types_of_packaging')
     button_7 = InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')
