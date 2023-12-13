@@ -1,15 +1,15 @@
 from aiogram import executor
 from loguru import logger
 
-from handlers.greeting_handlers import register_greeting_handler
-from handlers.order_form_handlers import register_order_form_handler
-from handlers.partnership_conditions_for_intermediaries_handlers import \
+from handlers.user_handlers.greeting_handlers import register_greeting_handler
+from handlers.user_handlers.order_form_handlers import register_order_form_handler
+from handlers.user_handlers.partnership_conditions_for_intermediaries_handlers import \
     register_partnership_conditions_for_intermediaries_handler
-from handlers.reviews_handlers import register_reviews_handler
-from handlers.self_redemption_handlers import register_self_redemption_handler
-from handlers.services_and_prices_handlers import register_services_and_prices_handler
-from handlers.types_of_packaging_handlers import register_types_of_packaging_handler
-from handlers.useful_information_handlers import register_useful_information_handler
+from handlers.user_handlers.reviews_handlers import register_reviews_handler
+from handlers.user_handlers.self_redemption_handlers import register_self_redemption_handler
+from handlers.user_handlers.services_and_prices_handlers import register_services_and_prices_handler
+from handlers.user_handlers.types_of_packaging_handlers import register_types_of_packaging_handler
+from handlers.user_handlers.useful_information_handlers import register_useful_information_handler
 from system.dispatcher import dp
 
 logger.add("logs/log.log", retention="1 days", enqueue=True)  # Логирование бота
