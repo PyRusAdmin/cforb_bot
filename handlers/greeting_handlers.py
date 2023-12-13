@@ -6,11 +6,19 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.types import ParseMode
 from loguru import logger
 
-from database.database import recording_data_of_users_who_launched_the_bot, get_user_data_from_db, \
-    insert_user_data_to_database, update_phone_in_db, update_city_in_db, update_surname_in_db, update_name_in_db, \
-    check_user_exists_in_db
-from keyboards.user_keyboards import create_greeting_keyboard, create_contact_keyboard, create_my_details_keyboard, \
-    create_data_modification_keyboard, create_sign_up_keyboard
+from database.database import check_user_exists_in_db
+from database.database import get_user_data_from_db
+from database.database import insert_user_data_to_database
+from database.database import recording_data_of_users_who_launched_the_bot
+from database.database import update_city_in_db
+from database.database import update_name_in_db
+from database.database import update_phone_in_db
+from database.database import update_surname_in_db
+from keyboards.user_keyboards import create_contact_keyboard
+from keyboards.user_keyboards import create_data_modification_keyboard
+from keyboards.user_keyboards import create_greeting_keyboard
+from keyboards.user_keyboards import create_my_details_keyboard
+from keyboards.user_keyboards import create_sign_up_keyboard
 from system.dispatcher import bot, dp
 
 

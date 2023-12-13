@@ -100,6 +100,7 @@ def recording_data_of_users_who_launched_the_bot(user_id, username, first_name, 
 
 
 def get_user_data_from_db(user_id):
+    """Чтение данных с базы данных your_database.db"""
     conn = sqlite3.connect("your_database.db")  # Замените "your_database.db" на имя вашей базы данных
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS users (user_id INTEGER,
