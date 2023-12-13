@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext  # Состояния пользователя
 from loguru import logger
 
-from keyboards.user_keyboards import types_of_packaging_keyboard, types_of_packaging_keyboard_menu
+from keyboards.user_keyboards.user_keyboards import types_of_packaging_keyboard, types_of_packaging_keyboard_menu
 from system.dispatcher import bot, dp
 
 

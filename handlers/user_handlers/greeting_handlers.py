@@ -14,11 +14,11 @@ from database.database import update_city_in_db
 from database.database import update_name_in_db
 from database.database import update_phone_in_db
 from database.database import update_surname_in_db
-from keyboards.user_keyboards import create_contact_keyboard
-from keyboards.user_keyboards import create_data_modification_keyboard
-from keyboards.user_keyboards import create_greeting_keyboard
-from keyboards.user_keyboards import create_my_details_keyboard
-from keyboards.user_keyboards import create_sign_up_keyboard
+from keyboards.user_keyboards.user_keyboards import create_contact_keyboard
+from keyboards.user_keyboards.user_keyboards import create_data_modification_keyboard
+from keyboards.user_keyboards.user_keyboards import create_greeting_keyboard
+from keyboards.user_keyboards.user_keyboards import create_my_details_keyboard
+from keyboards.user_keyboards.user_keyboards import create_sign_up_keyboard
 from system.dispatcher import bot, dp
 
 

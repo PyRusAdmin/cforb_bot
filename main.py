@@ -1,6 +1,7 @@
 from aiogram import executor
 from loguru import logger
 
+from handlers.admin_handlers.admin_greeting_handlers import register_admin_greeting_handler
 from handlers.user_handlers.greeting_handlers import register_greeting_handler
 from handlers.user_handlers.order_form_handlers import register_order_form_handler
 from handlers.user_handlers.partnership_conditions_for_intermediaries_handlers import \
@@ -29,6 +30,7 @@ def main() -> None:
     register_self_redemption_handler()  # Сомовыкуп
     register_reviews_handler()  # 💌 Отзывы
     register_useful_information_handler()  # 📚 Полезная информация
+    register_admin_greeting_handler()  # Стартовая админ панель
 
 
 if __name__ == '__main__':
