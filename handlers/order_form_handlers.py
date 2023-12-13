@@ -15,13 +15,14 @@ async def order_form(callback_query: types.CallbackQuery, state: FSMContext):
         greeting_message = (f"<b>Скачайте и заполните наш фирменный бланк заказа, если возникнут какие-то вопросы, "
                             f"вы всегда можете обратиться к менеджеру @cargo_cfb.</b>\n\n"
                             f"Пароль к бланку - cforb\n\n"
-                            f"<b>Связаться с менеджерами: @cargo_cfb</b>\n\n"
-                            f"ПРИКРЕПЛЯЕТСЯ ФАЙЛ БЛАНК ЗАКАЗА")
+                            f"<b>Связаться с менеджерами: @cargo_cfb</b>\n\n")
         main_menu_keyboard = keyboard_to_main_menu()
-        await bot.send_message(callback_query.from_user.id,  # ID пользователя
-                               text=greeting_message,  # Текст для приветствия 👋
-                               reply_markup=main_menu_keyboard,
-                               parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+        with open('media/document/Бланк Заказа CFORB.xls', 'rb') as document:
+            await bot.send_document(callback_query.from_user.id,  # ID пользователя
+                                    caption=greeting_message,  # Текст для приветствия 👋
+                                    document=document,
+                                    reply_markup=main_menu_keyboard,
+                                    parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 
