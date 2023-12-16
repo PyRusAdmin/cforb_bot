@@ -27,7 +27,7 @@ def main() -> None:
     register_order_form_handler()  # 🗒 Бланк заказа
     register_types_of_packaging_handler()  # 📦 Виды упаковки
     register_partnership_conditions_for_intermediaries_handler()  # Партнерские условия для посредников
-    register_self_redemption_handler()  # Сомовыкуп
+    register_self_redemption_handler()  # Самовыкуп
     register_reviews_handler()  # 💌 Отзывы
     register_useful_information_handler()  # 📚 Полезная информация
     register_admin_greeting_handler()  # Стартовая админ панель
