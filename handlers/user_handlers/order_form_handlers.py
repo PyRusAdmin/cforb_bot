@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext  # Состояния пользователя
 from loguru import logger
 
-from keyboards.user_keyboards.user_keyboards import keyboard_to_main_menu
+from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from system.dispatcher import bot, dp
 
 
@@ -16,7 +16,7 @@ async def order_form(callback_query: types.CallbackQuery, state: FSMContext):
                             f"вы всегда можете обратиться к менеджеру @cargo_cfb.</b>\n\n"
                             f"Пароль к бланку - cforb\n\n"
                             f"<b>Связаться с менеджерами: @cargo_cfb</b>\n\n")
-        main_menu_keyboard = keyboard_to_main_menu()
+        main_menu_keyboard = create_main_menu_keyboard()
         with open('media/document/Бланк Заказа CFORB.xls', 'rb') as document:
             await bot.send_document(callback_query.from_user.id,  # ID пользователя
                                     caption=greeting_message,  # Текст для приветствия 👋

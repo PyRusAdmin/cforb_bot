@@ -1,120 +1,164 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
 
-def types_of_packaging_keyboard_menu():
+def create_packaging_menu_keyboard():
     """
-    Создаем клавиатуру для видов упаковки:
-    Назад к упаковкам - 'types_of_packaging'
-    ↩️ Главное меню - 'main_menu'
+    Создает клавиатуру для выбора видов упаковки.
+    Кнопка "Назад к упаковкам" возвращает к предыдущему меню ('types_of_packaging').
+    Кнопка "Главное меню" возвращает к главному меню ('main_menu').
     """
-    types_of_packaging_key = InlineKeyboardMarkup()
-    button_6 = InlineKeyboardButton(text='Назад к упаковкам', callback_data='types_of_packaging')
-    button_7 = InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')
-    types_of_packaging_key.add(button_6)
-    types_of_packaging_key.add(button_7)
-    return types_of_packaging_key
+    packaging_menu_keyboard = InlineKeyboardMarkup()
+    back_button = InlineKeyboardButton(text='Назад к упаковкам',
+                                       callback_data='types_of_packaging')
+    main_menu_button = InlineKeyboardButton(text='↩️ Главное меню',
+                                            callback_data='main_menu')
+    packaging_menu_keyboard.add(back_button)
+    packaging_menu_keyboard.add(main_menu_button)
+    return packaging_menu_keyboard
 
 
-def types_of_packaging_keyboard():
-    """Создаем клавиатуру для видов упаковки"""
-    types_of_packaging_key = InlineKeyboardMarkup()
-    button_1 = InlineKeyboardButton(text='Мешок + скотч', callback_data='bag_tape')
-    button_2 = InlineKeyboardButton(text='Коробка + мешок + скотч', callback_data='box_bag_tape')
-    button_3 = InlineKeyboardButton(text='Деревянная обрешетка + мешок + скотч',
-                                    callback_data='wooden_sheathing_bag_tape')
-    button_4 = InlineKeyboardButton(text='Деревянные уголки + мешок + скотч', callback_data='wooden_corners_bag_tape')
-    button_5 = InlineKeyboardButton(text='Паллет в обрешетке', callback_data='pallet_in_crate')
-    button_6 = InlineKeyboardButton(text='Паллет с глухим деревянным коробом',
-                                    callback_data='pallet_with_a_solid_wooden_box')
-    button_7 = InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')
-    types_of_packaging_key.add(button_1)
-    types_of_packaging_key.add(button_2)
-    types_of_packaging_key.add(button_3)
-    types_of_packaging_key.add(button_4)
-    types_of_packaging_key.add(button_5)
-    types_of_packaging_key.add(button_6)
-    types_of_packaging_key.add(button_7)
-    return types_of_packaging_key
+def create_packaging_keyboard():
+    """
+    Создаем клавиатуру для видов упаковки
+    Кнопка "Мешок + скотч" ('bag_tape')
+    Кнопка "Коробка + мешок + скотч" ('box_bag_tape')
+    Кнопка "Деревянная обрешетка + мешок + скотч" ('wooden_sheathing_bag_tape')
+    Кнопка "Деревянные уголки + мешок + скотч" ('wooden_corners_bag_tape')
+    Кнопка "Паллет в обрешетке" ('pallet_in_crate')
+    Кнопка "Паллет с глухим деревянным коробом" ('pallet_with_hollow_box')
+    Кнопка "Главное меню" возвращает к главному меню ('main_menu').
+    """
+    packaging_keyboard = InlineKeyboardMarkup()
+    button_bag_tape = InlineKeyboardButton(text='Мешок + скотч',
+                                           callback_data='bag_tape')
+    button_box_bag_tape = InlineKeyboardButton(text='Коробка + мешок + скотч',
+                                               callback_data='box_bag_tape')
+    button_wooden_sheathing_bag_tape = InlineKeyboardButton(text='Деревянная обрешетка + мешок + скотч',
+                                                            callback_data='wooden_sheathing_bag_tape')
+    button_wooden_corners_bag_tape = InlineKeyboardButton(text='Деревянные уголки + мешок + скотч',
+                                                          callback_data='wooden_corners_bag_tape')
+    button_pallet_in_crate = InlineKeyboardButton(text='Паллет в обрешетке',
+                                                  callback_data='pallet_in_crate')
+    button_pallet_with_solid_wooden_box = InlineKeyboardButton(text='Паллет с глухим деревянным коробом',
+                                                               callback_data='pallet_with_a_solid_wooden_box')
+    button_main_menu = InlineKeyboardButton(text='↩️ Главное меню',
+                                            callback_data='main_menu')
+    packaging_keyboard.add(button_bag_tape)
+    packaging_keyboard.add(button_box_bag_tape)
+    packaging_keyboard.add(button_wooden_sheathing_bag_tape)
+    packaging_keyboard.add(button_wooden_corners_bag_tape)
+    packaging_keyboard.add(button_pallet_in_crate)
+    packaging_keyboard.add(button_pallet_with_solid_wooden_box)
+    packaging_keyboard.add(button_main_menu)
+    return packaging_keyboard
 
 
 def create_greeting_keyboard():
-    """Создаем клавиатуру для приветственного сообщения 👋"""
+    """
+    Создаем клавиатуру для приветственного сообщения 👋
+    Кнопка "Услуги и цены" ('services_and_prices')
+    Кнопка "Бланк заказа" ('order_form')
+    Кнопка "Самовыкуп" ('self_redemption')
+    Кнопка "Партнерка" ('partnership_conditions_for_intermediaries_button')
+    Кнопка "Виды упаковки" ('types_of_packaging')
+    Кнопка "Отзывы" ('reviews')
+    Кнопка "Полезная информация" ('useful_information')
+    Кнопка "Связаться с менеджером" ('contact_manager')
+    """
     greeting_keyboard = InlineKeyboardMarkup()
     ask_anonymous_question_button = InlineKeyboardButton(text='⭐️ Услуги и цены',
                                                          callback_data='services_and_prices')
-    sign_up_button = InlineKeyboardButton(text='🗒 Бланк заказа',
-                                          callback_data='order_form')
-    contact_operator_button = InlineKeyboardButton(text='🛍 Самовыкуп',
-                                                   callback_data="self_redemption")
-    partnership_conditions_for_intermediaries_button = InlineKeyboardButton(
-        text='💰 Партнерка',
-        callback_data="partnership_conditions_for_intermediaries_button")
-    contacts_and_address_button = InlineKeyboardButton(text='📦 Виды упаковки',
-                                                       callback_data='types_of_packaging')
-    current_promotions_button = InlineKeyboardButton(text='💌 Отзывы',
-                                                     callback_data='reviews')
-    helpful_information_batton = InlineKeyboardButton(text='📚 Полезная информация', callback_data='useful_information')
-    leave_review_button = InlineKeyboardButton(text="📞 Связаться с менеджером",
-                                               url='https://t.me/cargo_cfb')
+    order_form_button = InlineKeyboardButton(text='🗒 Бланк заказа',
+                                             callback_data='order_form')
+    self_redemption_button = InlineKeyboardButton(text='🛍 Самовыкуп',
+                                                  callback_data="self_redemption")
+    partnership_button = InlineKeyboardButton(text='💰 Партнерка',
+                                              callback_data="partnership_conditions_for_intermediaries_button")
+    types_of_packaging_button = InlineKeyboardButton(text='📦 Виды упаковки',
+                                                     callback_data='types_of_packaging')
+    reviews_button = InlineKeyboardButton(text='💌 Отзывы',
+                                          callback_data='reviews')
+    useful_information_button = InlineKeyboardButton(text='📚 Полезная информация',
+                                                     callback_data='useful_information')
+    contact_manager_button = InlineKeyboardButton(text="📞 Связаться с менеджером",
+                                                  url='https://t.me/cargo_cfb')
     greeting_keyboard.row(ask_anonymous_question_button,
-                          partnership_conditions_for_intermediaries_button)  # Услуги и цены
-    greeting_keyboard.row(sign_up_button, contact_operator_button)  # Самовыкуп
-    greeting_keyboard.row(contacts_and_address_button,  # Виды упаковки
-                          current_promotions_button)  # Отзывы
-    greeting_keyboard.row(helpful_information_batton)  # Полезная информация
-    greeting_keyboard.row(leave_review_button)  # Связаться с менеджером
+                          partnership_button)  # Услуги и цены
+    greeting_keyboard.row(order_form_button, self_redemption_button)  # Самовыкуп
+    greeting_keyboard.row(types_of_packaging_button,  # Виды упаковки
+                          reviews_button)  # Отзывы
+    greeting_keyboard.row(useful_information_button)  # Полезная информация
+    greeting_keyboard.row(contact_manager_button)  # Связаться с менеджером
 
     return greeting_keyboard
 
 
-def services_and_prices_key():
-    """Клавиатура услуг и цен"""
+def create_services_and_prices_keyboard():
+    """
+    Создает клавиатуру для раздела 'Услуги и цены'
+    Кнопка "Прайсы на доставку Карго" ('cargo_delivery_prices')
+    Кнопка "Белая доставка грузов с ГТД" ('white_cargo_delivery_with_gas_turbine_engine')
+    Кнопка "Услуга Выкупа товаров" ('goods_redemption')
+    Кнопка "Услуга Поиска товаров (производителей в Китае)" ('goods_search_service')
+    Кнопка "Инспекция поставщиков по провинциям (выезд на производство)" ('inspection_service')
+    Кнопка "Услуга регистрации WeChat" ('wechat_registration_service')
+    Кнопка "Приобрести базу поставщиков" ('purchase_of_the_base_of_suppliers')
+    Кнопка "Какие платежи меня ожидают?" ('how_many_payments_will_i_expect')
+    Кнопка "Как совершается оплата?" ('how_to_make_a_payment')
+    Кнопка "Главное меню" ('main_menu')
+    """
     services_and_prices_keyboard = InlineKeyboardMarkup()
-    button_1 = InlineKeyboardButton(text='Прайсы на доставку Карго',
-                                    callback_data='cargo_delivery_prices')
-    button_2 = InlineKeyboardButton(text='Белая доставка грузов с ГТД',
-                                    callback_data='white_cargo_delivery_with_gas_turbine_engine')
-    button_3 = InlineKeyboardButton(text='Услуга Выкупа товаров',
-                                    callback_data='goods_redemption_service')  #
-    button_4 = InlineKeyboardButton(text='Услуга Поиска товаров (производителей в Китае)',
-                                    callback_data='product_search_service')
-    button_5 = InlineKeyboardButton(text='Инспекция поставщиков по провинциям (выезд на производство)',
-                                    callback_data='supplier_inspection_by_province')
-    button_6 = InlineKeyboardButton(text='Услуга регистрации WeChat',
-                                    callback_data='wechat_registration_service')
-    button_7 = InlineKeyboardButton(text='Приобрести базу поставщиков',
-                                    callback_data='purchase_a_supplier_database')
-    button_8 = InlineKeyboardButton(text='Какие платежи меня ожидают?',
-                                    callback_data='what_payments_await_me')
-    button_9 = InlineKeyboardButton(text='Как совершается оплата?',
-                                    callback_data='how_is_payment_made')
-    button_10 = InlineKeyboardButton(text='↩️ Главное меню',
-                                     callback_data='main_menu')
-    services_and_prices_keyboard.row(button_1)
-    services_and_prices_keyboard.row(button_2)
-    services_and_prices_keyboard.row(button_3)
-    services_and_prices_keyboard.row(button_4)
-    services_and_prices_keyboard.row(button_5)
-    services_and_prices_keyboard.row(button_6)
-    services_and_prices_keyboard.row(button_7)
-    services_and_prices_keyboard.row(button_8)
-    services_and_prices_keyboard.row(button_9)
-    services_and_prices_keyboard.row(button_10)
+
+    cargo_delivery_prices_button = InlineKeyboardButton(text='Прайсы на доставку Карго',
+                                                        callback_data='cargo_delivery_prices')
+    white_cargo_delivery_button = InlineKeyboardButton(text='Белая доставка грузов с ГТД',
+                                                       callback_data='white_cargo_delivery_with_gas_turbine_engine')
+    goods_redemption_button = InlineKeyboardButton(text='Услуга Выкупа товаров',
+                                                   callback_data='goods_redemption_service')
+    product_search_button = InlineKeyboardButton(text='Услуга Поиска товаров (производителей в Китае)',
+                                                 callback_data='product_search_service')
+    supplier_inspection_button = InlineKeyboardButton(
+        text='Инспекция поставщиков по провинциям (выезд на производство)',
+        callback_data='supplier_inspection_by_province')
+    wechat_registration_button = InlineKeyboardButton(text='Услуга регистрации WeChat',
+                                                      callback_data='wechat_registration_service')
+    purchase_supplier_database_button = InlineKeyboardButton(text='Приобрести базу поставщиков',
+                                                             callback_data='purchase_a_supplier_database')
+    expected_payments_button = InlineKeyboardButton(text='Какие платежи меня ожидают?',
+                                                    callback_data='what_payments_await_me')
+    payment_process_button = InlineKeyboardButton(text='Как совершается оплата?',
+                                                  callback_data='how_is_payment_made')
+    main_menu_button = InlineKeyboardButton(text='↩️ Главное меню',
+                                            callback_data='main_menu')
+
+    services_and_prices_keyboard.row(cargo_delivery_prices_button)
+    services_and_prices_keyboard.row(white_cargo_delivery_button)
+    services_and_prices_keyboard.row(goods_redemption_button)
+    services_and_prices_keyboard.row(product_search_button)
+    services_and_prices_keyboard.row(supplier_inspection_button)
+    services_and_prices_keyboard.row(wechat_registration_button)
+    services_and_prices_keyboard.row(purchase_supplier_database_button)
+    services_and_prices_keyboard.row(expected_payments_button)
+    services_and_prices_keyboard.row(payment_process_button)
+    services_and_prices_keyboard.row(main_menu_button)
+
     return services_and_prices_keyboard
 
 
-def keyboard_to_services_and_prices_main_menu():
-    """Создает клавиатуру для кнопки 'Главное меню'"""
-    main_menu_keyboard = InlineKeyboardMarkup()
-    bat_1 = InlineKeyboardButton(text='Назад к услугам', callback_data='services_and_prices')
+def create_services_and_prices_main_menu_keyboard():
+    """Создает клавиатуру для кнопки 'Главное меню' из раздела 'Услуги и цены'"""
+    services_and_prices_main_menu_keyboard = InlineKeyboardMarkup()
+
+    back_to_services_button = InlineKeyboardButton(text='Назад к услугам', callback_data='services_and_prices')
     main_menu_button = InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')
 
-    main_menu_keyboard.row(bat_1)
-    main_menu_keyboard.row(main_menu_button)
-    return main_menu_keyboard
+    services_and_prices_main_menu_keyboard.row(back_to_services_button)
+    services_and_prices_main_menu_keyboard.row(main_menu_button)
+
+    return services_and_prices_main_menu_keyboard
 
 
-def keyboard_to_main_menu():
+def create_main_menu_keyboard():
     """Создает клавиатуру для кнопки 'Главное меню'"""
     main_menu_keyboard = InlineKeyboardMarkup()
     main_menu_button = InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')
@@ -126,9 +170,11 @@ def keyboard_to_main_menu():
 def create_my_details_keyboard():
     """Создает клавиатуру для кнопки 'Мои данные'"""
     my_details_keyboard = InlineKeyboardMarkup()
-    my_details_button = InlineKeyboardButton(text='Регистрация', callback_data='my_details')
 
-    my_details_keyboard.row(my_details_button)  # Связаться с оператором
+    registration_button = InlineKeyboardButton(text='Регистрация', callback_data='my_details')
+
+    my_details_keyboard.row(registration_button)
+
     return my_details_keyboard
 
 
@@ -167,4 +213,13 @@ def create_sign_up_keyboard():
 
 
 if __name__ == '__main__':
+    create_packaging_menu_keyboard()
+    create_packaging_keyboard()
+    create_main_menu_keyboard()
+    create_my_details_keyboard()
+    create_contact_keyboard()
+    create_data_modification_keyboard()
+    create_sign_up_keyboard()
+    create_services_and_prices_main_menu_keyboard()
+    create_services_and_prices_keyboard()
     create_greeting_keyboard()

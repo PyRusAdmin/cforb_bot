@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext  # Состояния пользователя
 from loguru import logger
 
-from keyboards.user_keyboards.user_keyboards import types_of_packaging_keyboard, types_of_packaging_keyboard_menu
+from keyboards.user_keyboards.user_keyboards import create_packaging_keyboard, create_packaging_menu_keyboard
 from system.dispatcher import bot, dp
 
 
@@ -16,7 +16,7 @@ async def types_of_packaging(callback_query: types.CallbackQuery, state: FSMCont
                             f"стоят.</b>\n\n"
                             
                             f"<b>Связаться с менеджерами: @cargo_cfb</b>")
-        types_of_packaging_key = types_of_packaging_keyboard()
+        types_of_packaging_key = create_packaging_keyboard()
         with open('media/photos/types_of_packaging.jpg', 'rb') as photo_file:
             await bot.send_photo(callback_query.from_user.id,  # ID пользователя
                                  caption=greeting_message,  # Текст для приветствия 👋
@@ -38,7 +38,7 @@ async def bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
                             f'скотча, подходит для текстиля и мягких товаров.\n\n'
                             f'<b>Стоимость данной упаковки 5$ место</b>\n\n'
                             f'<b>Связаться с менеджерами: @cargo_cfb</b>')
-        types_of_packaging_key = types_of_packaging_keyboard_menu()
+        types_of_packaging_key = create_packaging_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,
@@ -59,7 +59,7 @@ async def box_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
             f'коробку, далее упаковка в мешок и упаковочный скотч.\n\n'
             f'<b>Стоимость данной упаковки 8$ место</b>\n\n'
             f'<b>Связаться с менеджерами: @cargo_cfb</b>')
-        types_of_packaging_key = types_of_packaging_keyboard_menu()
+        types_of_packaging_key = create_packaging_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,
@@ -80,7 +80,7 @@ async def wooden_sheathing_bag_tape(callback_query: types.CallbackQuery, state: 
                             f'хрупкого и бьющегося товара. + мешок + скотч\n\n'
                             f'<b>Стоимость данной упаковки 10$ место</b>\n\n'
                             f'<b>Связаться с менеджерами: @cargo_cfb</b>')
-        types_of_packaging_key = types_of_packaging_keyboard_menu()
+        types_of_packaging_key = create_packaging_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,
@@ -100,7 +100,7 @@ async def wooden_corners_bag_tape(callback_query: types.CallbackQuery, state: FS
                             f'практически полностью открытая.\n\n'
                             f'<b>Стоимость данной упаковки 10$ место</b>\n\n'
                             f'<b>Связаться с менеджерами: @cargo_cfb</b>\n\n')
-        types_of_packaging_key = types_of_packaging_keyboard_menu()
+        types_of_packaging_key = create_packaging_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,
@@ -121,7 +121,7 @@ async def pallet_in_crate(callback_query: types.CallbackQuery, state: FSMContext
                             f'товаров, упакованных таким образом, осуществляются при помощи вилочного погрузчика.\n\n'
                             f'<b>Стоимость данной упаковки 45$ за куб</b>\n\n'
                             f'<b>Связаться с менеджерами: @cargo_cfb</b>')
-        types_of_packaging_key = types_of_packaging_keyboard_menu()
+        types_of_packaging_key = create_packaging_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,
@@ -144,7 +144,7 @@ async def pallet_with_a_solid_wooden_box(callback_query: types.CallbackQuery, st
                             f"<b>Стоимость данной упаковки 90-100$ за куб</b>\n\n"
 
                             f"<b>Связаться с менеджерами: @cargo_cfb</b>\n\n")
-        types_of_packaging_key = types_of_packaging_keyboard_menu()
+        types_of_packaging_key = create_packaging_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,

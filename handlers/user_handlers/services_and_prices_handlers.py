@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext  # Состояния пользователя
 from loguru import logger
 
-from keyboards.user_keyboards.user_keyboards import services_and_prices_key, keyboard_to_services_and_prices_main_menu
+from keyboards.user_keyboards.user_keyboards import create_services_and_prices_keyboard, create_services_and_prices_main_menu_keyboard
 from system.dispatcher import bot, dp
 
 
@@ -23,7 +23,7 @@ async def services_and_prices(callback_query: types.CallbackQuery, state: FSMCon
                             f"• Какие платежи меня ожидают?\n"
                             f"• Как совершается оплата?\n\n"
                             f"<b>Связаться с менеджерами: @cargo_cfb</b>\n\n")
-        services_and_prices_keyboard = services_and_prices_key()  # Клавиатуры поста приветствия 👋
+        services_and_prices_keyboard = create_services_and_prices_keyboard()  # Клавиатуры поста приветствия 👋
         with open('media/photos/services_and_prices.jpg', 'rb') as photo_file:
             await bot.send_photo(callback_query.from_user.id,  # ID пользователя
                                  caption=greeting_message,  # Текст для приветствия 👋
@@ -96,7 +96,7 @@ async def cargo_delivery_prices(callback_query: types.CallbackQuery, state: FSMC
                             f'у российских ТК.</b>\n\n'
 
                             f'<b>Связаться с менеджерами: @cargo_cfbM</b>')
-        main_menu_keyboard = keyboard_to_services_and_prices_main_menu()
+        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
@@ -125,7 +125,7 @@ async def white_cargo_delivery_with_gas_turbine_engine(callback_query: types.Cal
             f"• Логистика\n"
             f"• Таможенное оформление, разрешительные документы\n"
             f"<b>Задать вопрос или передать заявку на расчет специалисту ВЭД: @cargo_cfb</b>\n\n")
-        main_menu_keyboard = keyboard_to_services_and_prices_main_menu()
+        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         with open('media/photos/white_cargo_delivery_with_gas_turbine_engine.jpg', 'rb') as photo_file:
             await bot.send_photo(callback_query.from_user.id,  # ID пользователя
                                  caption=greeting_message,  # Текст для приветствия 👋
@@ -181,7 +181,7 @@ async def goods_redemption_service(callback_query: types.CallbackQuery, state: F
                             f"проверки соответствия)\n"
                             f"* Отправку поставщиком товара другого размера\n\n"
                             f"<b>Связаться с менеджерами: @cargo_cfb</b>")
-        main_menu_keyboard = keyboard_to_services_and_prices_main_menu()
+        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
@@ -238,7 +238,7 @@ async def product_search_service(callback_query: types.CallbackQuery, state: FSM
                             f"за 1 счетную единицу (зависит от упаковки товара)\n\n"
                             
                             f"<b>Связаться с менеджерами: @cargo_cfb</b>")
-        main_menu_keyboard = keyboard_to_services_and_prices_main_menu()
+        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                  text=greeting_message,  # Текст для приветствия 👋
                                  reply_markup=main_menu_keyboard,
@@ -268,7 +268,7 @@ async def supplier_inspection_by_province(callback_query: types.CallbackQuery, s
             f"❇️Оплата за услуги 50%\n"
             f"После чего начинаем отработку и процесс работы.\n"
             f"Связаться с менеджерами: @cargo_cfb\n")
-        main_menu_keyboard = keyboard_to_services_and_prices_main_menu()
+        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
@@ -300,7 +300,7 @@ async def wechat_registration_service(callback_query: types.CallbackQuery, state
             f"Существующий пользователь способен отсканировать Qr - только 3-м новым пользователям в год\n\n"
             
             f"Связаться с менеджерами: @cargo_cfb\n")
-        main_menu_keyboard = keyboard_to_services_and_prices_main_menu()
+        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
@@ -332,7 +332,7 @@ async def purchase_a_supplier_database(callback_query: types.CallbackQuery, stat
                             f"<b>Цена 4999 руб.</b>\n\n"
                             
                             f"<b>Связаться с менеджерами: @cargo_cfb</b>\n")
-        main_menu_keyboard = keyboard_to_services_and_prices_main_menu()
+        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
@@ -362,7 +362,7 @@ async def what_payments_await_me(callback_query: types.CallbackQuery, state: FSM
             f"• Доставка местными Транспортными компаниями до вашего города (если не можете забрать в Москве/Алматы)\n\n"
             
             f"Связаться с менеджерами: @cargo_cfb\n")
-        main_menu_keyboard = keyboard_to_services_and_prices_main_menu()
+        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
@@ -396,7 +396,7 @@ async def how_is_payment_made(callback_query: types.CallbackQuery, state: FSMCon
             f"• Оплата наличными юанями/долларами у нас в офисе в Китае\n\n"
             
             f"<b>Связаться с менеджерами: @cargo_cfb</b>\n")
-        main_menu_keyboard = keyboard_to_services_and_prices_main_menu()
+        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,

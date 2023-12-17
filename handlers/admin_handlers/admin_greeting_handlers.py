@@ -65,7 +65,7 @@ async def export_data(message: types.Message, state: FSMContext):
     await state.finish()  # Завершаем текущее состояние машины состояний
     await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
     try:
-        if message.from_user.id not in [535185511]:
+        if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
             return
         # Подключение к базе данных SQLite
@@ -113,7 +113,7 @@ async def get_users_who_launched_the_bot(message: types.Message, state: FSMConte
     await state.finish()  # Завершаем текущее состояние машины состояний
     await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
     try:
-        if message.from_user.id not in [535185511]:
+        if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
             return
         # Подключение к базе данных SQLite
@@ -147,6 +147,9 @@ async def send_an_image_to_bot_users(message: types.Message, state: FSMContext):
     await state.finish()  # Завершаем текущее состояние машины состояний
     await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
     try:
+        if message.from_user.id not in [535185511, 301634256]:
+            await message.reply('У вас нет доступа к этой команде.')
+            return
         await bot.send_message(message.from_user.id, text="Загрузите изображение для рассылки:")
         await MyStates.waiting_for_image.set()  # Устанавливаем состояние "ожидание изображения"
     except Exception as e:
@@ -191,6 +194,9 @@ async def send_a_message_to_bot_users(message: types.Message, state: FSMContext)
     await state.finish()  # Завершаем текущее состояние машины состояний
     await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
     try:
+        if message.from_user.id not in [535185511, 301634256]:
+            await message.reply('У вас нет доступа к этой команде.')
+            return
         await bot.send_message(message.from_user.id, text="Введите текст для рассылки:")
         await MyStates.waiting_for_message.set()  # Устанавливаем состояние "ожидание сообщения"
     except Exception as e:
@@ -217,8 +223,8 @@ async def process_send_message(message: types.Message, state: FSMContext):
     await state.finish()
 
 
-# Функция для получения уникальных ID пользователей из базы данных
 def get_user_ids():
+    """Получаем уникальные ID пользователей из базы данных"""
     try:
         conn = sqlite3.connect('your_database.db')  # Замените 'your_database.db' на имя вашей базы данных
         cursor = conn.cursor()
@@ -232,8 +238,8 @@ def get_user_ids():
 
 def register_admin_greeting_handler():
     """Регистрируем handlers для бота"""
-    dp.register_message_handler(admin_send_start)  # Обработчик команды /start, он же пост приветствия 👋
-    dp.register_message_handler(export_data)  # Обработчик команды /start, он же пост приветствия 👋
-    dp.register_message_handler(get_users_who_launched_the_bot)  # Обработчик команды /start, он же пост приветствия 👋
-    dp.register_message_handler(send_a_message_to_bot_users)  # Обработчик команды /start, он же пост приветствия 👋
-    dp.register_message_handler(send_an_image_to_bot_users)  # Обработчик команды /start, он же пост приветствия 👋
+    dp.register_message_handler(admin_send_start)
+    dp.register_message_handler(export_data)
+    dp.register_message_handler(get_users_who_launched_the_bot)
+    dp.register_message_handler(send_a_message_to_bot_users)
+    dp.register_message_handler(send_an_image_to_bot_users)

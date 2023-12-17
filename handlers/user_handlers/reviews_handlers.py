@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext  # Состояния пользователя
 from loguru import logger
 
-from keyboards.user_keyboards.user_keyboards import keyboard_to_main_menu
+from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from system.dispatcher import bot, dp
 
 
@@ -21,7 +21,7 @@ async def reviews(callback_query: types.CallbackQuery, state: FSMContext):
                             f'<a href="https://cforb.ru/obrazec-tovara-iz-kitaya">• Перейти на "Отзовик"</a>\n\n'
 
                             f'Связаться с менеджерами: @cargo_cfb')
-        main_menu_keyboard = keyboard_to_main_menu()
+        main_menu_keyboard = create_main_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
