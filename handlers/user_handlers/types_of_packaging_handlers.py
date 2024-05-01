@@ -115,7 +115,7 @@ async def pallet_in_crate(callback_query: types.CallbackQuery, state: FSMContext
     try:
         await state.finish()  # Завершаем текущее состояние машины состояний
         await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
-        greeting_message = (f'<a href="https://youtube.com/shorts/QcXqjaESW7s">Паллет в обрешетке:</a> '
+        greeting_message = (f'<a href="https://www.youtube.com/shorts/Z2awci-nCNk">Паллет в обрешетке:</a> '
                             f'Вид упаковки используется для крупногабаритных или хрупких грузов, представляет из себя '
                             f'поддон с деревянными бортами как у обрешетки. Погрузочно-разгрузочные работы '
                             f'товаров, упакованных таким образом, осуществляются при помощи вилочного погрузчика.\n\n'
