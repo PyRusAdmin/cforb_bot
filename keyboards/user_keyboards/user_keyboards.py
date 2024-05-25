@@ -93,7 +93,6 @@ def create_services_and_prices_keyboard():
     Кнопка "Как совершается оплата?" ('how_to_make_a_payment')
     Кнопка "Главное меню" ('main_menu')
     """
-    # services_and_prices_keyboard = InlineKeyboardMarkup()
     rows = [
         [InlineKeyboardButton(text='Прайсы на доставку Карго', callback_data='cargo_delivery_prices')],
         [InlineKeyboardButton(text='Белая доставка грузов с ГТД',
@@ -158,7 +157,6 @@ def create_data_modification_keyboard() -> InlineKeyboardMarkup:
     rows = [
         [InlineKeyboardButton(text="✏️Изменить Имя", callback_data="edit_name"),
          InlineKeyboardButton(text="✏️Изменить Фамилию", callback_data="edit_surname")],
-
         [InlineKeyboardButton(text="✏️Изменить Город", callback_data="edit_city"),
          InlineKeyboardButton(text="✏️Изменить Номер 📱 ", callback_data="edit_phone")],
         [InlineKeyboardButton(text="↩️ Вернуться в начальное меню", callback_data="disagree")]]

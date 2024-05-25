@@ -1,37 +1,32 @@
-# from aiogram.dispatcher import FSMContext  # Состояния пользователя
+import json
+
 from aiogram import types, F
 from aiogram.fsm.context import FSMContext
-from loguru import logger
 
-from system.dispatcher import router
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from system.dispatcher import bot, dp
+from system.dispatcher import router
+
+
+def load_bot_info():
+    with open("media/messages/reviews.json", 'r', encoding='utf-8') as json_file:
+        data = json.load(json_file)
+    return data
 
 
 @router.callback_query(F.data == "reviews")
 async def reviews(callback_query: types.CallbackQuery, state: FSMContext):
     """💌 Отзывы"""
-    try:
-        # await state.finish()  # Завершаем текущее состояние машины состояний
-        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
-        await state.clear()  # Очищаем состояние
-        greeting_message = (f'Вы можете посмотреть отзывы о нашей компании, а также все рабочие процессы!\n\n'
+    await state.clear()  # Очищаем состояние
+    data = load_bot_info()
+    main_menu_keyboard = create_main_menu_keyboard()
 
-                            f'В нашем канале, он посвящен отзывам и рабочим процессам.\n'
-                            f'<a href="https://t.me/cforb_review">• Перейти на канал</a>\n\n'
-
-                            f'На специализированном  сайте "Отзовик"\n'
-                            f'<a href="https://cforb.ru/obrazec-tovara-iz-kitaya">• Перейти на "Отзовик"</a>\n\n'
-
-                            f'Связаться с менеджерами: @cargo_cfb')
-        main_menu_keyboard = create_main_menu_keyboard()
-        await bot.send_message(callback_query.from_user.id,  # ID пользователя
-                               text=greeting_message,  # Текст для приветствия 👋
-                               reply_markup=main_menu_keyboard,
-                               # parse_mode=types.ParseMode.HTML,
-                               disable_web_page_preview=True)  # Текст в HTML-разметки
-    except Exception as error:
-        logger.exception(error)
+    await bot.edit_message_caption(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+        caption=data,
+        reply_markup=main_menu_keyboard
+    )
 
 
 def register_reviews_handler():

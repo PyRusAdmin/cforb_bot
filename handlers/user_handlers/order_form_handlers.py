@@ -1,31 +1,35 @@
+import json
+from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from aiogram import types, F
 from aiogram.fsm.context import FSMContext
+from aiogram.types import FSInputFile
 from loguru import logger
 
-from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
-from system.dispatcher import bot, dp
+from system.dispatcher import bot
+from system.dispatcher import dp
 from system.dispatcher import router
+
+
+# Загрузка информации из JSON-файла
+def load_bot_info():
+    with open("media/messages/order_form.json", 'r', encoding='utf-8') as json_file:
+        data = json.load(json_file)
+    return data
 
 
 @router.callback_query(F.data == "order_form")
 async def order_form(callback_query: types.CallbackQuery, state: FSMContext):
     """Бланк заказа"""
     try:
-        # await state.finish()  # Завершаем текущее состояние машины состояний
-        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
         await state.clear()  # Очищаем состояние
-        greeting_message = (f"<b>Скачайте и заполните наш фирменный бланк заказа, если возникнут какие-то вопросы, "
-                            f"вы всегда можете обратиться к менеджеру @cargo_cfb.</b>\n\n"
-                            f"Пароль к бланку - cforb\n\n"
-                            f"<b>Связаться с менеджерами: @cargo_cfb</b>\n\n")
+
         main_menu_keyboard = create_main_menu_keyboard()
-        with open('media/document/Бланк Заказа CFORB.xls', 'rb') as document:
-            await bot.send_document(callback_query.from_user.id,  # ID пользователя
-                                    caption=greeting_message,  # Текст для приветствия 👋
-                                    document=document,
-                                    reply_markup=main_menu_keyboard,
-                                    # parse_mode=types.ParseMode.HTML
-                                    )  # Текст в HTML-разметки
+        data = load_bot_info()
+        document = FSInputFile('media/document/Бланк Заказа CFORB.xls')
+
+        await bot.send_document(chat_id=callback_query.message.chat.id, document=document,
+                                reply_markup=main_menu_keyboard,
+                                caption=data)
     except Exception as error:
         logger.exception(error)
 

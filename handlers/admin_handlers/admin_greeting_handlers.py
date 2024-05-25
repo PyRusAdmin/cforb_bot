@@ -112,8 +112,6 @@ def create_excel_file_start(orders):
 @router.callback_query(F.data == 'get_users_who_launched_the_bot')
 async def get_users_who_launched_the_bot(message: types.Message, state: FSMContext):
     """Получение данных пользователей, запускающих бота"""
-    # await state.finish()  # Завершаем текущее состояние машины состояний
-    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
     await state.clear()  # Завершаем текущее состояние машины состояний
     try:
         if message.from_user.id not in [535185511, 301634256]:
