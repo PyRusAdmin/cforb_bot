@@ -1,4 +1,6 @@
-from aiogram import executor
+import asyncio
+import logging
+import sys
 from loguru import logger
 
 from handlers.admin_handlers.admin_greeting_handlers import register_admin_greeting_handler
@@ -11,17 +13,14 @@ from handlers.user_handlers.self_redemption_handlers import register_self_redemp
 from handlers.user_handlers.services_and_prices_handlers import register_services_and_prices_handler
 from handlers.user_handlers.types_of_packaging_handlers import register_types_of_packaging_handler
 from handlers.user_handlers.useful_information_handlers import register_useful_information_handler
-from system.dispatcher import dp
+from system.dispatcher import dp, bot
 
 logger.add("logs/log.log", retention="1 days", enqueue=True)  # Логирование бота
 
 
-def main() -> None:
+async def main() -> None:
     """Запуск бота https://t.me/cforb_bot"""
-    try:
-        executor.start_polling(dp, skip_updates=True)
-    except Exception as error:
-        logger.exception(error)
+    await dp.start_polling(bot)
     register_greeting_handler()
     register_services_and_prices_handler()
     register_order_form_handler()  # 🗒 Бланк заказа
@@ -34,7 +33,5 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    try:
-        main()  # Запуск бота
-    except Exception as e:
-        logger.exception(e)
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    asyncio.run(main())
