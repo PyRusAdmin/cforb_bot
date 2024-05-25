@@ -33,7 +33,8 @@ async def useful_information(callback_query: types.CallbackQuery, state: FSMCont
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
-                               parse_mode=types.ParseMode.HTML, disable_web_page_preview=True)  # Текст в HTML-разметки
+                               # parse_mode=types.ParseMode.HTML,
+                               disable_web_page_preview=True)  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 

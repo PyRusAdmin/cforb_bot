@@ -1,10 +1,14 @@
+import json
 from datetime import datetime
 
 from aiogram import types, F
-from aiogram.filters import Command
+from aiogram.filters import CommandStart
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
+from aiogram.types import FSInputFile
+from aiogram.types import Message
+
 from loguru import logger
 
 from database.database import check_user_exists_in_db
@@ -15,6 +19,7 @@ from database.database import update_city_in_db
 from database.database import update_name_in_db
 from database.database import update_phone_in_db
 from database.database import update_surname_in_db
+
 from keyboards.user_keyboards.user_keyboards import create_contact_keyboard
 from keyboards.user_keyboards.user_keyboards import create_data_modification_keyboard
 from keyboards.user_keyboards.user_keyboards import create_greeting_keyboard
@@ -24,40 +29,32 @@ from system.dispatcher import bot, router
 from system.dispatcher import dp
 
 
-@router.message(Command('start'))
-async def send_start(message: types.Message, state: FSMContext):
-    """Обработчик команды /start, он же пост приветствия 👋"""
-    await state.clear()  # Очищаем состояние
-    # Получаем информацию о пользователе
-    user_id = message.from_user.id
-    username = message.from_user.username
-    first_name = message.from_user.first_name
-    last_name = message.from_user.last_name
-    join_date = message.date.strftime("%Y-%m-%d %H:%M:%S")
+# Загрузка информации из JSON-файла
+def load_bot_info():
+    with open("media/messages/main_menu_messages.json", 'r', encoding='utf-8') as json_file:
+        data = json.load(json_file)
+    return data
 
-    logger.info(f"Пользователь {username} ({user_id}) запустил бота в {join_date}")
-    # Записываем информацию о пользователе в базу данных
-    recording_data_of_users_who_launched_the_bot(user_id, username, first_name, last_name, join_date)
+
+@dp.message(CommandStart())
+async def command_start_handler(message: Message) -> None:
+    user_id = message.from_user.id
+    user_name = message.from_user.username
+    user_first_name = message.from_user.first_name
+    user_last_name = message.from_user.last_name
+    user_date = message.date.strftime("%Y-%m-%d %H:%M:%S")
+    logger.info(f"{user_id} {user_name} {user_first_name} {user_last_name} {user_date}")
+    recording_data_of_users_who_launched_the_bot(user_id, user_name, user_first_name, user_last_name, user_date)
 
     user_exists = check_user_exists_in_db(user_id)  # Проверяем наличие пользователя в базе данных
     if user_exists:
-        greeting_keyboard = create_greeting_keyboard()
-        with open("media/photos/greeting.jpg", "rb") as photo_file:  # Загружаем фото для поста
-            data = (f"<b>{first_name} {last_name}, спасибо что подписались на нашего бота!</b>\n\n"
-                    "<b>🇨🇳 Компания CFB - предлагает широкий спектр услуг по бизнесу с Китаем!</b>\n\n"
-                    "• С полным списком услуг Вы можете ознакомиться в меню бота.\n\n"
-                    "Обязательно включите уведомления и не удаляйте этого бота из своих чатов!\n\n"
-                    "• У Вас появится возможность мгновенно и автоматически получать актуальные прайс-листы, "
-                    "необходимую информацию по обновлениям и т.д.\n\n"
-                    "<i>Сайт: www.cforb.ru</i>\n"
-                    "<i>Telegram: https://t.me/cforb_tg</i>\n"
-                    "<i>Вконтакте: https://vk.com/cforb</i>\n"
-                    "<i>Instagram: https://www.instagram.com/cforb_in</i>\n"
-                    "<i>YouTube: https://www.youtube.com/@cforb_tube</i>")
-            await bot.send_photo(message.from_user.id, caption=data, photo=photo_file,
-                                 reply_markup=greeting_keyboard,
-                                 # parse_mode=ParseMode.HTML
-                                 )
+        main_menu_key = create_greeting_keyboard()
+
+        document = FSInputFile('media/photos/greeting.jpg')
+        data = load_bot_info()
+        await message.answer_photo(photo=document, caption=data,
+                                   reply_markup=main_menu_key,
+                                   parse_mode="HTML")
     else:
         # Если пользователя нет в базе данных, предлагаем пройти регистрацию
         sign_up_text = ("⚠️ <b>Вы не зарегистрированы в нашей системе</b> ⚠️\n\n"
@@ -69,7 +66,6 @@ async def send_start(message: types.Message, state: FSMContext):
         # Отправляем сообщение с предложением зарегистрироваться и клавиатурой
         await bot.send_message(message.from_user.id, sign_up_text,
                                reply_markup=my_details_key,
-                               # parse_mode=ParseMode.HTML,
                                disable_web_page_preview=True)
 
 
@@ -348,8 +344,9 @@ async def handle_confirmation(message: types.Message, state: FSMContext):
                 "Вы можете изменить свои данные в меню \"Мои данные\".\n\n"
                 "Для возврата нажмите /start")
     insert_user_data_to_database(user_id, name, surname, city, phone_number, registration_date)
-    await state.finish()  # Завершаем текущее состояние машины состояний
-    await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    # await state.finish()  # Завершаем текущее состояние машины состояний
+    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    await state.clear()
     # Создаем клавиатуру с помощью my_details() (предполагается, что она существует)
     await bot.send_message(message.from_user.id, text_mes)
 
@@ -357,3 +354,4 @@ async def handle_confirmation(message: types.Message, state: FSMContext):
 def register_greeting_handler():
     """Регистрируем handlers для бота"""
     dp.message.register(send_start)  # Обработчик команды /start, он же пост приветствия 👋
+    dp.message.register(command_start_handler)  # Обработчик команды /start, он же пост приветствия 👋

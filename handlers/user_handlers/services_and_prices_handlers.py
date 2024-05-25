@@ -33,7 +33,8 @@ async def services_and_prices(callback_query: types.CallbackQuery, state: FSMCon
                                  caption=greeting_message,  # Текст для приветствия 👋
                                  photo=photo_file,
                                  reply_markup=services_and_prices_keyboard,  # Клавиатура приветствия 👋
-                                 parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+                                 # parse_mode=types.ParseMode.HTML
+                                 )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 
@@ -105,7 +106,8 @@ async def cargo_delivery_prices(callback_query: types.CallbackQuery, state: FSMC
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
-                               parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+                               # parse_mode=types.ParseMode.HTML
+                               )  # Текст в HTML-разметки
         media = types.MediaGroup()
         media.attach_photo(types.InputFile('media/photos/price/1.png'), 'Прайс 1')
         media.attach_photo(types.InputFile('media/photos/price/2.png'), 'Прайс 2')
@@ -137,7 +139,8 @@ async def white_cargo_delivery_with_gas_turbine_engine(callback_query: types.Cal
                                  caption=greeting_message,  # Текст для приветствия 👋
                                  photo=photo_file,
                                  reply_markup=main_menu_keyboard,
-                                 parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+                                 # parse_mode=types.ParseMode.HTML
+                                 )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 
@@ -192,7 +195,8 @@ async def goods_redemption_service(callback_query: types.CallbackQuery, state: F
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
-                               parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+                               # parse_mode=types.ParseMode.HTML
+                               )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 
@@ -250,7 +254,8 @@ async def product_search_service(callback_query: types.CallbackQuery, state: FSM
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                  text=greeting_message,  # Текст для приветствия 👋
                                  reply_markup=main_menu_keyboard,
-                                 parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+                                 # parse_mode=types.ParseMode.HTML
+                               )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 
@@ -281,7 +286,8 @@ async def supplier_inspection_by_province(callback_query: types.CallbackQuery, s
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
-                               parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+                               # parse_mode=types.ParseMode.HTML
+                               )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 
@@ -314,7 +320,8 @@ async def wechat_registration_service(callback_query: types.CallbackQuery, state
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
-                               parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+                               # parse_mode=types.ParseMode.HTML
+                               )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 
@@ -347,7 +354,8 @@ async def purchase_a_supplier_database(callback_query: types.CallbackQuery, stat
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
-                               parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+                               # parse_mode=types.ParseMode.HTML
+                               )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 
@@ -378,7 +386,8 @@ async def what_payments_await_me(callback_query: types.CallbackQuery, state: FSM
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
-                               parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+                               # parse_mode=types.ParseMode.HTML
+                               )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 
@@ -413,7 +422,8 @@ async def how_is_payment_made(callback_query: types.CallbackQuery, state: FSMCon
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=main_menu_keyboard,
-                               parse_mode=types.ParseMode.HTML)  # Текст в HTML-разметки
+                               # parse_mode=types.ParseMode.HTML
+                               )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
 

@@ -153,7 +153,7 @@ async def send_an_image_to_bot_users(message: types.Message, state: FSMContext):
             await message.reply('У вас нет доступа к этой команде.')
             return
         await bot.send_message(message.from_user.id, text="Загрузите изображение для рассылки:")
-        await MyStates.waiting_for_image.set()  # Устанавливаем состояние "ожидание изображения"
+        await state.set_state(MyStates.waiting_for_image)  # Устанавливаем состояние "ожидание изображения"
     except Exception as e:
         logger.error(e)
 
@@ -174,21 +174,19 @@ async def process_send_image_with_caption(message: types.Message, state: FSMCont
     """
     Этот хендлер будет ждать введенной подписи и выполнять рассылку
     """
-    async with state.proxy() as data:
-        data['caption'] = message.text
-    # Получаем список уникальных ID пользователей из базы данных
-    user_ids = get_user_ids()
+    state_data = await state.get_data()  # Получить данные о состоянии
+    state_data['caption'] = message.text  # Сохраните заголовок в данных состояния
+    photo = state_data.get('photo')  # Получите фотографию и подпись из государственных данных.
+    caption = state_data.get('caption')
+    user_ids = get_user_ids()  # Получаем список уникальных ID пользователей из базы данных
     if user_ids:
-        # Рассылка изображения с подписью всем пользователям из списка
-        for user_id in user_ids:
+        for user_id in user_ids:  # Рассылка изображения с подписью всем пользователям из списка
             try:
-                # Отправляем изображение с подписью
-                await bot.send_photo(user_id, data['photo'], caption=data['caption'])
+                await bot.send_photo(user_id, photo, caption=caption)  # Отправляем изображение с подписью
             except Exception as e:
                 print(f"Ошибка при отправке изображения с подписью пользователю {user_id}: {str(e)}")
     await message.answer("Изображение успешно разослано всем пользователям.")
-    # await state.finish()
-    await state.clear()  # Завершаем текущее состояние машины состояний
+    await state.clear()
 
 
 @router.message(Command("send_a_message_to_bot_users"))
@@ -210,22 +208,17 @@ async def process_send_message(message: types.Message, state: FSMContext):
     """
     Этот хендлер будет ждать введенного текста и выполнять рассылку
     """
-    async with state.proxy() as data:
-        data['message_text'] = message.text
     # Получаем список уникальных ID пользователей из базы данных
+    message_text = message.text
     user_ids = get_user_ids()
     if user_ids:
-        # Рассылка сообщения всем пользователям из списка
-        for user_id in user_ids:
+        for user_id in user_ids:  # Рассылка сообщения всем пользователям из списка
             try:
-                await bot.send_message(user_id, data['message_text'],
-                                       # parse_mode=ParseMode.MARKDOWN
-                                       )
+                await bot.send_message(chat_id=user_id, text=message_text, parse_mode="HTML")
             except Exception as e:
                 print(f"Ошибка при отправке сообщения пользователю {user_id}: {str(e)}")
     await message.answer("Сообщение успешно разослано всем пользователям.")
-    # await state.finish()
-    await state.clear()  # Завершаем текущее состояние машины состояний
+    await state.clear()
 
 
 def get_user_ids():
