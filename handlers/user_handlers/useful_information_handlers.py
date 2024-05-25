@@ -1,42 +1,33 @@
-# from aiogram.dispatcher import FSMContext  # Состояния пользователя
+import json
+
 from aiogram import types, F
 from aiogram.fsm.context import FSMContext
-from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from system.dispatcher import bot, dp
 from system.dispatcher import router
 
 
+# Загрузка информации из JSON-файла
+def load_bot_info():
+    with open("media/messages/useful_information.json", 'r', encoding='utf-8') as json_file:
+        data = json.load(json_file)
+    return data
+
+
 @router.callback_query(F.data == "useful_information")
 async def useful_information(callback_query: types.CallbackQuery, state: FSMContext):
     """📚 Полезная информация"""
-    try:
-        # await state.finish()  # Завершаем текущее состояние машины состояний
-        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
-        await state.clear()  # Очищаем состояние
-        greeting_message = (f'<b>Специально для Вас, наша компанию подготовила статьи с полезной информацией, это '
-                            f'облегчит наше сотрудничество, и поможет вам разобраться в некоторых вопросах!\n\n</b>'
 
-                            f'<a href="https://cforb.ru/kak-prinimat-gruz-iz-kitaya">Правила приемки груза из Китая '
-                            f'в России</a>\n'
-                            f'<a href="https://cforb.ru/put-tovara-iz-kitaya">Путь товара из Китая в Россию</a>\n'
-                            f'<a href="https://cforb.ru/samovykup-information">Информация для самовыкупов товара</a>\n'
-                            f'<a href="https://cforb.ru/vykup-v-kitae-information">Информация если Выкуп делаем Мы</a>\n'
-                            f'<a href="https://cforb.ru/poisk-tovara-v-kitae-samomu">Самостоятельный поиск товара. '
-                            f'Преимущества</a>\n'
-                            f'<a href="https://cforb.ru/pretenzii-po-rabote">Претензии по работе</a>\n'
-                            f'<a href="https://cforb.ru/vybor-tovara-v-kitae">Выбор товара: как не ошибиться</a>\n'
-                            f'<a href="https://cforb.ru/documenty-na-tovar">Документы на товар</a>\n'
-                            f'<a href="https://cforb.ru/obrazec-tovara-iz-kitaya">Образцы: заказ и проверка</a>\n')
-        main_menu_keyboard = create_main_menu_keyboard()
-        await bot.send_message(callback_query.from_user.id,  # ID пользователя
-                               text=greeting_message,  # Текст для приветствия 👋
-                               reply_markup=main_menu_keyboard,
-                               # parse_mode=types.ParseMode.HTML,
-                               disable_web_page_preview=True)  # Текст в HTML-разметки
-    except Exception as error:
-        logger.exception(error)
+    await state.clear()  # Очищаем состояние
+    data = load_bot_info()
+    main_menu_keyboard = create_main_menu_keyboard()
+    await bot.edit_message_caption(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+        caption=data,
+        reply_markup=main_menu_keyboard
+    )
 
 
 def register_useful_information_handler():
