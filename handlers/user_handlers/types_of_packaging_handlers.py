@@ -1,17 +1,20 @@
-from aiogram import types
-from aiogram.dispatcher import FSMContext  # Состояния пользователя
+# from aiogram.dispatcher import FSMContext  # Состояния пользователя
+from aiogram import types, F
+from aiogram.fsm.context import FSMContext
 from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_packaging_keyboard, create_packaging_menu_keyboard
 from system.dispatcher import bot, dp
+from system.dispatcher import router
 
 
-@dp.callback_query_handler(lambda c: c.data == "types_of_packaging")
+@router.callback_query(F.data == "types_of_packaging")
 async def types_of_packaging(callback_query: types.CallbackQuery, state: FSMContext):
     """Виды упаковки"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f"<b>Здесь вы можете увидеть какие упаковки существуют, как выглядят, и сколько "
                             f"стоят.</b>\n\n"
                             
@@ -27,12 +30,13 @@ async def types_of_packaging(callback_query: types.CallbackQuery, state: FSMCont
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "bag_tape")
+@router.callback_query(F.data == "bag_tape")
 async def bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Мешок + скотч"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f'<a href="https://youtube.com/shorts/E2LFiy8iF0g">Мешок + скотч:</a> классические упаковка'
                             f' с использованием мешка и упаковочного '
                             f'скотча, подходит для текстиля и мягких товаров.\n\n'
@@ -47,12 +51,13 @@ async def bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "box_bag_tape")
+@router.callback_query(F.data == "box_bag_tape")
 async def box_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Коробка + мешок + скотч"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (
             f'<a href="https://youtube.com/shorts/DX-EFbUkOf8"> Коробка + мешок + скотч: </a>если у вас '
             f'много разных товаров в том числе маленькие коробочки, весь товар складывается в нашу '
@@ -68,12 +73,13 @@ async def box_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "wooden_sheathing_bag_tape")
+@router.callback_query(F.data == "wooden_sheathing_bag_tape")
 async def wooden_sheathing_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Деревянная обрешетка + мешок + скотч"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f'<a href="https://youtube.com/shorts/4ogIlLQUipc">Деревянная обрешетка + мешок + '
                             f'скотч:</a> Каркас из деревянных решеток (досок, брусьев), который способствует хорошей '
                             f'фиксации груза и его защите от механических повреждений. Применяется для упаковки '
@@ -89,12 +95,13 @@ async def wooden_sheathing_bag_tape(callback_query: types.CallbackQuery, state: 
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "wooden_corners_bag_tape")
+@router.callback_query(F.data == "wooden_corners_bag_tape")
 async def wooden_corners_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Деревянные уголки + мешок + скотч"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f'<a href="https://youtube.com/shorts/QcXqjaESW7s">Уголки + мешок + скотч:</a> Легче чем '
                             f'обрешетка, держит форму коробки, но менее защищенная, т.к '
                             f'практически полностью открытая.\n\n'
@@ -109,12 +116,13 @@ async def wooden_corners_bag_tape(callback_query: types.CallbackQuery, state: FS
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "pallet_in_crate")
+@router.callback_query(F.data == "pallet_in_crate")
 async def pallet_in_crate(callback_query: types.CallbackQuery, state: FSMContext):
     """Паллет в обрешетке"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f'<a href="https://www.youtube.com/shorts/Z2awci-nCNk">Паллет в обрешетке:</a> '
                             f'Вид упаковки используется для крупногабаритных или хрупких грузов, представляет из себя '
                             f'поддон с деревянными бортами как у обрешетки. Погрузочно-разгрузочные работы '
@@ -130,12 +138,13 @@ async def pallet_in_crate(callback_query: types.CallbackQuery, state: FSMContext
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "pallet_with_a_solid_wooden_box")
+@router.callback_query(F.data == "pallet_with_a_solid_wooden_box")
 async def pallet_with_a_solid_wooden_box(callback_query: types.CallbackQuery, state: FSMContext):
     """Паллет с глухим деревянным коробом"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f"<b>Паллет с глухим деревянным коробом:</b> Вид упаковки используется для крупногабаритных"
                             f" или хрупких грузов, представляет из себя поддон с деревянными бортами как у обрешетки. "
                             f"Погрузочно-разгрузочные работы товаров, упакованных таким образом, осуществляются при "

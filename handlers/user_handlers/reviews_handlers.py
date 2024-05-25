@@ -1,17 +1,20 @@
-from aiogram import types
-from aiogram.dispatcher import FSMContext  # Состояния пользователя
+# from aiogram.dispatcher import FSMContext  # Состояния пользователя
+from aiogram import types, F
+from aiogram.fsm.context import FSMContext
 from loguru import logger
 
+from system.dispatcher import router
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from system.dispatcher import bot, dp
 
 
-@dp.callback_query_handler(lambda c: c.data == "reviews")
+@router.callback_query(F.data == "reviews")
 async def reviews(callback_query: types.CallbackQuery, state: FSMContext):
     """💌 Отзывы"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f'Вы можете посмотреть отзывы о нашей компании, а также все рабочие процессы!\n\n'
 
                             f'В нашем канале, он посвящен отзывам и рабочим процессам.\n'

@@ -2,8 +2,9 @@ import os
 import sqlite3
 
 import openpyxl
-from aiogram import types
+from aiogram import types, F
 from aiogram.filters import Command
+from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from loguru import logger
@@ -18,8 +19,6 @@ from system.dispatcher import router
 @router.message(Command('admin_start'))
 async def admin_send_start(message: types.Message, state: FSMContext):
     """Обработчик команды /start, он же пост приветствия 👋"""
-    # await state.finish()  # Завершаем текущее состояние машины состояний
-    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
     await state.clear()  # Завершаем текущее состояние машины состояний
     # Получаем информацию о пользователе
     user_id = message.from_user.id
@@ -63,11 +62,9 @@ def create_excel_file(orders):
     return workbook
 
 
-@dp.callback_query_handler(lambda c: c.data == 'get_a_list_of_users_registered_in_the_bot')
+@router.callback_query(F.data == 'get_a_list_of_users_registered_in_the_bot')
 async def export_data(message: types.Message, state: FSMContext):
     """Получение списка зарегистрированных пользователей"""
-    # await state.finish()  # Завершаем текущее состояние машины состояний
-    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
     await state.clear()  # Завершаем текущее состояние машины состояний
     try:
         if message.from_user.id not in [535185511, 301634256]:
@@ -112,7 +109,7 @@ def create_excel_file_start(orders):
     return workbook
 
 
-@dp.callback_query_handler(lambda c: c.data == 'get_users_who_launched_the_bot')
+@router.callback_query(F.data == 'get_users_who_launched_the_bot')
 async def get_users_who_launched_the_bot(message: types.Message, state: FSMContext):
     """Получение данных пользователей, запускающих бота"""
     # await state.finish()  # Завершаем текущее состояние машины состояний
@@ -147,11 +144,9 @@ class MyStates(StatesGroup):
     waiting_for_caption = State()
 
 
-@dp.callback_query_handler(lambda c: c.data == 'send_an_image_to_bot_users')
+@router.callback_query(F.data == 'send_an_image_to_bot_users')
 async def send_an_image_to_bot_users(message: types.Message, state: FSMContext):
     """Запрашивает изображение у администратора"""
-    # await state.finish()  # Завершаем текущее состояние машины состояний
-    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
     await state.clear()  # Завершаем текущее состояние машины состояний
     try:
         if message.from_user.id not in [535185511, 301634256]:
@@ -163,7 +158,7 @@ async def send_an_image_to_bot_users(message: types.Message, state: FSMContext):
         logger.error(e)
 
 
-@dp.message_handler(state=MyStates.waiting_for_image, content_types=types.ContentType.PHOTO)
+@router.message(StateFilter(MyStates.waiting_for_image))
 async def process_send_image(message: types.Message, state: FSMContext):
     """
     Этот хендлер будет ждать загруженного изображения и переходить в состояние "ожидание подписи"
@@ -171,10 +166,10 @@ async def process_send_image(message: types.Message, state: FSMContext):
 
     await state.update_data(photo=message.photo[-1].file_id)
     await bot.send_message(message.from_user.id, text="Введите подпись к изображению:")
-    await MyStates.waiting_for_caption.set()
+    await state.set_state(MyStates.waiting_for_caption)
 
 
-@dp.message_handler(state=MyStates.waiting_for_caption, content_types=types.ContentType.TEXT)
+@router.message(StateFilter(MyStates.waiting_for_caption))
 async def process_send_image_with_caption(message: types.Message, state: FSMContext):
     """
     Этот хендлер будет ждать введенной подписи и выполнять рассылку
@@ -196,23 +191,21 @@ async def process_send_image_with_caption(message: types.Message, state: FSMCont
     await state.clear()  # Завершаем текущее состояние машины состояний
 
 
-@dp.callback_query_handler(lambda c: c.data == 'send_a_message_to_bot_users')
+@router.message(Command("send_a_message_to_bot_users"))
 async def send_a_message_to_bot_users(message: types.Message, state: FSMContext):
     """Запрашивает текст сообщения у администратора"""
-    # await state.finish()  # Завершаем текущее состояние машины состояний
-    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
     await state.clear()  # Завершаем текущее состояние машины состояний
     try:
         if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
             return
         await bot.send_message(message.from_user.id, text="Введите текст для рассылки:")
-        await MyStates.waiting_for_message.set()  # Устанавливаем состояние "ожидание сообщения"
+        await state.set_state(MyStates.waiting_for_message)  # Устанавливаем состояние "ожидание сообщения"
     except Exception as e:
         logger.error(e)
 
 
-@dp.message_handler(state=MyStates.waiting_for_message, content_types=types.ContentType.TEXT)
+@router.message(StateFilter(MyStates.waiting_for_message))
 async def process_send_message(message: types.Message, state: FSMContext):
     """
     Этот хендлер будет ждать введенного текста и выполнять рассылку

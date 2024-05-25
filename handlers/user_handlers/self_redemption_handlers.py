@@ -1,17 +1,20 @@
-from aiogram import types
-from aiogram.dispatcher import FSMContext  # Состояния пользователя
+# from aiogram.dispatcher import FSMContext  # Состояния пользователя
+from aiogram import types, F
+from aiogram.fsm.context import FSMContext
 from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from system.dispatcher import bot, dp
+from system.dispatcher import router
 
 
-@dp.callback_query_handler(lambda c: c.data == "self_redemption")
+@router.callback_query(F.data == "self_redemption")
 async def self_redemption(callback_query: types.CallbackQuery, state: FSMContext):
     """🛍 Самовыкуп"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f"Работаем только от 20 кг!\n\n"
                             f"• Никаких комиссий за хранение товара и консолидацию на складе мы не берем.\n"
                             f"• Вы сами нашли поставщика, договорились о сотрудничестве, узнали у нас адрес и код "

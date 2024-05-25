@@ -1,9 +1,10 @@
 from datetime import datetime
 
-from aiogram import types
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import StatesGroup, State
-from aiogram.types import ParseMode
+from aiogram import types, F
+from aiogram.filters import Command
+from aiogram.filters import StateFilter
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import StatesGroup, State
 from loguru import logger
 
 from database.database import check_user_exists_in_db
@@ -19,15 +20,14 @@ from keyboards.user_keyboards.user_keyboards import create_data_modification_key
 from keyboards.user_keyboards.user_keyboards import create_greeting_keyboard
 from keyboards.user_keyboards.user_keyboards import create_my_details_keyboard
 from keyboards.user_keyboards.user_keyboards import create_sign_up_keyboard
-from system.dispatcher import bot, dp
+from system.dispatcher import bot, router
+from system.dispatcher import dp
 
 
-@dp.message_handler(commands=['start'])
+@router.message(Command('start'))
 async def send_start(message: types.Message, state: FSMContext):
     """Обработчик команды /start, он же пост приветствия 👋"""
-    await state.finish()  # Завершаем текущее состояние машины состояний
-    await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
-
+    await state.clear()  # Очищаем состояние
     # Получаем информацию о пользователе
     user_id = message.from_user.id
     username = message.from_user.username
@@ -55,7 +55,9 @@ async def send_start(message: types.Message, state: FSMContext):
                     "<i>Instagram: https://www.instagram.com/cforb_in</i>\n"
                     "<i>YouTube: https://www.youtube.com/@cforb_tube</i>")
             await bot.send_photo(message.from_user.id, caption=data, photo=photo_file,
-                                 reply_markup=greeting_keyboard, parse_mode=ParseMode.HTML)
+                                 reply_markup=greeting_keyboard,
+                                 # parse_mode=ParseMode.HTML
+                                 )
     else:
         # Если пользователя нет в базе данных, предлагаем пройти регистрацию
         sign_up_text = ("⚠️ <b>Вы не зарегистрированы в нашей системе</b> ⚠️\n\n"
@@ -67,17 +69,15 @@ async def send_start(message: types.Message, state: FSMContext):
         # Отправляем сообщение с предложением зарегистрироваться и клавиатурой
         await bot.send_message(message.from_user.id, sign_up_text,
                                reply_markup=my_details_key,
-                               parse_mode=ParseMode.HTML,
+                               # parse_mode=ParseMode.HTML,
                                disable_web_page_preview=True)
 
 
-@dp.callback_query_handler(lambda c: c.data == "main_menu")
+@router.callback_query(F.data == "main_menu")
 async def send_start(message: types.Message, state: FSMContext):
     """Обработчик команды /start, он же пост приветствия 👋"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
-
+        await state.clear()  # Очищаем состояние
         # Получаем информацию о пользователе
         user_id = message.from_user.id
         username = message.from_user.username
@@ -102,7 +102,9 @@ async def send_start(message: types.Message, state: FSMContext):
                         "<i>Instagram: https://www.instagram.com/cforb_in</i>\n"
                         "<i>YouTube: https://www.youtube.com/@cforb_tube</i>")
                 await bot.send_photo(message.from_user.id, caption=data, photo=photo_file,
-                                     reply_markup=greeting_keyboard, parse_mode=ParseMode.HTML)
+                                     reply_markup=greeting_keyboard,
+                                     # parse_mode=ParseMode.HTML
+                                     )
         else:
             # Если пользователя нет в базе данных, предлагаем пройти регистрацию
             sign_up_text = ("⚠️ <b>Вы не зарегистрированы в нашей системе</b> ⚠️\n\n"
@@ -114,13 +116,13 @@ async def send_start(message: types.Message, state: FSMContext):
             # Отправляем сообщение с предложением зарегистрироваться и клавиатурой
             await bot.send_message(message.from_user.id, sign_up_text,
                                    reply_markup=my_details_key,
-                                   parse_mode=ParseMode.HTML,
+                                   # parse_mode=ParseMode.HTML,
                                    disable_web_page_preview=True)
     except Exception as error:
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "my_details")
+@router.callback_query(F.data == "my_details")
 async def call_us_handler(callback_query: types.CallbackQuery, state: FSMContext):
     user_id = callback_query.from_user.id  # Получаем ID текущего пользователя
     user_data = get_user_data_from_db(user_id)  # Функция, которая получает данные о пользователе из базы данных
@@ -143,7 +145,8 @@ async def call_us_handler(callback_query: types.CallbackQuery, state: FSMContext
         edit_data_keyboard = create_data_modification_keyboard()
         await bot.send_message(callback_query.from_user.id, text_mes,
                                reply_markup=edit_data_keyboard,
-                               parse_mode=ParseMode.HTML)
+                               # parse_mode=ParseMode.HTML
+                               )
     else:
         # Если данные о пользователе не найдены, предложите пройти регистрацию
         keyboards_sign_up = create_sign_up_keyboard()
@@ -153,7 +156,7 @@ async def call_us_handler(callback_query: types.CallbackQuery, state: FSMContext
                         "Для возврата нажмите /start")
         await bot.send_message(callback_query.from_user.id, sign_up_text,
                                reply_markup=keyboards_sign_up,
-                               parse_mode=ParseMode.HTML,
+                               # parse_mode=ParseMode.HTML,
                                disable_web_page_preview=True)
 
 
@@ -173,132 +176,128 @@ class ChangingData(StatesGroup):
     changing_city = State()  # Запись города
 
 
-@dp.callback_query_handler(lambda c: c.data == "edit_name")
-async def edit_name_handler(callback_query: types.CallbackQuery):
+@router.callback_query(F.data == "edit_name")
+async def edit_name_handler(callback_query: types.CallbackQuery, state: FSMContext):
     # Отправляем сообщение с запросом на ввод нового имени и включаем состояние
     await bot.send_message(callback_query.from_user.id, "Введите новое имя:")
-    await ChangingData.changing_name.set()
+    await state.set_state(ChangingData.changing_name)
 
 
-@dp.message_handler(state=ChangingData.changing_name)
+@router.message(ChangingData.changing_name)
 async def process_entered_name(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        user_id = message.from_user.id
-        new_name = message.text
-        if update_name_in_db(user_id, new_name):
-            text_name = f"✅ Имя успешно изменено на {new_name} ✅\n\n" \
-                        "Для возврата нажмите /start"
-            await bot.send_message(user_id, text_name)
-        else:
-            text_name = "❌ Произошла ошибка при изменении имени ❌\n\n" \
-                        "Для возврата нажмите /start"
-            await bot.send_message(user_id, text_name)
-        # Завершаем состояние после изменения имени
-        await state.finish()
+    user_id = message.from_user.id
+    new_name = message.text
+    if update_name_in_db(user_id, new_name):
+        text_name = f"✅ Имя успешно изменено на {new_name} ✅\n\n" \
+                    "Для возврата нажмите /start"
+        await bot.send_message(user_id, text_name)
+    else:
+        text_name = "❌ Произошла ошибка при изменении имени ❌\n\n" \
+                    "Для возврата нажмите /start"
+        await bot.send_message(user_id, text_name)
+    # Завершаем состояние после изменения имени
+    await state.clear()
 
 
-@dp.callback_query_handler(lambda c: c.data == "edit_surname")
-async def edit_surname_handler(callback_query: types.CallbackQuery):
+@router.callback_query(F.data == "edit_surname")
+async def edit_surname_handler(callback_query: types.CallbackQuery, state: FSMContext):
     # Отправляем сообщение с запросом на ввод нового имени и включаем состояние
     await bot.send_message(callback_query.from_user.id, "Введите новую фамилию:")
-    await ChangingData.changing_surname.set()
+    await state.set_state(ChangingData.changing_surname)
 
 
-@dp.message_handler(state=ChangingData.changing_surname)
+@router.message(ChangingData.changing_surname)
 async def process_entered_edit_surname(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        user_id = message.from_user.id
-        new_surname = message.text
-        if update_surname_in_db(user_id, new_surname):
-            text_surname = f"✅ Фамилия успешно изменена на {new_surname} ✅\n\n" \
-                           "Для возврата нажмите /start"
-            await bot.send_message(user_id, text_surname)
-        else:
-            text_surname = "❌ Произошла ошибка при изменении фамилии ❌\n\n" \
-                           "Для возврата нажмите /start"
-            await bot.send_message(user_id, text_surname)
-        # Завершаем состояние после изменения имени
-        await state.finish()
+    user_id = message.from_user.id
+    new_surname = message.text
+    if update_surname_in_db(user_id, new_surname):
+        text_surname = f"✅ Фамилия успешно изменена на {new_surname} ✅\n\n" \
+                       "Для возврата нажмите /start"
+        await bot.send_message(user_id, text_surname)
+    else:
+        text_surname = "❌ Произошла ошибка при изменении фамилии ❌\n\n" \
+                       "Для возврата нажмите /start"
+        await bot.send_message(user_id, text_surname)
+    # Завершаем состояние после изменения имени
+    await state.clear()
 
 
-@dp.callback_query_handler(lambda c: c.data == "edit_city")
-async def edit_city_handler(callback_query: types.CallbackQuery):
+@router.callback_query(F.data == "edit_city")
+async def edit_city_handler(callback_query: types.CallbackQuery, state: FSMContext):
     # Отправляем сообщение с запросом на ввод нового имени и включаем состояние
     await bot.send_message(callback_query.from_user.id, "Введите новый город:")
-    await ChangingData.changing_city.set()
+    await state.set_state(ChangingData.changing_city)
 
 
-@dp.message_handler(state=ChangingData.changing_city)
+@router.message(ChangingData.changing_city)
 async def process_entered_edit_city(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        user_id = message.from_user.id
-        new_city = message.text
-        if update_city_in_db(user_id, new_city):
-            text_city = f"✅ Город успешно изменен на {new_city} ✅\n\n" \
-                        "Для возврата нажмите /start"
-            await bot.send_message(user_id, text_city)
-        else:
-            text_city = "❌ Произошла ошибка при изменении города ❌\n\n" \
-                        "Для возврата нажмите /start"
-            await bot.send_message(user_id, text_city)
-        # Завершаем состояние после изменения имени
-        await state.finish()
+    user_id = message.from_user.id
+    new_city = message.text
+    if update_city_in_db(user_id, new_city):
+        text_city = f"✅ Город успешно изменен на {new_city} ✅\n\n" \
+                    "Для возврата нажмите /start"
+        await bot.send_message(user_id, text_city)
+    else:
+        text_city = "❌ Произошла ошибка при изменении города ❌\n\n" \
+                    "Для возврата нажмите /start"
+        await bot.send_message(user_id, text_city)
+    # Завершаем состояние после изменения имени
+    await state.clear()
 
 
-@dp.callback_query_handler(lambda c: c.data == "edit_phone")
-async def edit_city_handler(callback_query: types.CallbackQuery):
+@router.callback_query(F.data == "edit_phone")
+async def edit_city_handler(callback_query: types.CallbackQuery, state: FSMContext):
     # Отправляем сообщение с запросом на ввод нового имени и включаем состояние
     await bot.send_message(callback_query.from_user.id, "Введите новый номер телефона:")
-    await ChangingData.changing_phone.set()
+    await state.set_state(ChangingData.changing_phone)
 
 
-@dp.message_handler(state=ChangingData.changing_phone)
+@router.message(ChangingData.changing_phone)
 async def process_entered_edit_city(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        user_id = message.from_user.id
-        new_phone = message.text
-        if update_phone_in_db(user_id, new_phone):
-            text_phone = f"✅ Номер телефона успешно изменен на {new_phone} ✅\n\n" \
-                         "Для возврата нажмите /start"
-            await bot.send_message(user_id, text_phone)
-        else:
-            text_phone = "❌ Произошла ошибка при изменении номера телефона ❌\n\n" \
-                         "Для возврата нажмите /start"
-            await bot.send_message(user_id, text_phone)
-        # Завершаем состояние после изменения имени
-        await state.finish()
+    user_id = message.from_user.id
+    new_phone = message.text
+    if update_phone_in_db(user_id, new_phone):
+        text_phone = f"✅ Номер телефона успешно изменен на {new_phone} ✅\n\n" \
+                     "Для возврата нажмите /start"
+        await bot.send_message(user_id, text_phone)
+    else:
+        text_phone = "❌ Произошла ошибка при изменении номера телефона ❌\n\n" \
+                     "Для возврата нажмите /start"
+        await bot.send_message(user_id, text_phone)
+    # Завершаем состояние после изменения имени
+    await state.clear()
 
 
-@dp.callback_query_handler(lambda c: c.data == "agree")
+@router.callback_query(F.data == "agree")
 async def agree_handler(callback_query: types.CallbackQuery, state: FSMContext):
-    await state.reset_state()
-    await MakingAnOrder.write_surname.set()
+    await state.clear()  # Очищаем состояние
+    await state.set_state(MakingAnOrder.write_surname)
     text_mes = ("👥 Введите вашу фамилию (желательно кириллицей):\n"
                 "Пример: Петров, Иванова, Сидоренко")
     await bot.send_message(callback_query.from_user.id, text_mes)
 
 
-@dp.message_handler(state=MakingAnOrder.write_surname)
+@router.message(MakingAnOrder.write_surname)
 async def write_surname_handler(message: types.Message, state: FSMContext):
     surname = message.text
     await state.update_data(surname=surname)
-    await MakingAnOrder.write_name.set()
+    await state.set_state(MakingAnOrder.write_name)
     text_mes = ("👤 Введите ваше имя (желательно кириллицей):\n"
                 "Пример: Иван, Ольга, Анастасия")
     await bot.send_message(message.from_user.id, text_mes)
 
 
-@dp.message_handler(state=MakingAnOrder.write_name)
+@router.message(MakingAnOrder.write_name)
 async def write_city_handlers(message: types.Message, state: FSMContext):
     name = message.text
     await state.update_data(name=name)
-    await MakingAnOrder.write_city.set()
+    await state.set_state(MakingAnOrder.write_city)
     text_mes = ("🏙️ Введите ваш город (желательно кириллицей):\n"
                 "Пример: Москва, Санкт-Петербург")
     await bot.send_message(message.from_user.id, text_mes)
 
 
-@dp.message_handler(state=MakingAnOrder.write_city)
+@router.message(MakingAnOrder.write_city)
 async def write_name_handler(message: types.Message, state: FSMContext):
     city = message.text
     await state.update_data(city=city)
@@ -307,20 +306,19 @@ async def write_name_handler(message: types.Message, state: FSMContext):
         "Чтобы ввести номер вручную, просто отправьте его в текстовом поле.")
     contact_keyboard = create_contact_keyboard()
     await bot.send_message(message.from_user.id, sign_up_texts,
-                           reply_markup=contact_keyboard,  # Set the custom keyboard
-                           parse_mode=types.ParseMode.HTML,
+                           reply_markup=contact_keyboard,  # Установить пользовательскую клавиатуру
                            disable_web_page_preview=True)
-    await MakingAnOrder.phone_input.set()
+    await state.set_state(MakingAnOrder.phone_input)
 
 
-@dp.message_handler(content_types=types.ContentType.CONTACT, state=MakingAnOrder.phone_input)
+@router.message(StateFilter(MakingAnOrder.phone_input), F.contact)
 async def handle_contact(message: types.Message, state: FSMContext):
     phone_number = message.contact.phone_number
     await state.update_data(phone_number=phone_number)
     await handle_confirmation(message, state)
 
 
-@dp.message_handler(lambda message: message.text and not message.contact, state=MakingAnOrder.phone_input)
+@router.message(StateFilter(MakingAnOrder.phone_input), lambda message: message.text and not message.contact)
 async def handle_phone_text(message: types.Message, state: FSMContext):
     phone_number = message.text
     await state.update_data(phone_number=phone_number)

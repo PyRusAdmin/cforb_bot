@@ -1,17 +1,20 @@
-from aiogram import types
-from aiogram.dispatcher import FSMContext  # Состояния пользователя
+# from aiogram.dispatcher import FSMContext  # Состояния пользователя
+from aiogram import types, F
+from aiogram.fsm.context import FSMContext
 from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from system.dispatcher import bot, dp
+from system.dispatcher import router
 
 
-@dp.callback_query_handler(lambda c: c.data == "useful_information")
+@router.callback_query(F.data == "useful_information")
 async def useful_information(callback_query: types.CallbackQuery, state: FSMContext):
     """📚 Полезная информация"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f'<b>Специально для Вас, наша компанию подготовила статьи с полезной информацией, это '
                             f'облегчит наше сотрудничество, и поможет вам разобраться в некоторых вопросах!\n\n</b>'
 

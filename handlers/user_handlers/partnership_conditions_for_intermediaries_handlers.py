@@ -1,17 +1,20 @@
-from aiogram import types
-from aiogram.dispatcher import FSMContext  # Состояния пользователя
+# from aiogram.dispatcher import FSMContext  # Состояния пользователя
+from aiogram import types, F
+from aiogram.fsm.context import FSMContext
 from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from system.dispatcher import bot, dp
+from system.dispatcher import router
 
 
-@dp.callback_query_handler(lambda c: c.data == "partnership_conditions_for_intermediaries_button")
+@router.callback_query(F.data == "partnership_conditions_for_intermediaries_button")
 async def partnership_conditions_for_intermediaries(callback_query: types.CallbackQuery, state: FSMContext):
     """Партнерские условия для посредников"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f"<b>Если вы являетесь посредником по бизнесу с Китаем,</b> доставляете груз и работаете с "
                             f"другой компанией, блогером, менеджером по WB, у вас есть свой канал, группа или "
                             f"курсы👍\n\n"

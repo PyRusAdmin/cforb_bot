@@ -1,17 +1,21 @@
-from aiogram import types
-from aiogram.dispatcher import FSMContext  # Состояния пользователя
+# from aiogram.dispatcher import FSMContext  # Состояния пользователя
+from aiogram import types, F
+from aiogram.fsm.context import FSMContext
 from loguru import logger
 
-from keyboards.user_keyboards.user_keyboards import create_services_and_prices_keyboard, create_services_and_prices_main_menu_keyboard
+from keyboards.user_keyboards.user_keyboards import create_services_and_prices_keyboard, \
+    create_services_and_prices_main_menu_keyboard
 from system.dispatcher import bot, dp
+from system.dispatcher import router
 
 
-@dp.callback_query_handler(lambda c: c.data == "services_and_prices")
+@router.callback_query(F.data == "services_and_prices")
 async def services_and_prices(callback_query: types.CallbackQuery, state: FSMContext):
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
         # from_user_name = callback_query.from_user.first_name  # Получаем фамилию пользователя
+        await state.clear()  # Очищаем состояние
         greeting_message = (f"<b>В данном меню представлена основная информация по услугам и ценам.</b>\n\n"
                             f"• Прайсы на доставку Карго\n"
                             f"• Белая доставка грузов с ГТД и всей документацией\n"
@@ -34,12 +38,13 @@ async def services_and_prices(callback_query: types.CallbackQuery, state: FSMCon
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "cargo_delivery_prices")
+@router.callback_query(F.data == "cargo_delivery_prices")
 async def cargo_delivery_prices(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Прайсы на доставку Карго”"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f'<b>Актуальные прайс-листы CFORB, сохраняйте чтоб не потерять!</b>\n\n'
 
                             f'<b>🚫Не нужно задавать вопросы по типу «Сколько стоит доставка за 1 кг ?», на него '
@@ -110,12 +115,13 @@ async def cargo_delivery_prices(callback_query: types.CallbackQuery, state: FSMC
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "white_cargo_delivery_with_gas_turbine_engine")
+@router.callback_query(F.data == "white_cargo_delivery_with_gas_turbine_engine")
 async def white_cargo_delivery_with_gas_turbine_engine(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Белая доставка грузов с ГТД ”"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (
             f"<b>Поможем перевезти груз и пройти таможню без потерь времени и денег. Сделаем комплексную поставку: "
             f"подберем транспорт, соберем документы, подадим декларацию, оформим и привезем груз на склад. Или "
@@ -136,11 +142,12 @@ async def white_cargo_delivery_with_gas_turbine_engine(callback_query: types.Cal
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "goods_redemption_service")
+@router.callback_query(F.data == "goods_redemption_service")
 async def goods_redemption_service(callback_query: types.CallbackQuery, state: FSMContext):
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f"Работаем только от 20 кг!\n\n"
                             f"✅ Выкуп товара (условия и комиссии)\n"
                             f"Вам необходимо предоставить ссылку на поставщика, товар с фото и характеристиками, "
@@ -190,12 +197,13 @@ async def goods_redemption_service(callback_query: types.CallbackQuery, state: F
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "product_search_service")
+@router.callback_query(F.data == "product_search_service")
 async def product_search_service(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Услуга Поиска товаров (производителей в Китае)”"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f"<b>✅ Тарифы на поиск:</b>\n"
                             f"<i>Вам необходимо предоставить фото товара, характеристики, предполагаемое количество.</i>\n"
                             f"<i>Срок готовности ответа на запрос поиска, от 3 до 8 рабочих дней (в течение этого "
@@ -247,12 +255,13 @@ async def product_search_service(callback_query: types.CallbackQuery, state: FSM
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "supplier_inspection_by_province")
+@router.callback_query(F.data == "supplier_inspection_by_province")
 async def supplier_inspection_by_province(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Инспекция поставщиков по провинциям (выезд на производство)”"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (
             f"✅ Инспекция поставщика по провинциям 1000-1500 юаней (по актуальному курсу) плюс транспортные расходы, "
             f"по необходимости жильё.\n"
@@ -277,11 +286,12 @@ async def supplier_inspection_by_province(callback_query: types.CallbackQuery, s
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "wechat_registration_service")
+@router.callback_query(F.data == "wechat_registration_service")
 async def wechat_registration_service(callback_query: types.CallbackQuery, state: FSMContext):
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (
             f"<b>Мы готовы помочь вам с регистрацией вашего WeChat аккаунта. Отсканируем ваш QR-код мгновенно.</b>\n\n"
             
@@ -309,11 +319,12 @@ async def wechat_registration_service(callback_query: types.CallbackQuery, state
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "purchase_a_supplier_database")
+@router.callback_query(F.data == "purchase_a_supplier_database")
 async def purchase_a_supplier_database(callback_query: types.CallbackQuery, state: FSMContext):
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (f"<b>У нас вы можете приобрести две разные базы поставщиков:</b>\n"
                             f"<b>1. База CFB включает в себя:</b>\n"
                             f"• Более 2000 поставщиков с платформы 1688\n"
@@ -341,12 +352,13 @@ async def purchase_a_supplier_database(callback_query: types.CallbackQuery, stat
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "what_payments_await_me")
+@router.callback_query(F.data == "what_payments_await_me")
 async def what_payments_await_me(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Какие платежи меня ожидают?”"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (
             f"В нашей компании нет никаких скрытых платежей, мы максимально честны и открыты перед нашими клиентами.\n"
             f"Чтобы не было недопониманий, мы полностью расскажем за что приходится платить при карго доставке.\n\n"
@@ -371,12 +383,13 @@ async def what_payments_await_me(callback_query: types.CallbackQuery, state: FSM
         logger.exception(error)
 
 
-@dp.callback_query_handler(lambda c: c.data == "how_is_payment_made")
+@router.callback_query(F.data == "how_is_payment_made")
 async def how_is_payment_made(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Как совершается оплата?”"""
     try:
-        await state.finish()  # Завершаем текущее состояние машины состояний
-        await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        # await state.finish()  # Завершаем текущее состояние машины состояний
+        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+        await state.clear()  # Очищаем состояние
         greeting_message = (
             f"<b>Вы можете выбрать удобный и необходимый для Вас способ (Здесь указана схема оплаты только по Карго "
             f"перевозкам, по работе в Белую и Белой доставке необходимо связываться со специалистом ВЭД).</b>\n\n"
