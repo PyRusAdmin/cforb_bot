@@ -35,4 +35,4 @@ async def reviews(callback_query: types.CallbackQuery, state: FSMContext):
 
 def register_reviews_handler():
     """Регистрируем handlers для бота"""
-    dp.register_message_handler(reviews)
+    dp.message.register(reviews)

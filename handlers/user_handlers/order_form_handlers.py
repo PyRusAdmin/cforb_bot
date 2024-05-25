@@ -32,4 +32,4 @@ async def order_form(callback_query: types.CallbackQuery, state: FSMContext):
 
 def register_order_form_handler():
     """Регистрируем handlers для бота"""
-    dp.register_message_handler(order_form)
+    dp.message.register(order_form)

@@ -49,4 +49,4 @@ async def self_redemption(callback_query: types.CallbackQuery, state: FSMContext
 
 def register_self_redemption_handler():
     """Регистрируем handlers для бота"""
-    dp.register_message_handler(self_redemption)
+    dp.message.register(self_redemption)

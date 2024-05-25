@@ -164,10 +164,10 @@ async def pallet_with_a_solid_wooden_box(callback_query: types.CallbackQuery, st
 
 def register_types_of_packaging_handler():
     """Регистрируем handlers для бота"""
-    dp.register_message_handler(types_of_packaging)
-    dp.register_message_handler(bag_tape)
-    dp.register_message_handler(box_bag_tape)
-    dp.register_message_handler(wooden_sheathing_bag_tape)
-    dp.register_message_handler(wooden_corners_bag_tape)
-    dp.register_message_handler(pallet_in_crate)
-    dp.register_message_handler(pallet_with_a_solid_wooden_box)
+    dp.message.register(types_of_packaging)
+    dp.message.register(bag_tape)
+    dp.message.register(box_bag_tape)
+    dp.message.register(wooden_sheathing_bag_tape)
+    dp.message.register(wooden_corners_bag_tape)
+    dp.message.register(pallet_in_crate)
+    dp.message.register(pallet_with_a_solid_wooden_box)

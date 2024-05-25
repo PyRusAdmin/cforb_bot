@@ -420,13 +420,13 @@ async def how_is_payment_made(callback_query: types.CallbackQuery, state: FSMCon
 
 def register_services_and_prices_handler():
     """Регистрируем handlers для бота"""
-    dp.register_message_handler(services_and_prices)
-    dp.register_message_handler(cargo_delivery_prices)
-    dp.register_message_handler(white_cargo_delivery_with_gas_turbine_engine)
-    dp.register_message_handler(goods_redemption_service)
-    dp.register_message_handler(product_search_service)
-    dp.register_message_handler(supplier_inspection_by_province)
-    dp.register_message_handler(wechat_registration_service)
-    dp.register_message_handler(purchase_a_supplier_database)
-    dp.register_message_handler(what_payments_await_me)
-    dp.register_message_handler(how_is_payment_made)
+    dp.message.register(services_and_prices)
+    dp.message.register(cargo_delivery_prices)
+    dp.message.register(white_cargo_delivery_with_gas_turbine_engine)
+    dp.message.register(goods_redemption_service)
+    dp.message.register(product_search_service)
+    dp.message.register(supplier_inspection_by_province)
+    dp.message.register(wechat_registration_service)
+    dp.message.register(purchase_a_supplier_database)
+    dp.message.register(what_payments_await_me)
+    dp.message.register(how_is_payment_made)

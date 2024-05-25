@@ -243,8 +243,8 @@ def get_user_ids():
 
 def register_admin_greeting_handler():
     """Регистрируем handlers для бота"""
-    dp.register_message_handler(admin_send_start)
-    dp.register_message_handler(export_data)
-    dp.register_message_handler(get_users_who_launched_the_bot)
-    dp.register_message_handler(send_a_message_to_bot_users)
-    dp.register_message_handler(send_an_image_to_bot_users)
+    dp.message.register(admin_send_start)
+    dp.message.register(export_data)
+    dp.message.register(get_users_who_launched_the_bot)
+    dp.message.register(send_a_message_to_bot_users)
+    dp.message.register(send_an_image_to_bot_users)

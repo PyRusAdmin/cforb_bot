@@ -356,4 +356,4 @@ async def handle_confirmation(message: types.Message, state: FSMContext):
 
 def register_greeting_handler():
     """Регистрируем handlers для бота"""
-    dp.register_message_handler(send_start)  # Обработчик команды /start, он же пост приветствия 👋
+    dp.message.register(send_start)  # Обработчик команды /start, он же пост приветствия 👋

@@ -54,4 +54,4 @@ async def partnership_conditions_for_intermediaries(callback_query: types.Callba
 
 def register_partnership_conditions_for_intermediaries_handler():
     """Регистрируем handlers для бота"""
-    dp.register_message_handler(partnership_conditions_for_intermediaries)
+    dp.message.register(partnership_conditions_for_intermediaries)

@@ -40,4 +40,4 @@ async def useful_information(callback_query: types.CallbackQuery, state: FSMCont
 
 def register_useful_information_handler():
     """Регистрируем handlers для бота"""
-    dp.register_message_handler(useful_information)
+    dp.message.register(useful_information)
