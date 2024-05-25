@@ -3,22 +3,24 @@ import sqlite3
 
 import openpyxl
 from aiogram import types
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.types import ParseMode
+from aiogram.filters import Command
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import StatesGroup, State
 from loguru import logger
 
 from database.database import recording_data_of_users_who_launched_the_bot
 from keyboards.admin_keyboards.admin_keyboards import admin_create_greeting_keyboard
-from system.dispatcher import bot, dp
+from system.dispatcher import bot
+from system.dispatcher import dp
+from system.dispatcher import router
 
 
-@dp.message_handler(commands=['admin_start'])
+@router.message(Command('admin_start'))
 async def admin_send_start(message: types.Message, state: FSMContext):
     """Обработчик команды /start, он же пост приветствия 👋"""
-    await state.finish()  # Завершаем текущее состояние машины состояний
-    await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
-
+    # await state.finish()  # Завершаем текущее состояние машины состояний
+    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    await state.clear()  # Завершаем текущее состояние машины состояний
     # Получаем информацию о пользователе
     user_id = message.from_user.id
     username = message.from_user.username
@@ -33,7 +35,9 @@ async def admin_send_start(message: types.Message, state: FSMContext):
     greeting_keyboard = admin_create_greeting_keyboard()
     data = (f"<b>Привет админ {first_name} {last_name}, спасибо что поддерживаешь на нашего бота 🤖!</b>\n\n"
             f"Для запуска админ панели нажми на /start_admin")
-    await bot.send_message(message.from_user.id, text=data, reply_markup=greeting_keyboard, parse_mode=ParseMode.HTML)
+    await bot.send_message(message.from_user.id, text=data, reply_markup=greeting_keyboard,
+                           # parse_mode=ParseMode.HTML
+                           )
 
 
 # Функция для создания файла Excel с данными заказов
@@ -62,8 +66,9 @@ def create_excel_file(orders):
 @dp.callback_query_handler(lambda c: c.data == 'get_a_list_of_users_registered_in_the_bot')
 async def export_data(message: types.Message, state: FSMContext):
     """Получение списка зарегистрированных пользователей"""
-    await state.finish()  # Завершаем текущее состояние машины состояний
-    await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    # await state.finish()  # Завершаем текущее состояние машины состояний
+    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    await state.clear()  # Завершаем текущее состояние машины состояний
     try:
         if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
@@ -110,8 +115,9 @@ def create_excel_file_start(orders):
 @dp.callback_query_handler(lambda c: c.data == 'get_users_who_launched_the_bot')
 async def get_users_who_launched_the_bot(message: types.Message, state: FSMContext):
     """Получение данных пользователей, запускающих бота"""
-    await state.finish()  # Завершаем текущее состояние машины состояний
-    await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    # await state.finish()  # Завершаем текущее состояние машины состояний
+    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    await state.clear()  # Завершаем текущее состояние машины состояний
     try:
         if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
@@ -144,8 +150,9 @@ class MyStates(StatesGroup):
 @dp.callback_query_handler(lambda c: c.data == 'send_an_image_to_bot_users')
 async def send_an_image_to_bot_users(message: types.Message, state: FSMContext):
     """Запрашивает изображение у администратора"""
-    await state.finish()  # Завершаем текущее состояние машины состояний
-    await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    # await state.finish()  # Завершаем текущее состояние машины состояний
+    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    await state.clear()  # Завершаем текущее состояние машины состояний
     try:
         if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
@@ -185,14 +192,16 @@ async def process_send_image_with_caption(message: types.Message, state: FSMCont
             except Exception as e:
                 print(f"Ошибка при отправке изображения с подписью пользователю {user_id}: {str(e)}")
     await message.answer("Изображение успешно разослано всем пользователям.")
-    await state.finish()
+    # await state.finish()
+    await state.clear()  # Завершаем текущее состояние машины состояний
 
 
 @dp.callback_query_handler(lambda c: c.data == 'send_a_message_to_bot_users')
 async def send_a_message_to_bot_users(message: types.Message, state: FSMContext):
     """Запрашивает текст сообщения у администратора"""
-    await state.finish()  # Завершаем текущее состояние машины состояний
-    await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    # await state.finish()  # Завершаем текущее состояние машины состояний
+    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
+    await state.clear()  # Завершаем текущее состояние машины состояний
     try:
         if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
@@ -216,11 +225,14 @@ async def process_send_message(message: types.Message, state: FSMContext):
         # Рассылка сообщения всем пользователям из списка
         for user_id in user_ids:
             try:
-                await bot.send_message(user_id, data['message_text'], parse_mode=ParseMode.MARKDOWN)
+                await bot.send_message(user_id, data['message_text'],
+                                       # parse_mode=ParseMode.MARKDOWN
+                                       )
             except Exception as e:
                 print(f"Ошибка при отправке сообщения пользователю {user_id}: {str(e)}")
     await message.answer("Сообщение успешно разослано всем пользователям.")
-    await state.finish()
+    # await state.finish()
+    await state.clear()  # Завершаем текущее состояние машины состояний
 
 
 def get_user_ids():
