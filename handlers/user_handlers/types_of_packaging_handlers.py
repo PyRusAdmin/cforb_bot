@@ -124,7 +124,6 @@ async def wooden_corners_bag_tape(callback_query: types.CallbackQuery, state: FS
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,
-                               # parse_mode=types.ParseMode.HTML
                                )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
@@ -172,7 +171,6 @@ async def pallet_with_a_solid_wooden_box(callback_query: types.CallbackQuery, st
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
                                text=greeting_message,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,
-                               # parse_mode=types.ParseMode.HTML
                                )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
