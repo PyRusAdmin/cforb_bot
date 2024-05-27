@@ -513,43 +513,7 @@ async def update_info(message: Message, state: FSMContext):
 """"_____________________________________________________________________________________"""
 
 
-@router.callback_query(F.data == "how_is_payment_made")
-async def how_is_payment_made(callback_query: types.CallbackQuery, state: FSMContext):
-    """📌 Кнопка “Как совершается оплата?”"""
-    await state.clear()  # Очищаем состояние
-    data = load_bot_info(messages="media/messages/how_is_payment_made.json")
-    main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
-    await bot.edit_message_caption(
-        chat_id=callback_query.message.chat.id,
-        message_id=callback_query.message.message_id,
-        caption=data,
-        reply_markup=main_menu_keyboard
-    )
 
-
-class Formedit_how_is_payment_made(StatesGroup):
-    text_edit_how_is_payment_made = State()
-
-
-# Обработчик команды /edit_how_is_payment_made (только для админа)
-@router.message(Command("edit_how_is_payment_made"))
-async def edit_how_is_payment_made(message: Message, state: FSMContext):
-    """Редактирование: Как совершается оплата?"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_how_is_payment_made.text_edit_how_is_payment_made)
-    else:
-        await message.reply("У вас нет прав на выполнение этой команды.")
-
-
-# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_how_is_payment_made.text_edit_how_is_payment_made)
-async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/how_is_payment_made.json')  # Сохраняем информацию в JSON
-    await message.reply("Информация обновлена.")
-    await state.clear()
 
 
 def register_services_and_prices_handler():
