@@ -26,7 +26,7 @@ async def admin_send_start(message: types.Message, state: FSMContext):
         return
     await message.answer("Команды админа:\n\n"
 
-                         "<b>Редактирование текста:</b>\n"
+                         "<b>Редактирование текста и отправка:</b>\n"
                          "/edit_types_of_packaging - редактирование: Виды упаковки\n"
                          "/edit_services_and_prices - редактирование: Услуги и цены\n"
                          "/edit_wooden_sheathing_bag_tape - редактирование: Деревянные уголки + мешок + скотч\n"
@@ -55,6 +55,7 @@ async def admin_send_start(message: types.Message, state: FSMContext):
                          "/edit_partnership_conditions_for_intermediaries_button - редактирование: Партнерские "
                          "условия для посредников"
                          "/edit_main_menu - редактирование: текст меню бота\n"
+                         "/edit_white_cargo_gte - редактирование: Белая доставка грузов с ГТД\n"
 
                          "<b>Отправка сообщений:</b>\n"
                          "/send_an_image_to_bot_users - Отправка изображения через бота + текст\n"
@@ -64,6 +65,7 @@ async def admin_send_start(message: types.Message, state: FSMContext):
                          "/greeting_photo - Пост приветствие\n"
                          "/get_price_lists_photo_1 - Замена цен. Изображений должно быть 4"
                          "/services_and_prices_photo - Услуги и цены\n"
+                         "/white_cargo_gte_photo - Белая доставка грузов с ГТД "
                          "/types_of_packaging_photo - Виды упаковки\n\n"
                          "/start - начальное меню\n")
 

@@ -6,6 +6,8 @@ from loguru import logger
 
 from handlers.admin_handlers.admin_greeting_handlers import register_admin_greeting_handler
 from handlers.services_prices_handlers.how_is_payment_made_handlers import register_how_is_payment_made
+from handlers.services_prices_handlers.white_cargo_callback_handler import \
+    register_handle_white_cargo_callback
 from handlers.user_handlers.greeting_handlers import register_greeting_handler
 from handlers.user_handlers.order_form_handlers import register_order_form_handler
 from handlers.user_handlers.partnership_conditions_for_intermediaries_handlers import \
@@ -27,6 +29,7 @@ async def main() -> None:
 
     register_services_and_prices_handler()  # Услуги и цены
     register_how_is_payment_made()  # Как совершается оплата?
+    register_handle_white_cargo_callback() # Белая доставка грузов с ГТД
 
     register_order_form_handler()  # 🗒 Бланк заказа
     register_types_of_packaging_handler()  # 📦 Виды упаковки

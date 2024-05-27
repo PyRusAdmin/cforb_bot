@@ -94,7 +94,7 @@ def create_services_and_prices_keyboard():
     rows = [
         [InlineKeyboardButton(text='Прайсы на доставку Карго', callback_data='cargo_delivery_prices')],
         [InlineKeyboardButton(text='Белая доставка грузов с ГТД',
-                              callback_data='white_cargo_delivery_with_gas_turbine_engine')],
+                              callback_data='white_cargo_gte')],
         [InlineKeyboardButton(text='Услуга Выкупа товаров', callback_data='goods_redemption_service')],
         [InlineKeyboardButton(text='Услуга Поиска товаров (производителей в Китае)',
                               callback_data='product_search_service')],

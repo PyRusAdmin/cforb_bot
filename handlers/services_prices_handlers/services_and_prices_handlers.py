@@ -205,53 +205,10 @@ async def update_info(message: Message, state: FSMContext):
     await state.clear()
 
 
-""""_____________________________________________________________________________________"""
 
 
-@router.callback_query(F.data == "white_cargo_delivery_with_gas_turbine_engine")
-async def white_cargo_delivery_with_gas_turbine_engine(callback_query: types.CallbackQuery, state: FSMContext):
-    """📌 Кнопка “Белая доставка грузов с ГТД ”"""
-    try:
-        await state.clear()  # Очищаем состояние
-        data = load_bot_info(messages="media/messages/white_cargo_delivery_with_gas_turbine_engine.json")
-        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
-        document = FSInputFile('media/photos/white_cargo_delivery_with_gas_turbine_engine.jpg')
-        media = InputMediaPhoto(media=document, caption=data)
-        await bot.edit_message_media(media=media,
-                                     chat_id=callback_query.message.chat.id,
-                                     message_id=callback_query.message.message_id,
-                                     reply_markup=main_menu_keyboard
-                                     )
-    except Exception as error:
-        logger.exception(error)
 
 
-class Formedit_white_cargo_delivery_with_gas_turbine_engine(StatesGroup):
-    text_edit_white_cargo_delivery_with_gas_turbine_engine = State()
-
-
-# Обработчик команды /edit_white_cargo_delivery_with_gas_turbine_engine (только для админа)
-@router.message(Command("edit_white_cargo_delivery_with_gas_turbine_engine"))
-async def edit_white_cargo_delivery_with_gas_turbine_engine(message: Message, state: FSMContext):
-    """Редактирование: Белая доставка грузов с ГТД"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(
-            Formedit_white_cargo_delivery_with_gas_turbine_engine.text_edit_white_cargo_delivery_with_gas_turbine_engine)
-    else:
-        await message.reply("У вас нет прав на выполнение этой команды.")
-
-
-# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(
-    Formedit_white_cargo_delivery_with_gas_turbine_engine.text_edit_white_cargo_delivery_with_gas_turbine_engine)
-async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info,
-                  file_path='media/messages/white_cargo_delivery_with_gas_turbine_engine.json')  # Сохраняем информацию в JSON
-    await message.reply("Информация обновлена.")
-    await state.clear()
 
 
 """"_____________________________________________________________________________________"""
@@ -512,25 +469,19 @@ async def update_info(message: Message, state: FSMContext):
 
 """"_____________________________________________________________________________________"""
 
-
-
-
-
 def register_services_and_prices_handler():
     """Регистрируем handlers для бота"""
     dp.message.register(services_and_prices)
     dp.message.register(cargo_delivery_prices)
-    dp.message.register(white_cargo_delivery_with_gas_turbine_engine)
+
     dp.message.register(goods_redemption_service)
     dp.message.register(product_search_service)
     dp.message.register(supplier_inspection_by_province)
     dp.message.register(wechat_registration_service)
     dp.message.register(purchase_a_supplier_database)
     dp.message.register(what_payments_await_me)
-    dp.message.register(how_is_payment_made)
     dp.message.register(get_price_lists)
 
-    dp.message.register(edit_how_is_payment_made)  # Редактирование: Как совершается оплата?
     dp.message.register(edit_what_payments_await_me)  # Редактирование: Какие платежи меня ожидают?
     dp.message.register(edit_purchase_a_supplier_database)  # Редактирование: Приобрести базу данных поставщиков
     dp.message.register(edit_wechat_registration_service)  # Редактирование: Услуга регистрации на WeChat
@@ -538,8 +489,7 @@ def register_services_and_prices_handler():
         edit_supplier_inspection_by_province)  # Редактирование: Инспекция поставщиков по провинциям (выезд на производство)
     dp.message.register(edit_product_search_service)  # Редактирование: Услуга Поиска товаров (производителей в Китае)
     dp.message.register(edit_goods_redemption_service)  # Редактирование: Услуга Выкупа товаров
-    dp.message.register(
-        edit_white_cargo_delivery_with_gas_turbine_engine)  # Редактирование: Белая доставка грузов с ГТД
+
     dp.message.register(edit_cargo_delivery_prices)  # Редактирование: Прайсы на доставку Карго
     dp.message.register(edit_services_and_prices)  # Редактирование: Услуги и цены
 
