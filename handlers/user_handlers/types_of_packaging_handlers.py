@@ -8,13 +8,7 @@ from loguru import logger
 from keyboards.user_keyboards.user_keyboards import create_packaging_keyboard, create_packaging_menu_keyboard
 from system.dispatcher import bot, dp
 from system.dispatcher import router
-
-
-# Загрузка информации из JSON-файла
-def load_bot_info():
-    with open("media/messages/types_of_packaging.json", 'r', encoding='utf-8') as json_file:
-        data = json.load(json_file)
-    return data
+from system.working_with_files import load_bot_info
 
 
 @router.callback_query(F.data == "types_of_packaging")
@@ -22,7 +16,8 @@ async def types_of_packaging(callback_query: types.CallbackQuery, state: FSMCont
     """Виды упаковки"""
     try:
         await state.clear()  # Очищаем состояние
-        data = load_bot_info()
+        # data = load_bot_info()
+        data = load_bot_info(messages="media/messages/types_of_packaging.json")
         document = FSInputFile('media/photos/types_of_packaging.jpg')
         types_of_packaging_key = create_packaging_keyboard()
         media = InputMediaPhoto(media=document, caption=data)
@@ -35,13 +30,6 @@ async def types_of_packaging(callback_query: types.CallbackQuery, state: FSMCont
         logger.exception(error)
 
 
-# Загрузка информации из JSON-файла
-def load_bot_infos():
-    with open("media/messages/bag_tape.json", 'r', encoding='utf-8') as json_file:
-        data = json.load(json_file)
-    return data
-
-
 @router.callback_query(F.data == "bag_tape")
 async def bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Мешок + скотч"""
@@ -49,7 +37,8 @@ async def bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
         await state.clear()  # Очищаем состояние
         types_of_packaging_key = create_packaging_menu_keyboard()
         document = FSInputFile('media/photos/types_of_packaging.jpg')
-        data = load_bot_infos()
+        # data = load_bot_infos()
+        data = load_bot_info(messages="media/messages/bag_tape.json")
         media = InputMediaPhoto(media=document, caption=data)
         await bot.edit_message_media(media=media,
                                      chat_id=callback_query.message.chat.id,
@@ -58,13 +47,6 @@ async def bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
                                      )
     except Exception as error:
         logger.exception(error)
-
-
-# Загрузка информации из JSON-файла
-def load_bot_infoss():
-    with open("media/messages/box_bag_tape.json", 'r', encoding='utf-8') as json_file:
-        data = json.load(json_file)
-    return data
 
 
 @router.callback_query(F.data == "box_bag_tape")
@@ -73,8 +55,8 @@ async def box_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     try:
         await state.clear()  # Очищаем состояние
         types_of_packaging_key = create_packaging_menu_keyboard()
-        document = FSInputFile('media/photos/types_of_packaging.jpg')
-        data = load_bot_infoss()
+        document = FSInputFile('media/photos/box_bag_tape.jpg')
+        data = load_bot_info(messages="media/messages/box_bag_tape.json")
         media = InputMediaPhoto(media=document, caption=data)
         await bot.edit_message_media(media=media,
                                      chat_id=callback_query.message.chat.id,
@@ -83,13 +65,6 @@ async def box_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
                                      )
     except Exception as error:
         logger.exception(error)
-
-
-# Загрузка информации из JSON-файла
-def load_bot_infosss():
-    with open("media/messages/wooden_sheathing_bag_tape.json", 'r', encoding='utf-8') as json_file:
-        data = json.load(json_file)
-    return data
 
 
 @router.callback_query(F.data == "wooden_sheathing_bag_tape")
@@ -99,7 +74,7 @@ async def wooden_sheathing_bag_tape(callback_query: types.CallbackQuery, state: 
         await state.clear()  # Очищаем состояние
         types_of_packaging_key = create_packaging_menu_keyboard()
         document = FSInputFile('media/photos/types_of_packaging.jpg')
-        data = load_bot_infosss()
+        data = load_bot_info(messages="media/messages/wooden_sheathing_bag_tape.json")
         media = InputMediaPhoto(media=document, caption=data)
         await bot.edit_message_media(media=media,
                                      chat_id=callback_query.message.chat.id,
@@ -115,14 +90,11 @@ async def wooden_corners_bag_tape(callback_query: types.CallbackQuery, state: FS
     """Деревянные уголки + мешок + скотч"""
     try:
         await state.clear()  # Очищаем состояние
-        greeting_message = (f'<a href="https://youtube.com/shorts/QcXqjaESW7s">Уголки + мешок + скотч:</a> Легче чем '
-                            f'обрешетка, держит форму коробки, но менее защищенная, т.к '
-                            f'практически полностью открытая.\n\n'
-                            f'<b>Стоимость данной упаковки 10$ место</b>\n\n'
-                            f'<b>Связаться с менеджерами: @cargo_cfb</b>\n\n')
+        data = load_bot_info(messages="media/messages/wooden_corners_bag_tape.json")
+
         types_of_packaging_key = create_packaging_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
-                               text=greeting_message,  # Текст для приветствия 👋
+                               text=data,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,
                                )  # Текст в HTML-разметки
     except Exception as error:
@@ -133,20 +105,12 @@ async def wooden_corners_bag_tape(callback_query: types.CallbackQuery, state: FS
 async def pallet_in_crate(callback_query: types.CallbackQuery, state: FSMContext):
     """Паллет в обрешетке"""
     try:
-        # await state.finish()  # Завершаем текущее состояние машины состояний
-        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
         await state.clear()  # Очищаем состояние
-        greeting_message = (f'<a href="https://www.youtube.com/shorts/Z2awci-nCNk">Паллет в обрешетке:</a> '
-                            f'Вид упаковки используется для крупногабаритных или хрупких грузов, представляет из себя '
-                            f'поддон с деревянными бортами как у обрешетки. Погрузочно-разгрузочные работы '
-                            f'товаров, упакованных таким образом, осуществляются при помощи вилочного погрузчика.\n\n'
-                            f'<b>Стоимость данной упаковки 45$ за куб</b>\n\n'
-                            f'<b>Связаться с менеджерами: @cargo_cfb</b>')
+        data = load_bot_info(messages="media/messages/pallet_in_crate.json")
         types_of_packaging_key = create_packaging_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
-                               text=greeting_message,  # Текст для приветствия 👋
+                               text=data,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,
-                               # parse_mode=types.ParseMode.HTML
                                )  # Текст в HTML-разметки
     except Exception as error:
         logger.exception(error)
@@ -156,20 +120,11 @@ async def pallet_in_crate(callback_query: types.CallbackQuery, state: FSMContext
 async def pallet_with_a_solid_wooden_box(callback_query: types.CallbackQuery, state: FSMContext):
     """Паллет с глухим деревянным коробом"""
     try:
-        # await state.finish()  # Завершаем текущее состояние машины состояний
-        # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
         await state.clear()  # Очищаем состояние
-        greeting_message = (f"<b>Паллет с глухим деревянным коробом:</b> Вид упаковки используется для крупногабаритных"
-                            f" или хрупких грузов, представляет из себя поддон с деревянными бортами как у обрешетки. "
-                            f"Погрузочно-разгрузочные работы товаров, упакованных таким образом, осуществляются при "
-                            f"помощи вилочного погрузчика.\n\n"
-
-                            f"<b>Стоимость данной упаковки 90-100$ за куб</b>\n\n"
-
-                            f"<b>Связаться с менеджерами: @cargo_cfb</b>\n\n")
+        data = load_bot_info(messages="media/messages/pallet_with_a_solid_wooden_box.json")
         types_of_packaging_key = create_packaging_menu_keyboard()
         await bot.send_message(callback_query.from_user.id,  # ID пользователя
-                               text=greeting_message,  # Текст для приветствия 👋
+                               text=data,  # Текст для приветствия 👋
                                reply_markup=types_of_packaging_key,
                                )  # Текст в HTML-разметки
     except Exception as error:
