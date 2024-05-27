@@ -1,6 +1,16 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
 
+def get_price_lists_keyboard():
+    rows = [
+        [InlineKeyboardButton(text='Назад к ⭐️ Услуги и цены', callback_data='services_and_prices')],
+        [InlineKeyboardButton(text='Получить прайсы', callback_data='get_price_lists')],
+        [InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')],
+    ]
+    packaging_menu_keyboard = InlineKeyboardMarkup(inline_keyboard=rows)
+    return packaging_menu_keyboard
+
+
 def create_packaging_menu_keyboard():
     """
     Создает клавиатуру для выбора видов упаковки.

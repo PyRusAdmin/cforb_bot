@@ -1,5 +1,3 @@
-# from aiogram.dispatcher import FSMContext  # Состояния пользователя
-
 from aiogram import types, F
 from aiogram.fsm.context import FSMContext
 

@@ -1,5 +1,4 @@
 import configparser
-# import logging
 
 from aiogram import Bot, Dispatcher, Router
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -11,9 +10,8 @@ BOT_TOKEN = config["BOT_TOKEN"]["BOT_TOKEN"]
 bot = Bot(token=BOT_TOKEN, parse_mode="HTML")
 storage = MemoryStorage()  # Хранилище
 dp = Dispatcher(storage=storage)
-# logging.basicConfig(level=logging.INFO)  # Логирования
 
-ADMIN_USER_ID = 535185511
+ADMIN_USER_ID = 535185511, 301634256
 
 router = Router()
 dp.include_router(router)

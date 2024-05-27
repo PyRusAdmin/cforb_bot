@@ -28,14 +28,13 @@ async def bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Мешок + скотч"""
     await state.clear()  # Очищаем состояние
     types_of_packaging_key = create_packaging_menu_keyboard()
-    document = FSInputFile('media/photos/types_of_packaging.jpg')
     data = load_bot_info(messages="media/messages/bag_tape.json")
-    media = InputMediaPhoto(media=document, caption=data)
-    await bot.edit_message_media(media=media,
-                                 chat_id=callback_query.message.chat.id,
-                                 message_id=callback_query.message.message_id,
-                                 reply_markup=types_of_packaging_key
-                                 )
+    await bot.edit_message_caption(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+        caption=data,
+        reply_markup=types_of_packaging_key
+    )
 
 
 @router.callback_query(F.data == "box_bag_tape")
@@ -43,14 +42,13 @@ async def box_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Коробка + мешок + скотч"""
     await state.clear()  # Очищаем состояние
     types_of_packaging_key = create_packaging_menu_keyboard()
-    document = FSInputFile('media/photos/box_bag_tape.jpg')
     data = load_bot_info(messages="media/messages/box_bag_tape.json")
-    media = InputMediaPhoto(media=document, caption=data)
-    await bot.edit_message_media(media=media,
-                                 chat_id=callback_query.message.chat.id,
-                                 message_id=callback_query.message.message_id,
-                                 reply_markup=types_of_packaging_key
-                                 )
+    await bot.edit_message_caption(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+        caption=data,
+        reply_markup=types_of_packaging_key
+    )
 
 
 @router.callback_query(F.data == "wooden_sheathing_bag_tape")
@@ -75,10 +73,12 @@ async def wooden_corners_bag_tape(callback_query: types.CallbackQuery, state: FS
     data = load_bot_info(messages="media/messages/wooden_corners_bag_tape.json")
 
     types_of_packaging_key = create_packaging_menu_keyboard()
-    await bot.send_message(callback_query.from_user.id,  # ID пользователя
-                           text=data,  # Текст для приветствия 👋
-                           reply_markup=types_of_packaging_key,
-                           )  # Текст в HTML-разметки
+    await bot.edit_message_caption(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+        caption=data,
+        reply_markup=types_of_packaging_key
+    )
 
 
 @router.callback_query(F.data == "pallet_in_crate")
@@ -87,10 +87,12 @@ async def pallet_in_crate(callback_query: types.CallbackQuery, state: FSMContext
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/pallet_in_crate.json")
     types_of_packaging_key = create_packaging_menu_keyboard()
-    await bot.send_message(callback_query.from_user.id,  # ID пользователя
-                           text=data,  # Текст для приветствия 👋
-                           reply_markup=types_of_packaging_key,
-                           )  # Текст в HTML-разметки
+    await bot.edit_message_caption(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+        caption=data,
+        reply_markup=types_of_packaging_key
+    )
 
 
 @router.callback_query(F.data == "pallet_with_a_solid_wooden_box")
@@ -99,10 +101,12 @@ async def pallet_with_a_solid_wooden_box(callback_query: types.CallbackQuery, st
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/pallet_with_a_solid_wooden_box.json")
     types_of_packaging_key = create_packaging_menu_keyboard()
-    await bot.send_message(callback_query.from_user.id,  # ID пользователя
-                           text=data,  # Текст для приветствия 👋
-                           reply_markup=types_of_packaging_key,
-                           )  # Текст в HTML-разметки
+    await bot.edit_message_caption(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+        caption=data,
+        reply_markup=types_of_packaging_key
+    )
 
 
 def register_types_of_packaging_handler():

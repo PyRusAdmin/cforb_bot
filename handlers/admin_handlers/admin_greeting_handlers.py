@@ -2,41 +2,66 @@ import os
 import sqlite3
 
 import openpyxl
-from aiogram import types, F
+from aiogram import F
+from aiogram import types
 from aiogram.filters import Command
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
+from aiogram.types import FSInputFile
 from loguru import logger
 
-from database.database import recording_data_of_users_who_launched_the_bot
-from keyboards.admin_keyboards.admin_keyboards import admin_create_greeting_keyboard
-from system.dispatcher import bot
+from system.dispatcher import bot, ADMIN_USER_ID
 from system.dispatcher import dp
 from system.dispatcher import router
 
 
-@router.message(Command('admin_start'))
+@router.message(Command('help'))
 async def admin_send_start(message: types.Message, state: FSMContext):
     """Обработчик команды /start, он же пост приветствия 👋"""
     await state.clear()  # Завершаем текущее состояние машины состояний
-    # Получаем информацию о пользователе
-    user_id = message.from_user.id
-    username = message.from_user.username
-    first_name = message.from_user.first_name
-    last_name = message.from_user.last_name
-    join_date = message.date.strftime("%Y-%m-%d %H:%M:%S")
+    """Админ панель"""
+    if message.from_user.id not in ADMIN_USER_ID:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Команды админа:\n\n"
 
-    logger.info(f"Пользователь {username} ({user_id}) запустил бота в {join_date}")
-    # Записываем информацию о пользователе в базу данных
-    recording_data_of_users_who_launched_the_bot(user_id, username, first_name, last_name, join_date)
+                         "<b>Редактирование текста:</b>\n"
+                         # "/edit_services_and_prices - редактирование: ⭐️ Услуги и цены\n"
+                         # "/edit - редактирование: пост приветствиt\n"
+                         # "/edit_self_purchase - редактирование: 🛍 Самовыкуп\n"
+                         # "/edit_product_search - редактирование: Подбор товара\n"
+                         # "/edit_search_in_china - редактирование: Поиск поставщика в Китае\n"
+                         # "/edit_warranty_service - редактирование: Выкуп товаров\n"
+                         # "/edit_delivery_in_china - редактирование: Доставка в Китае\n"
+                         # "/edit_payment_process - редактирование: Как совершается оплата?\n"
+                         # "/edit_order_form - редактирование: 🗒 Бланк заказа\n"
+                         # "/edit_payment_options - редактирование: Какие платежи меня ожидают?\n"
+                         # "/edit_reviews - редактирование: 💌 Отзывы\n"
+                         # "/edit_bag_tape - редактирование: Мешок + скотч\n"
+                         # "/edit_box_bag_tape - редактирование: Коробка + мешок + скотч\n"
+                         # "/edit_cardboard_corners_bag_tape - редактирование: Картонные уголки + мешок + скотч\n"
+                         # "/edit_pallet_crate - редактирование: Паллет в обрешетке\n"
+                         # "edit_pallet_with_solid_wooden_box - редактирование: Паллет с глухим деревянным коробом\n"
+                         # "/edit_types_packaging_handlers - редактирование: Назад к видам упаковки\n"
+                         # "/edit_wooden_sheathing_bag_tape - редактирование: Деревянная обрешетка + мешок + скотч\n"
+                         # "/edit_useful_information - редактирование: 📚 Полезная информация\n\n"
 
-    greeting_keyboard = admin_create_greeting_keyboard()
-    data = (f"<b>Привет админ {first_name} {last_name}, спасибо что поддерживаешь на нашего бота 🤖!</b>\n\n"
-            f"Для запуска админ панели нажми на /start_admin")
-    await bot.send_message(message.from_user.id, text=data, reply_markup=greeting_keyboard,
-                           # parse_mode=ParseMode.HTML
-                           )
+                         "<b>Получение данных:</b>\n"
+                         "/get_a_list_of_users_registered_in_the_bot - Получение списка зарегистрированных пользователей\n"
+                         "/get_users_who_launched_the_bot - Получение данных пользователей, запускающих бота\n\n"
+
+                         "<b>Отправка сообщений:</b>\n"
+                         "/send_an_image_to_bot_users - Отправка изображения через бота + текст\n"
+                         "/send_a_message_to_bot_users - Отправка текста через бота\n\n"
+
+                         "<b>Замена изображения поста:</b>\n"
+                         # "/edit_photo - редактирование фото главного поста\n"
+                         # "/delivery_in_china_photo - ⭐️ Услуги и цены\n"
+                         # "/warranty_service_photo - Выкуп товаров\n"
+                         # "/product_search_photo - Подбор товара\n"
+                         # "/self_purchase_photo - 🛍 Самовыкуп\n\n"
+                         "/start - начальное меню\n")
 
 
 # Функция для создания файла Excel с данными заказов
@@ -62,7 +87,7 @@ def create_excel_file(orders):
     return workbook
 
 
-@router.callback_query(F.data == 'get_a_list_of_users_registered_in_the_bot')
+@router.message(Command('get_a_list_of_users_registered_in_the_bot'))
 async def export_data(message: types.Message, state: FSMContext):
     """Получение списка зарегистрированных пользователей"""
     await state.clear()  # Завершаем текущее состояние машины состояний
@@ -80,10 +105,10 @@ async def export_data(message: types.Message, state: FSMContext):
         workbook = create_excel_file(orders)
         filename = 'Зарегистрированные пользователи в боте.xlsx'
         workbook.save(filename)  # Сохранение файла
-        with open(filename, 'rb') as file:
-            text = ("Данные пользователей зарегистрированных в боте\n\n"
-                    "Для запуска админ панели или возврата в начальное меню нажми на /start_admin")
-            await bot.send_document(message.from_user.id, document=file, caption=text)  # Отправка файла пользователю
+        text = ("Данные пользователей зарегистрированных в боте\n\n"
+                "Для возврата в начальное меню нажми на /start или /help")
+        file = FSInputFile(filename)
+        await bot.send_document(message.from_user.id, document=file, caption=text)  # Отправка файла пользователю
         os.remove(filename)  # Удаление файла
     except Exception as e:
         logger.error(e)
@@ -109,7 +134,7 @@ def create_excel_file_start(orders):
     return workbook
 
 
-@router.callback_query(F.data == 'get_users_who_launched_the_bot')
+@router.message(Command("get_users_who_launched_the_bot"))
 async def get_users_who_launched_the_bot(message: types.Message, state: FSMContext):
     """Получение данных пользователей, запускающих бота"""
     await state.clear()  # Завершаем текущее состояние машины состояний
@@ -127,10 +152,10 @@ async def get_users_who_launched_the_bot(message: types.Message, state: FSMConte
         workbook = create_excel_file_start(orders)
         filename = 'Данные пользователей запустивших бота.xlsx'
         workbook.save(filename)  # Сохранение файла
-        with open(filename, 'rb') as file:
-            text = ("Данные пользователей запустивших бота\n\n"
-                    "Для запуска админ панели или возврата в начальное меню нажми на /start_admin")
-            await bot.send_document(message.from_user.id, document=file, caption=text)  # Отправка файла пользователю
+        file = FSInputFile(filename)
+        text = ("Данные пользователей зарегистрированных в боте\n\n"
+                "Для возврата в начальное меню нажми на /start или /help")
+        await bot.send_document(message.from_user.id, document=file, caption=text)  # Отправка файла пользователю
         os.remove(filename)  # Удаление файла
     except Exception as e:
         logger.error(e)
