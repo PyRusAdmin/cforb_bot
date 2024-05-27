@@ -16,7 +16,7 @@ from system.working_with_files import save_bot_info
 async def handle_supplier_inspection(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Инспекция поставщиков по провинциям (выезд на производство)”"""
     await state.clear()  # Очищаем состояние
-    data = load_bot_info(messages="media/messages/supplier_inspection.json")
+    data = load_bot_info(messages="media/messages/services_prices_messages/supplier_inspection.json")
     main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
@@ -46,7 +46,7 @@ async def cmd_edit_supplier_inspection(message: Message, state: FSMContext):
 async def update_supplier_inspection_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/supplier_inspection.json')  # Сохраняем информацию в JSON
+    save_bot_info(bot_info, file_path='media/messages/services_prices_messages/supplier_inspection.json')
     await message.reply("Информация обновлена.")
     await state.clear()
 

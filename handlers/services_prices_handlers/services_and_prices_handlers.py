@@ -39,7 +39,7 @@ async def services_and_prices(callback_query: types.CallbackQuery, state: FSMCon
     """Услуги и цены"""
     try:
         await state.clear()  # Очищаем состояние
-        data = load_bot_info(messages="media/messages/services_and_prices.json")
+        data = load_bot_info(messages="media/messages/services_prices_messages/services_and_prices.json")
         services_and_prices_keyboard = create_services_and_prices_keyboard()  # Клавиатуры поста приветствия 👋
         document = FSInputFile('media/photos/services_and_prices.jpg')
         media = InputMediaPhoto(media=document, caption=data)
@@ -72,7 +72,7 @@ async def edit_services_and_prices(message: Message, state: FSMContext):
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/services_and_prices.json')  # Сохраняем информацию в JSON
+    save_bot_info(bot_info, file_path='media/messages/services_prices_messages/services_and_prices.json')
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -205,12 +205,6 @@ async def update_info(message: Message, state: FSMContext):
     await state.clear()
 
 
-
-
-
-
-
-
 """"_____________________________________________________________________________________"""
 
 
@@ -296,12 +290,6 @@ async def update_info(message: Message, state: FSMContext):
     save_bot_info(bot_info, file_path='media/messages/product_search_service.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
-
-
-""""_____________________________________________________________________________________"""
-
-
-
 
 
 """"_____________________________________________________________________________________"""
@@ -430,16 +418,12 @@ async def update_info(message: Message, state: FSMContext):
     await state.clear()
 
 
-""""_____________________________________________________________________________________"""
-
 def register_services_and_prices_handler():
     """Регистрируем handlers для бота"""
     dp.message.register(services_and_prices)
     dp.message.register(cargo_delivery_prices)
-
     dp.message.register(goods_redemption_service)
     dp.message.register(product_search_service)
-    dp.message.register(supplier_inspection_by_province)
     dp.message.register(wechat_registration_service)
     dp.message.register(purchase_a_supplier_database)
     dp.message.register(what_payments_await_me)
@@ -448,11 +432,8 @@ def register_services_and_prices_handler():
     dp.message.register(edit_what_payments_await_me)  # Редактирование: Какие платежи меня ожидают?
     dp.message.register(edit_purchase_a_supplier_database)  # Редактирование: Приобрести базу данных поставщиков
     dp.message.register(edit_wechat_registration_service)  # Редактирование: Услуга регистрации на WeChat
-    dp.message.register(
-        edit_supplier_inspection_by_province)  # Редактирование: Инспекция поставщиков по провинциям (выезд на производство)
     dp.message.register(edit_product_search_service)  # Редактирование: Услуга Поиска товаров (производителей в Китае)
     dp.message.register(edit_goods_redemption_service)  # Редактирование: Услуга Выкупа товаров
-
     dp.message.register(edit_cargo_delivery_prices)  # Редактирование: Прайсы на доставку Карго
     dp.message.register(edit_services_and_prices)  # Редактирование: Услуги и цены
 

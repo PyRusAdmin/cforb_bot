@@ -37,7 +37,7 @@ async def handle_white_cargo_callback(callback_query: types.CallbackQuery, state
     """📌 Кнопка “Белая доставка грузов с ГТД ”"""
     try:
         await state.clear()  # Очищаем состояние
-        data = load_bot_info(messages="media/messages/white_cargo_gte.json")
+        data = load_bot_info(messages="media/messages/services_prices_messages/white_cargo_gte.json")
         main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         document = FSInputFile('media/photos/white_cargo_gte.jpg')
         media = InputMediaPhoto(media=document, caption=data)
@@ -71,7 +71,7 @@ async def cmd_edit_white_cargo_text(message: Message, state: FSMContext):
 async def update_white_cargo_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/white_cargo_gte.json')  # Сохраняем информацию в JSON
+    save_bot_info(bot_info, file_path='media/messages/services_prices_messages/white_cargo_gte.json')
     await message.reply("Информация обновлена.")
     await state.clear()
 
