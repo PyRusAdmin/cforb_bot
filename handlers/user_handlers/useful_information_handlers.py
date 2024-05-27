@@ -1,18 +1,10 @@
-import json
-
 from aiogram import types, F
 from aiogram.fsm.context import FSMContext
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from system.dispatcher import bot, dp
 from system.dispatcher import router
-
-
-# Загрузка информации из JSON-файла
-def load_bot_info():
-    with open("media/messages/useful_information.json", 'r', encoding='utf-8') as json_file:
-        data = json.load(json_file)
-    return data
+from system.working_with_files import load_bot_info
 
 
 @router.callback_query(F.data == "useful_information")
@@ -20,7 +12,7 @@ async def useful_information(callback_query: types.CallbackQuery, state: FSMCont
     """📚 Полезная информация"""
 
     await state.clear()  # Очищаем состояние
-    data = load_bot_info()
+    data = load_bot_info(messages="media/messages/useful_information.json")
     main_menu_keyboard = create_main_menu_keyboard()
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,

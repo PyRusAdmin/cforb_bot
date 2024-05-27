@@ -1,24 +1,17 @@
-import json
-
 from aiogram import types, F
 from aiogram.fsm.context import FSMContext
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from system.dispatcher import bot, dp
 from system.dispatcher import router
-
-
-def load_bot_info():
-    with open("media/messages/reviews.json", 'r', encoding='utf-8') as json_file:
-        data = json.load(json_file)
-    return data
+from system.working_with_files import load_bot_info
 
 
 @router.callback_query(F.data == "reviews")
 async def reviews(callback_query: types.CallbackQuery, state: FSMContext):
     """💌 Отзывы"""
     await state.clear()  # Очищаем состояние
-    data = load_bot_info()
+    data = load_bot_info(messages="media/messages/reviews.json")
     main_menu_keyboard = create_main_menu_keyboard()
 
     await bot.edit_message_caption(

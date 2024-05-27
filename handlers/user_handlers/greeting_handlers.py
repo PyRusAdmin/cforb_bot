@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 
 from aiogram import types, F
@@ -25,13 +24,7 @@ from keyboards.user_keyboards.user_keyboards import create_my_details_keyboard
 from keyboards.user_keyboards.user_keyboards import create_sign_up_keyboard
 from system.dispatcher import bot, router
 from system.dispatcher import dp
-
-
-# Загрузка информации из JSON-файла
-def load_bot_info():
-    with open("media/messages/main_menu_messages.json", 'r', encoding='utf-8') as json_file:
-        data = json.load(json_file)
-    return data
+from system.working_with_files import load_bot_info
 
 
 @dp.message(CommandStart())
@@ -49,7 +42,7 @@ async def command_start_handler(message: Message) -> None:
         main_menu_key = create_greeting_keyboard()
 
         document = FSInputFile('media/photos/greeting.jpg')
-        data = load_bot_info()
+        data = load_bot_info(messages="media/messages/main_menu_messages.json")
         await message.answer_photo(photo=document, caption=data,
                                    reply_markup=main_menu_key,
                                    parse_mode="HTML")
@@ -82,7 +75,7 @@ async def send_start(callback_query: types.CallbackQuery, state: FSMContext):
         if user_exists:
             greeting_keyboard = create_greeting_keyboard()
             document = FSInputFile('media/photos/greeting.jpg')
-            data = load_bot_info()
+            data = load_bot_info(messages="media/messages/main_menu_messages.json")
             media = InputMediaPhoto(media=document, caption=data)
             await bot.edit_message_media(media=media,
                                          chat_id=callback_query.message.chat.id,
@@ -128,7 +121,6 @@ async def call_us_handler(callback_query: types.CallbackQuery, state: FSMContext
         edit_data_keyboard = create_data_modification_keyboard()
         await bot.send_message(callback_query.from_user.id, text_mes,
                                reply_markup=edit_data_keyboard,
-                               # parse_mode=ParseMode.HTML
                                )
     else:
         # Если данные о пользователе не найдены, предложите пройти регистрацию
@@ -139,7 +131,6 @@ async def call_us_handler(callback_query: types.CallbackQuery, state: FSMContext
                         "Для возврата нажмите /start")
         await bot.send_message(callback_query.from_user.id, sign_up_text,
                                reply_markup=keyboards_sign_up,
-                               # parse_mode=ParseMode.HTML,
                                disable_web_page_preview=True)
 
 

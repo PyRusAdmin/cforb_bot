@@ -1,4 +1,3 @@
-import json
 from aiogram import types, F
 from aiogram.fsm.context import FSMContext
 from aiogram.types import FSInputFile, InputMediaPhoto
@@ -8,8 +7,7 @@ from keyboards.user_keyboards.user_keyboards import create_services_and_prices_k
     create_services_and_prices_main_menu_keyboard
 from system.dispatcher import bot, dp
 from system.dispatcher import router
-
-
+from system.working_with_files import load_bot_info
 
 
 @router.callback_query(F.data == "services_and_prices")
