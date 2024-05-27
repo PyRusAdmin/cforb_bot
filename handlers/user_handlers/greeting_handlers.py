@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from aiogram import types, F
+from aiogram.filters import Command
 from aiogram.filters import CommandStart
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
@@ -22,9 +23,11 @@ from keyboards.user_keyboards.user_keyboards import create_data_modification_key
 from keyboards.user_keyboards.user_keyboards import create_greeting_keyboard
 from keyboards.user_keyboards.user_keyboards import create_my_details_keyboard
 from keyboards.user_keyboards.user_keyboards import create_sign_up_keyboard
+from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, router
 from system.dispatcher import dp
 from system.working_with_files import load_bot_info
+from system.working_with_files import save_bot_info
 
 
 @dp.message(CommandStart())
@@ -58,6 +61,31 @@ async def command_start_handler(message: Message) -> None:
         await bot.send_message(message.from_user.id, sign_up_text,
                                reply_markup=my_details_key,
                                disable_web_page_preview=True)
+
+
+class Formedit_main_menu(StatesGroup):
+    text_edit_main_menu = State()
+
+
+# Обработчик команды /edit_main_menu (только для админа)
+@router.message(Command("edit_main_menu"))
+async def edit_main_menu(message: Message, state: FSMContext):
+    """Редактирование: Бланк заказа"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(Formedit_main_menu.text_edit_main_menu)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(Formedit_main_menu.text_edit_main_menu)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info, file_path='media/messages/main_menu_messages.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
 
 
 @router.callback_query(F.data == "main_menu")
@@ -331,3 +359,5 @@ def register_greeting_handler():
     """Регистрируем handlers для бота"""
     dp.message.register(send_start)  # Обработчик команды /start, он же пост приветствия 👋
     dp.message.register(command_start_handler)  # Обработчик команды /start, он же пост приветствия 👋
+
+    dp.message.register(edit_main_menu)  # редактирование меню бота

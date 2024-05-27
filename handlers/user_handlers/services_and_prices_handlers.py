@@ -2,19 +2,25 @@ import os
 import zipfile
 
 from aiogram import types, F
+from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import FSInputFile, InputMediaPhoto
+from aiogram.types import Message
 from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_services_and_prices_keyboard, \
     create_services_and_prices_main_menu_keyboard, get_price_lists_keyboard
+from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
 from system.working_with_files import load_bot_info
+from system.working_with_files import save_bot_info
 
 
 @router.callback_query(F.data == "services_and_prices")
 async def services_and_prices(callback_query: types.CallbackQuery, state: FSMContext):
+    """Услуги и цены"""
     try:
         await state.clear()  # Очищаем состояние
         data = load_bot_info(messages="media/messages/services_and_prices.json")
@@ -28,6 +34,34 @@ async def services_and_prices(callback_query: types.CallbackQuery, state: FSMCon
                                      )
     except Exception as error:
         logger.exception(error)
+
+
+class Formeedit_services_and_prices(StatesGroup):
+    text_edit_services_and_prices = State()
+
+
+# Обработчик команды /edit_services_and_prices (только для админа)
+@router.message(Command("edit_services_and_prices"))
+async def edit_services_and_prices(message: Message, state: FSMContext):
+    """Редактирование: Услуги и цены"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(Formeedit_services_and_prices.text_edit_services_and_prices)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(Formeedit_services_and_prices.text_edit_services_and_prices)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info, file_path='media/messages/services_and_prices.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
+
+
+""""_____________________________________________________________________________________"""
 
 
 def create_zip_archive(output_filename, source_dir):
@@ -56,6 +90,9 @@ async def get_price_lists(callback_query: types.CallbackQuery, state: FSMContext
                             caption=data)
 
 
+""""_____________________________________________________________________________________"""
+
+
 @router.callback_query(F.data == "cargo_delivery_prices")
 async def cargo_delivery_prices(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Прайсы на доставку Карго”"""
@@ -71,6 +108,34 @@ async def cargo_delivery_prices(callback_query: types.CallbackQuery, state: FSMC
         )
     except Exception as error:
         logger.exception(error)
+
+
+class Formedit_cargo_delivery_prices(StatesGroup):
+    text_edit_cargo_delivery_prices = State()
+
+
+# Обработчик команды /edit_cargo_delivery_prices (только для админа)
+@router.message(Command("edit_cargo_delivery_prices"))
+async def edit_cargo_delivery_prices(message: Message, state: FSMContext):
+    """Редактирование: Прайсы на доставку Карго"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(Formedit_cargo_delivery_prices.text_edit_cargo_delivery_prices)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(Formedit_cargo_delivery_prices.text_edit_cargo_delivery_prices)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info, file_path='media/messages/cargo_delivery_prices.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
+
+
+""""_____________________________________________________________________________________"""
 
 
 @router.callback_query(F.data == "white_cargo_delivery_with_gas_turbine_engine")
@@ -91,8 +156,40 @@ async def white_cargo_delivery_with_gas_turbine_engine(callback_query: types.Cal
         logger.exception(error)
 
 
+class Formedit_white_cargo_delivery_with_gas_turbine_engine(StatesGroup):
+    text_edit_white_cargo_delivery_with_gas_turbine_engine = State()
+
+
+# Обработчик команды /edit_white_cargo_delivery_with_gas_turbine_engine (только для админа)
+@router.message(Command("edit_white_cargo_delivery_with_gas_turbine_engine"))
+async def edit_white_cargo_delivery_with_gas_turbine_engine(message: Message, state: FSMContext):
+    """Редактирование: Белая доставка грузов с ГТД"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(
+            Formedit_white_cargo_delivery_with_gas_turbine_engine.text_edit_white_cargo_delivery_with_gas_turbine_engine)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(
+    Formedit_white_cargo_delivery_with_gas_turbine_engine.text_edit_white_cargo_delivery_with_gas_turbine_engine)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info,
+                  file_path='media/messages/white_cargo_delivery_with_gas_turbine_engine.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
+
+
+""""_____________________________________________________________________________________"""
+
+
 @router.callback_query(F.data == "goods_redemption_service")
 async def goods_redemption_service(callback_query: types.CallbackQuery, state: FSMContext):
+    """Услуга Выкупа товаров"""
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/goods_redemption_service.json")
     main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
@@ -102,6 +199,34 @@ async def goods_redemption_service(callback_query: types.CallbackQuery, state: F
         caption=data,
         reply_markup=main_menu_keyboard
     )
+
+
+class Formedit_goods_redemption_service(StatesGroup):
+    text_edit_goods_redemption_service = State()
+
+
+# Обработчик команды /edit_goods_redemption_service (только для админа)
+@router.message(Command("edit_goods_redemption_service"))
+async def edit_goods_redemption_service(message: Message, state: FSMContext):
+    """Редактирование: Услуга Выкупа товаров"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(Formedit_goods_redemption_service.text_edit_goods_redemption_service)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(Formedit_goods_redemption_service.text_edit_goods_redemption_service)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info, file_path='media/messages/goods_redemption_service.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
+
+
+""""_____________________________________________________________________________________"""
 
 
 @router.callback_query(F.data == "product_search_service")
@@ -121,6 +246,34 @@ async def product_search_service(callback_query: types.CallbackQuery, state: FSM
         logger.exception(error)
 
 
+class Formedit_product_search_service(StatesGroup):
+    text_edit_product_search_service = State()
+
+
+# Обработчик команды /edit_product_search_service (только для админа)
+@router.message(Command("edit_product_search_service"))
+async def edit_product_search_service(message: Message, state: FSMContext):
+    """Редактирование: Услуга Поиска товаров (производителей в Китае)"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(Formedit_product_search_service.text_edit_product_search_service)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(Formedit_product_search_service.text_edit_product_search_service)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info, file_path='media/messages/product_search_service.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
+
+
+""""_____________________________________________________________________________________"""
+
+
 @router.callback_query(F.data == "supplier_inspection_by_province")
 async def supplier_inspection_by_province(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Инспекция поставщиков по провинциям (выезд на производство)”"""
@@ -133,6 +286,35 @@ async def supplier_inspection_by_province(callback_query: types.CallbackQuery, s
         caption=data,
         reply_markup=main_menu_keyboard
     )
+
+
+class Formedit_supplier_inspection_by_province(StatesGroup):
+    text_edit_supplier_inspection_by_province = State()
+
+
+# Обработчик команды /edit_supplier_inspection_by_province (только для админа)
+@router.message(Command("edit_supplier_inspection_by_province"))
+async def edit_supplier_inspection_by_province(message: Message, state: FSMContext):
+    """Редактирование: Инспекция поставщиков по провинциям (выезд на производство)"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(Formedit_supplier_inspection_by_province.text_edit_supplier_inspection_by_province)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(Formedit_supplier_inspection_by_province.text_edit_supplier_inspection_by_province)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info,
+                  file_path='media/messages/supplier_inspection_by_province.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
+
+
+""""_____________________________________________________________________________________"""
 
 
 @router.callback_query(F.data == "wechat_registration_service")
@@ -149,6 +331,34 @@ async def wechat_registration_service(callback_query: types.CallbackQuery, state
     )
 
 
+class Formedit_wechat_registration_service(StatesGroup):
+    text_edit_wechat_registration_service = State()
+
+
+# Обработчик команды /edit_wechat_registration_service (только для админа)
+@router.message(Command("edit_wechat_registration_service"))
+async def edit_wechat_registration_service(message: Message, state: FSMContext):
+    """Редактирование: Услуга регистрации на WeChat"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(Formedit_wechat_registration_service.text_edit_wechat_registration_service)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(Formedit_wechat_registration_service.text_edit_wechat_registration_service)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info, file_path='media/messages/wechat_registration_service.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
+
+
+""""_____________________________________________________________________________________"""
+
+
 @router.callback_query(F.data == "purchase_a_supplier_database")
 async def purchase_a_supplier_database(callback_query: types.CallbackQuery, state: FSMContext):
     """Приобрести базу данных поставщиков"""
@@ -162,6 +372,33 @@ async def purchase_a_supplier_database(callback_query: types.CallbackQuery, stat
         reply_markup=main_menu_keyboard
     )
 
+
+class Formedit_purchase_a_supplier_database(StatesGroup):
+    text_edit_purchase_a_supplier_database = State()
+
+
+# Обработчик команды /edit_purchase_a_supplier_database (только для админа)
+@router.message(Command("edit_purchase_a_supplier_database"))
+async def edit_purchase_a_supplier_database(message: Message, state: FSMContext):
+    """Редактирование: Приобрести базу данных поставщиков"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(Formedit_purchase_a_supplier_database.text_edit_purchase_a_supplier_database)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(Formedit_purchase_a_supplier_database.text_edit_purchase_a_supplier_database)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info, file_path='media/messages/purchase_a_supplier_database.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
+
+
+""""_____________________________________________________________________________________"""
 
 
 @router.callback_query(F.data == "what_payments_await_me")
@@ -178,6 +415,34 @@ async def what_payments_await_me(callback_query: types.CallbackQuery, state: FSM
     )
 
 
+class Formedit_what_payments_await_me(StatesGroup):
+    text_edit_what_payments_await_me = State()
+
+
+# Обработчик команды /edit_what_payments_await_me (только для админа)
+@router.message(Command("edit_what_payments_await_me"))
+async def edit_what_payments_await_me(message: Message, state: FSMContext):
+    """Редактирование: Какие платежи меня ожидают?"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(Formedit_what_payments_await_me.text_edit_what_payments_await_me)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(Formedit_what_payments_await_me.text_edit_what_payments_await_me)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info, file_path='media/messages/what_payments_await_me.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
+
+
+""""_____________________________________________________________________________________"""
+
+
 @router.callback_query(F.data == "how_is_payment_made")
 async def how_is_payment_made(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Как совершается оплата?”"""
@@ -190,6 +455,31 @@ async def how_is_payment_made(callback_query: types.CallbackQuery, state: FSMCon
         caption=data,
         reply_markup=main_menu_keyboard
     )
+
+
+class Formedit_how_is_payment_made(StatesGroup):
+    text_edit_how_is_payment_made = State()
+
+
+# Обработчик команды /edit_how_is_payment_made (только для админа)
+@router.message(Command("edit_how_is_payment_made"))
+async def edit_how_is_payment_made(message: Message, state: FSMContext):
+    """Редактирование: Как совершается оплата?"""
+    if message.from_user.id == ADMIN_USER_ID:
+        await message.answer("Введите новый текст, используя разметку HTML.")
+        await state.set_state(Formedit_how_is_payment_made.text_edit_how_is_payment_made)
+    else:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+
+
+# Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
+@router.message(Formedit_how_is_payment_made.text_edit_how_is_payment_made)
+async def update_info(message: Message, state: FSMContext):
+    text = message.html_text
+    bot_info = text
+    save_bot_info(bot_info, file_path='media/messages/how_is_payment_made.json')  # Сохраняем информацию в JSON
+    await message.reply("Информация обновлена.")
+    await state.clear()
 
 
 def register_services_and_prices_handler():
@@ -205,3 +495,16 @@ def register_services_and_prices_handler():
     dp.message.register(what_payments_await_me)
     dp.message.register(how_is_payment_made)
     dp.message.register(get_price_lists)
+
+    dp.message.register(edit_how_is_payment_made) # Редактирование: Как совершается оплата?
+    dp.message.register(edit_what_payments_await_me) # Редактирование: Какие платежи меня ожидают?
+    dp.message.register(edit_purchase_a_supplier_database)  # Редактирование: Приобрести базу данных поставщиков
+    dp.message.register(edit_wechat_registration_service) # Редактирование: Услуга регистрации на WeChat
+    dp.message.register(edit_supplier_inspection_by_province)  # Редактирование: Инспекция поставщиков по провинциям (выезд на производство)
+    dp.message.register(edit_product_search_service)  # Редактирование: Услуга Поиска товаров (производителей в Китае)
+    dp.message.register(edit_goods_redemption_service)  # Редактирование: Услуга Выкупа товаров
+    dp.message.register(edit_white_cargo_delivery_with_gas_turbine_engine)  # Редактирование: Белая доставка грузов с ГТД
+    dp.message.register(edit_cargo_delivery_prices)  # Редактирование: Прайсы на доставку Карго
+    dp.message.register(edit_services_and_prices)  # Редактирование: Услуги и цены
+
+
