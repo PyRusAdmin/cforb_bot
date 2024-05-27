@@ -331,8 +331,6 @@ async def handle_confirmation(message: types.Message, state: FSMContext):
                 "Вы можете изменить свои данные в меню \"Мои данные\".\n\n"
                 "Для возврата нажмите /start")
     insert_user_data_to_database(user_id, name, surname, city, phone_number, registration_date)
-    # await state.finish()  # Завершаем текущее состояние машины состояний
-    # await state.reset_state()  # Сбрасываем все данные машины состояний, до значения по умолчанию
     await state.clear()
     # Создаем клавиатуру с помощью my_details() (предполагается, что она существует)
     await bot.send_message(message.from_user.id, text_mes)
