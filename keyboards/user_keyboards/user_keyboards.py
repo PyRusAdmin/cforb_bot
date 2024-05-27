@@ -93,13 +93,12 @@ def create_services_and_prices_keyboard():
     """
     rows = [
         [InlineKeyboardButton(text='Прайсы на доставку Карго', callback_data='cargo_delivery_prices')],
-        [InlineKeyboardButton(text='Белая доставка грузов с ГТД',
-                              callback_data='white_cargo_gte')],
+        [InlineKeyboardButton(text='Белая доставка грузов с ГТД', callback_data='white_cargo_gte')],
         [InlineKeyboardButton(text='Услуга Выкупа товаров', callback_data='goods_redemption_service')],
         [InlineKeyboardButton(text='Услуга Поиска товаров (производителей в Китае)',
                               callback_data='product_search_service')],
         [InlineKeyboardButton(text='Инспекция поставщиков по провинциям (выезд на производство)',
-                              callback_data='supplier_inspection_by_province')],
+                              callback_data='supplier_inspection')],
         [InlineKeyboardButton(text='Услуга регистрации WeChat', callback_data='wechat_registration_service')],
         [InlineKeyboardButton(text='Приобрести базу поставщиков', callback_data='purchase_a_supplier_database')],
         [InlineKeyboardButton(text='Какие платежи меня ожидают?', callback_data='what_payments_await_me')],

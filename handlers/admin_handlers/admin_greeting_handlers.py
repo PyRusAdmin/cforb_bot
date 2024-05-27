@@ -40,7 +40,7 @@ async def admin_send_start(message: types.Message, state: FSMContext):
                          "/edit_goods_redemption_service - редактирование: Услуга Выкупа товаров\n"
                          "/edit_product_search_service - редактирование: Услуга Поиска товаров (производителей в "
                          "Китае)\n\n"
-                         "/edit_supplier_inspection_by_province - редактирование: Инспекция поставщиков по провинциям "
+                         "/edit_supplier_inspection - редактирование: Инспекция поставщиков по провинциям "
                          "(выезд на производство)\n"
                          "/edit_wechat_registration_service - редактирование: Услуга регистрации в WeChat\n"
                          "/edit_purchase_a_supplier_database - редактирование: Приобрести базу данных поставщиков\n"
