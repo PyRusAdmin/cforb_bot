@@ -1,9 +1,10 @@
+import os
+
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
-from aiogram.types import FSInputFile
-from aiogram.types import InputMediaPhoto
+from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_packaging_keyboard, create_packaging_menu_keyboard
@@ -12,6 +13,22 @@ from system.dispatcher import bot, dp
 from system.dispatcher import router
 from system.working_with_files import load_bot_info
 from system.working_with_files import save_bot_info
+
+
+@router.message(Command("types_of_packaging_photo"))
+async def types_of_packaging_photo(message: Message, state: FSMContext):
+    await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
+
+
+@router.message(F.photo)
+async def replace_photo(message: types.Message):
+    # Получаем файл фотографии
+    photo = message.photo[-1]
+    file_info = await message.bot.get_file(photo.file_id)
+    new_photo_path = os.path.join("media/photos/", 'types_of_packaging.jpg')
+    # Загружаем файл на диск
+    await message.bot.download_file(file_info.file_path, new_photo_path)
+    await message.answer("Фото успешно заменено!")
 
 
 @router.callback_query(F.data == "types_of_packaging")
@@ -325,3 +342,5 @@ def register_types_of_packaging_handler():
     dp.message.register(edit_wooden_corners_bag_tape)  # Деревянные уголки + мешок + скотч
     dp.message.register(edit_pallet_crate)  # Паллет в обрешетке
     dp.message.register(edit_pallet_with_a_solid_wooden_box)  # Паллет в обрешетке
+    """Редактирование фото"""
+    dp.message.register(types_of_packaging_photo)  # Паллет в обрешетке

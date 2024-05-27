@@ -18,6 +18,22 @@ from system.working_with_files import load_bot_info
 from system.working_with_files import save_bot_info
 
 
+@router.message(Command("services_and_prices_photo"))
+async def services_and_prices_photo(message: Message, state: FSMContext):
+    await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
+
+
+@router.message(F.photo)
+async def replace_photo(message: types.Message):
+    # Получаем файл фотографии
+    photo = message.photo[-1]
+    file_info = await message.bot.get_file(photo.file_id)
+    new_photo_path = os.path.join("media/photos/", 'services_and_prices.jpg')
+    # Загружаем файл на диск
+    await message.bot.download_file(file_info.file_path, new_photo_path)
+    await message.answer("Фото успешно заменено!")
+
+
 @router.callback_query(F.data == "services_and_prices")
 async def services_and_prices(callback_query: types.CallbackQuery, state: FSMContext):
     """Услуги и цены"""
@@ -88,6 +104,60 @@ async def get_price_lists(callback_query: types.CallbackQuery, state: FSMContext
     await bot.send_document(chat_id=callback_query.message.chat.id, document=document,
                             reply_markup=main_menu_keyboard,
                             caption=data)
+    os.remove(price_zip)
+
+
+class PhotoStates(StatesGroup):
+    waiting_for_photo_1 = State()
+    waiting_for_photo_2 = State()
+    waiting_for_photo_3 = State()
+    waiting_for_photo_4 = State()
+
+
+@dp.message(Command("get_price_lists_photo_1"))
+async def get_price_lists_photo_1(message: types.Message, state: FSMContext):
+    await message.answer("Пожалуйста, отправьте первое фото для замены в формате png")
+    await state.set_state(PhotoStates.waiting_for_photo_1)
+
+
+@dp.message(PhotoStates.waiting_for_photo_1, F.photo)
+async def replace_photo_1(message: types.Message, state: FSMContext):
+    photo = message.photo[-1]
+    file_info = await bot.get_file(photo.file_id)
+    new_photo_path = os.path.join("media/photos/price", '1.png')
+    await bot.download_file(file_info.file_path, new_photo_path)
+    await message.answer("Первое фото успешно заменено! Пожалуйста, отправьте второе фото.")
+    await state.set_state(PhotoStates.waiting_for_photo_2)
+
+
+@dp.message(PhotoStates.waiting_for_photo_2, F.photo)
+async def replace_photo_2(message: types.Message, state: FSMContext):
+    photo = message.photo[-1]
+    file_info = await bot.get_file(photo.file_id)
+    new_photo_path = os.path.join("media/photos/price", '2.png')
+    await bot.download_file(file_info.file_path, new_photo_path)
+    await message.answer("Второе фото успешно заменено! Пожалуйста, отправьте третье фото.")
+    await state.set_state(PhotoStates.waiting_for_photo_3)
+
+
+@dp.message(PhotoStates.waiting_for_photo_3, F.photo)
+async def replace_photo_3(message: types.Message, state: FSMContext):
+    photo = message.photo[-1]
+    file_info = await bot.get_file(photo.file_id)
+    new_photo_path = os.path.join("media/photos/price", '3.png')
+    await bot.download_file(file_info.file_path, new_photo_path)
+    await message.answer("Третье фото успешно заменено! Пожалуйста, отправьте четвертое фото.")
+    await state.set_state(PhotoStates.waiting_for_photo_4)
+
+
+@dp.message(PhotoStates.waiting_for_photo_4, F.photo)
+async def replace_photo_4(message: types.Message, state: FSMContext):
+    photo = message.photo[-1]
+    file_info = await bot.get_file(photo.file_id)
+    new_photo_path = os.path.join("media/photos/price", '4.png')
+    await bot.download_file(file_info.file_path, new_photo_path)
+    await message.answer("Четвертое фото успешно заменено!")
+    await state.clear()
 
 
 """"_____________________________________________________________________________________"""
@@ -496,15 +566,19 @@ def register_services_and_prices_handler():
     dp.message.register(how_is_payment_made)
     dp.message.register(get_price_lists)
 
-    dp.message.register(edit_how_is_payment_made) # Редактирование: Как совершается оплата?
-    dp.message.register(edit_what_payments_await_me) # Редактирование: Какие платежи меня ожидают?
+    dp.message.register(edit_how_is_payment_made)  # Редактирование: Как совершается оплата?
+    dp.message.register(edit_what_payments_await_me)  # Редактирование: Какие платежи меня ожидают?
     dp.message.register(edit_purchase_a_supplier_database)  # Редактирование: Приобрести базу данных поставщиков
-    dp.message.register(edit_wechat_registration_service) # Редактирование: Услуга регистрации на WeChat
-    dp.message.register(edit_supplier_inspection_by_province)  # Редактирование: Инспекция поставщиков по провинциям (выезд на производство)
+    dp.message.register(edit_wechat_registration_service)  # Редактирование: Услуга регистрации на WeChat
+    dp.message.register(
+        edit_supplier_inspection_by_province)  # Редактирование: Инспекция поставщиков по провинциям (выезд на производство)
     dp.message.register(edit_product_search_service)  # Редактирование: Услуга Поиска товаров (производителей в Китае)
     dp.message.register(edit_goods_redemption_service)  # Редактирование: Услуга Выкупа товаров
-    dp.message.register(edit_white_cargo_delivery_with_gas_turbine_engine)  # Редактирование: Белая доставка грузов с ГТД
+    dp.message.register(
+        edit_white_cargo_delivery_with_gas_turbine_engine)  # Редактирование: Белая доставка грузов с ГТД
     dp.message.register(edit_cargo_delivery_prices)  # Редактирование: Прайсы на доставку Карго
     dp.message.register(edit_services_and_prices)  # Редактирование: Услуги и цены
 
-
+    """Редактирование фото"""
+    dp.message.register(services_and_prices_photo)
+    dp.message.register(get_price_lists_photo_1)

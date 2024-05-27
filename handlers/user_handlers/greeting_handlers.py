@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 from aiogram import types, F
@@ -24,10 +25,26 @@ from keyboards.user_keyboards.user_keyboards import create_greeting_keyboard
 from keyboards.user_keyboards.user_keyboards import create_my_details_keyboard
 from keyboards.user_keyboards.user_keyboards import create_sign_up_keyboard
 from system.dispatcher import ADMIN_USER_ID
-from system.dispatcher import bot, router
-from system.dispatcher import dp
+from system.dispatcher import bot, dp
+from system.dispatcher import router
 from system.working_with_files import load_bot_info
 from system.working_with_files import save_bot_info
+
+
+@router.message(Command("greeting_photo"))
+async def greeting_photo(message: Message, state: FSMContext):
+    await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
+
+
+@router.message(F.photo)
+async def replace_photo(message: types.Message):
+    # Получаем файл фотографии
+    photo = message.photo[-1]
+    file_info = await message.bot.get_file(photo.file_id)
+    new_photo_path = os.path.join("media/photos/", 'greeting.jpg')
+    # Загружаем файл на диск
+    await message.bot.download_file(file_info.file_path, new_photo_path)
+    await message.answer("Фото успешно заменено!")
 
 
 @dp.message(CommandStart())
@@ -361,3 +378,6 @@ def register_greeting_handler():
     dp.message.register(command_start_handler)  # Обработчик команды /start, он же пост приветствия 👋
 
     dp.message.register(edit_main_menu)  # редактирование меню бота
+
+    """Редактирование фото"""
+    dp.message.register(greeting_photo)  # редактирование меню бота

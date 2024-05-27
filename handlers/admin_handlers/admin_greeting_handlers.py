@@ -49,7 +49,7 @@ async def admin_send_start(message: types.Message, state: FSMContext):
                          "<b>Получение данных:</b>\n"
                          "/get_a_list_of_users_registered_in_the_bot - Получение списка зарегистрированных "
                          "пользователей\n"
-                         "/get_users_who_launched_the_bot - Получение данных пользователей, запускающих бота\n\n"
+                         "/get_users_who_launched_the_bot - Получение данных пользователей, запускающих бота\n"
                          "/edit_self_redemption - редактирование: 🛍 Самовыкуп\n"
                          "/edit_reviews - редактирование: 💌 Отзывы\n"
                          "/edit_partnership_conditions_for_intermediaries_button - редактирование: Партнерские "
@@ -61,11 +61,10 @@ async def admin_send_start(message: types.Message, state: FSMContext):
                          "/send_a_message_to_bot_users - Отправка текста через бота\n\n"
 
                          "<b>Замена изображения поста:</b>\n"
-                         # "/edit_photo - редактирование фото главного поста\n"
-                         # "/delivery_in_china_photo - ⭐️ Услуги и цены\n"
-                         # "/warranty_service_photo - Выкуп товаров\n"
-                         # "/product_search_photo - Подбор товара\n"
-                         # "/self_purchase_photo - 🛍 Самовыкуп\n\n"
+                         "/greeting_photo - Пост приветствие\n"
+                         "/get_price_lists_photo_1 - Замена цен. Изображений должно быть 4"
+                         "/services_and_prices_photo - Услуги и цены\n"
+                         "/types_of_packaging_photo - Виды упаковки\n\n"
                          "/start - начальное меню\n")
 
 
