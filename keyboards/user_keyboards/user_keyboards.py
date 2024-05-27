@@ -7,13 +7,11 @@ def create_packaging_menu_keyboard():
     Кнопка "Назад к упаковкам" возвращает к предыдущему меню ('types_of_packaging').
     Кнопка "Главное меню" возвращает к главному меню ('main_menu').
     """
-    packaging_menu_keyboard = InlineKeyboardMarkup()
-    back_button = InlineKeyboardButton(text='Назад к упаковкам',
-                                       callback_data='types_of_packaging')
-    main_menu_button = InlineKeyboardButton(text='↩️ Главное меню',
-                                            callback_data='main_menu')
-    packaging_menu_keyboard.add(back_button)
-    packaging_menu_keyboard.add(main_menu_button)
+    rows = [
+        [InlineKeyboardButton(text='Назад к упаковкам', callback_data='types_of_packaging')],
+        [InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')],
+    ]
+    packaging_menu_keyboard = InlineKeyboardMarkup(inline_keyboard=rows)
     return packaging_menu_keyboard
 
 
@@ -28,28 +26,18 @@ def create_packaging_keyboard():
     Кнопка "Паллет с глухим деревянным коробом" ('pallet_with_hollow_box')
     Кнопка "Главное меню" возвращает к главному меню ('main_menu').
     """
-    packaging_keyboard = InlineKeyboardMarkup()
-    button_bag_tape = InlineKeyboardButton(text='Мешок + скотч',
-                                           callback_data='bag_tape')
-    button_box_bag_tape = InlineKeyboardButton(text='Коробка + мешок + скотч',
-                                               callback_data='box_bag_tape')
-    button_wooden_sheathing_bag_tape = InlineKeyboardButton(text='Деревянная обрешетка + мешок + скотч',
-                                                            callback_data='wooden_sheathing_bag_tape')
-    button_wooden_corners_bag_tape = InlineKeyboardButton(text='Деревянные уголки + мешок + скотч',
-                                                          callback_data='wooden_corners_bag_tape')
-    button_pallet_in_crate = InlineKeyboardButton(text='Паллет в обрешетке',
-                                                  callback_data='pallet_in_crate')
-    button_pallet_with_solid_wooden_box = InlineKeyboardButton(text='Паллет с глухим деревянным коробом',
-                                                               callback_data='pallet_with_a_solid_wooden_box')
-    button_main_menu = InlineKeyboardButton(text='↩️ Главное меню',
-                                            callback_data='main_menu')
-    packaging_keyboard.add(button_bag_tape)
-    packaging_keyboard.add(button_box_bag_tape)
-    packaging_keyboard.add(button_wooden_sheathing_bag_tape)
-    packaging_keyboard.add(button_wooden_corners_bag_tape)
-    packaging_keyboard.add(button_pallet_in_crate)
-    packaging_keyboard.add(button_pallet_with_solid_wooden_box)
-    packaging_keyboard.add(button_main_menu)
+    rows = [
+        # packaging_keyboard = InlineKeyboardMarkup()
+        [InlineKeyboardButton(text='Мешок + скотч', callback_data='bag_tape')],
+        [InlineKeyboardButton(text='Коробка + мешок + скотч', callback_data='box_bag_tape')],
+        [InlineKeyboardButton(text='Деревянная обрешетка + мешок + скотч', callback_data='wooden_sheathing_bag_tape')],
+        [InlineKeyboardButton(text='Деревянные уголки + мешок + скотч', callback_data='wooden_corners_bag_tape')],
+        [InlineKeyboardButton(text='Паллет в обрешетке', callback_data='pallet_in_crate')],
+        [InlineKeyboardButton(text='Паллет с глухим деревянным коробом',
+                              callback_data='pallet_with_a_solid_wooden_box')],
+        [InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')],
+    ]
+    packaging_keyboard = InlineKeyboardMarkup(inline_keyboard=rows)
     return packaging_keyboard
 
 
