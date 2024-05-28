@@ -34,11 +34,11 @@ class Formedit_self_redemption(StatesGroup):
 @router.message(Command("edit_self_redemption"))
 async def edit_self_redemption(message: Message, state: FSMContext):
     """Редактирование: 🛍 Самовыкуп"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_self_redemption.text_edit_self_redemption)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_self_redemption.text_edit_self_redemption)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)

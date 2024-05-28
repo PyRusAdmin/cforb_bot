@@ -18,6 +18,9 @@ from system.working_with_files import save_bot_info
 
 @router.message(Command("white_cargo_gte_photo"))
 async def cmd_replace_white_cargo_photo(message: Message, state: FSMContext):
+    if message.from_user.id not in ADMIN_USER_ID:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+        return
     await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
 
 
@@ -58,12 +61,11 @@ class EditWhiteCargoDeliveryState(StatesGroup):
 @router.message(Command("edit_white_cargo_gte"))
 async def cmd_edit_white_cargo_text(message: Message, state: FSMContext):
     """Редактирование: Белая доставка грузов с ГТД"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(
-            EditWhiteCargoDeliveryState.edit_text)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(EditWhiteCargoDeliveryState.edit_text)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)

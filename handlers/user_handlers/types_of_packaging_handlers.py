@@ -17,6 +17,9 @@ from system.working_with_files import save_bot_info
 
 @router.message(Command("types_of_packaging_photo"))
 async def types_of_packaging_photo(message: Message, state: FSMContext):
+    if message.from_user.id not in ADMIN_USER_ID:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+        return
     await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
 
 
@@ -54,11 +57,11 @@ class Formeedit_types_of_packaging(StatesGroup):
 @router.message(Command("edit_types_of_packaging"))
 async def edit_useful_information(message: Message, state: FSMContext):
     """Редактирование: Виды упаковки"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formeedit_types_of_packaging.text_edit_types_of_packaging)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formeedit_types_of_packaging.text_edit_types_of_packaging)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -96,11 +99,11 @@ class Formedit_bag_tape(StatesGroup):
 @router.message(Command("edit_bag_tape"))
 async def edit_bag_tape(message: Message, state: FSMContext):
     """Редактирование: Мешок + скотч"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_bag_tape.text_edit_bag_tape)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_bag_tape.text_edit_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -138,11 +141,11 @@ class Formeedit_box_bag_tape(StatesGroup):
 @router.message(Command("edit_box_bag_tape"))
 async def edit_box_bag_tape(message: Message, state: FSMContext):
     """Редактирование: Коробка + мешок + скотч"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formeedit_box_bag_tape.text_edit_box_bag_tape)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formeedit_box_bag_tape.text_edit_box_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -181,11 +184,11 @@ class Formedit_wooden_sheathing_bag_tape(StatesGroup):
 @router.message(Command("edit_wooden_sheathing_bag_tape"))
 async def edit_wooden_sheathing_bag_tape(message: Message, state: FSMContext):
     """Редактирование: Деревянная обрешетка + мешок + скотч"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_wooden_sheathing_bag_tape.text_edit_wooden_sheathing_bag_tape)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_wooden_sheathing_bag_tape.text_edit_wooden_sheathing_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -266,11 +269,11 @@ class Formedit_pallet_crate(StatesGroup):
 @router.message(Command("edit_pallet_crate"))
 async def edit_pallet_crate(message: Message, state: FSMContext):
     """Редактирование: Паллет в обрешетке"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_pallet_crate.text_edit_pallet_crate)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_pallet_crate.text_edit_pallet_crate)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -308,11 +311,11 @@ class Formedit_pallet_with_a_solid_wooden_box(StatesGroup):
 @router.message(Command("edit_pallet_with_a_solid_wooden_box"))
 async def edit_pallet_with_a_solid_wooden_box(message: Message, state: FSMContext):
     """Редактирование: Паллет с глухим деревянным коробом"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_pallet_with_a_solid_wooden_box.text_edit_pallet_with_a_solid_wooden_box)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_pallet_with_a_solid_wooden_box.text_edit_pallet_with_a_solid_wooden_box)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)

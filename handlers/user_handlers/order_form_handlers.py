@@ -38,11 +38,11 @@ class Formorder_form(StatesGroup):
 @router.message(Command("edit_order_form"))
 async def edit_order_form(message: Message, state: FSMContext):
     """Редактирование: Бланк заказа"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formorder_form.text_order_form)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formorder_form.text_order_form)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)

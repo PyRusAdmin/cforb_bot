@@ -35,11 +35,11 @@ class Formedit_reviews(StatesGroup):
 @router.message(Command("edit_reviews"))
 async def edit_reviews(message: Message, state: FSMContext):
     """Редактирование: 💌 Отзывы"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_reviews.text_edit_reviews)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_reviews.text_edit_reviews)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)

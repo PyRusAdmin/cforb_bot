@@ -33,11 +33,11 @@ class Formedit_partnership_conditions_for_intermediaries_button(StatesGroup):
 @router.message(Command("edit_partnership_conditions_for_intermediaries_button"))
 async def edit_partnership_conditions_for_intermediaries_button(message: Message, state: FSMContext):
     """Редактирование: Партнерские условия для посредников"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_partnership_conditions_for_intermediaries_button.text_edit_partnership_conditions_for_intermediaries_button)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_partnership_conditions_for_intermediaries_button.text_edit_partnership_conditions_for_intermediaries_button)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)

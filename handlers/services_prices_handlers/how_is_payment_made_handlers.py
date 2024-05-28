@@ -34,11 +34,11 @@ class EditPaymentInfoStates(StatesGroup):
 @router.message(Command("edit_how_is_payment_made"))
 async def prompt_for_new_payment_info(message: Message, state: FSMContext):
     """Редактирование: Как совершается оплата?"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(EditPaymentInfoStates.edit_payment_text)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(EditPaymentInfoStates.edit_payment_text)
 
 
 @router.message(EditPaymentInfoStates.edit_payment_text)

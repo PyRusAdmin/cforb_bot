@@ -33,6 +33,9 @@ from system.working_with_files import save_bot_info
 
 @router.message(Command("greeting_photo"))
 async def greeting_photo(message: Message, state: FSMContext):
+    if message.from_user.id not in ADMIN_USER_ID:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+        return
     await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
 
 
@@ -88,11 +91,11 @@ class Formedit_main_menu(StatesGroup):
 @router.message(Command("edit_main_menu"))
 async def edit_main_menu(message: Message, state: FSMContext):
     """Редактирование: Бланк заказа"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_main_menu.text_edit_main_menu)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_main_menu.text_edit_main_menu)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)

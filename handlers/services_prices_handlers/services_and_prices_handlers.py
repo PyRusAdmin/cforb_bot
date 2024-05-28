@@ -20,6 +20,9 @@ from system.working_with_files import save_bot_info
 
 @router.message(Command("services_and_prices_photo"))
 async def services_and_prices_photo(message: Message, state: FSMContext):
+    if message.from_user.id not in ADMIN_USER_ID:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+        return
     await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
 
 
@@ -60,11 +63,11 @@ class Formeedit_services_and_prices(StatesGroup):
 @router.message(Command("edit_services_and_prices"))
 async def edit_services_and_prices(message: Message, state: FSMContext):
     """Редактирование: Услуги и цены"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formeedit_services_and_prices.text_edit_services_and_prices)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formeedit_services_and_prices.text_edit_services_and_prices)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -116,7 +119,10 @@ class PhotoStates(StatesGroup):
 
 @dp.message(Command("get_price_lists_photo_1"))
 async def get_price_lists_photo_1(message: types.Message, state: FSMContext):
-    await message.answer("Пожалуйста, отправьте первое фото для замены в формате png")
+    if message.from_user.id not in ADMIN_USER_ID:
+        await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
     await state.set_state(PhotoStates.waiting_for_photo_1)
 
 
@@ -188,11 +194,11 @@ class Formedit_cargo_delivery_prices(StatesGroup):
 @router.message(Command("edit_cargo_delivery_prices"))
 async def edit_cargo_delivery_prices(message: Message, state: FSMContext):
     """Редактирование: Прайсы на доставку Карго"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_cargo_delivery_prices.text_edit_cargo_delivery_prices)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_cargo_delivery_prices.text_edit_cargo_delivery_prices)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -230,11 +236,11 @@ class Formedit_goods_redemption_service(StatesGroup):
 @router.message(Command("edit_goods_redemption_service"))
 async def edit_goods_redemption_service(message: Message, state: FSMContext):
     """Редактирование: Услуга Выкупа товаров"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_goods_redemption_service.text_edit_goods_redemption_service)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_goods_redemption_service.text_edit_goods_redemption_service)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -275,11 +281,11 @@ class Formedit_product_search_service(StatesGroup):
 @router.message(Command("edit_product_search_service"))
 async def edit_product_search_service(message: Message, state: FSMContext):
     """Редактирование: Услуга Поиска товаров (производителей в Китае)"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_product_search_service.text_edit_product_search_service)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_product_search_service.text_edit_product_search_service)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -317,11 +323,11 @@ class Formedit_wechat_registration_service(StatesGroup):
 @router.message(Command("edit_wechat_registration_service"))
 async def edit_wechat_registration_service(message: Message, state: FSMContext):
     """Редактирование: Услуга регистрации на WeChat"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_wechat_registration_service.text_edit_wechat_registration_service)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_wechat_registration_service.text_edit_wechat_registration_service)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -359,11 +365,11 @@ class Formedit_purchase_a_supplier_database(StatesGroup):
 @router.message(Command("edit_purchase_a_supplier_database"))
 async def edit_purchase_a_supplier_database(message: Message, state: FSMContext):
     """Редактирование: Приобрести базу данных поставщиков"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_purchase_a_supplier_database.text_edit_purchase_a_supplier_database)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_purchase_a_supplier_database.text_edit_purchase_a_supplier_database)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
@@ -401,11 +407,11 @@ class Formedit_what_payments_await_me(StatesGroup):
 @router.message(Command("edit_what_payments_await_me"))
 async def edit_what_payments_await_me(message: Message, state: FSMContext):
     """Редактирование: Какие платежи меня ожидают?"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_what_payments_await_me.text_edit_what_payments_await_me)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_what_payments_await_me.text_edit_what_payments_await_me)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
