@@ -25,6 +25,7 @@ async def partnership_conditions_for_intermediaries(callback_query: types.Callba
         reply_markup=main_menu_keyboard
     )
 
+
 class Formedit_partnership_conditions_for_intermediaries_button(StatesGroup):
     text_edit_partnership_conditions_for_intermediaries_button = State()
 
@@ -37,17 +38,21 @@ async def edit_partnership_conditions_for_intermediaries_button(message: Message
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_partnership_conditions_for_intermediaries_button.text_edit_partnership_conditions_for_intermediaries_button)
+    await state.set_state(
+        Formedit_partnership_conditions_for_intermediaries_button.text_edit_partnership_conditions_for_intermediaries_button)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_partnership_conditions_for_intermediaries_button.text_edit_partnership_conditions_for_intermediaries_button)
+@router.message(
+    Formedit_partnership_conditions_for_intermediaries_button.text_edit_partnership_conditions_for_intermediaries_button)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/partnership_conditions_for_intermediaries_button.json')  # Сохраняем информацию в JSON
+    save_bot_info(bot_info,
+                  file_path='media/messages/partnership_conditions_for_intermediaries_button.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
+
 
 def register_partnership_conditions_for_intermediaries_handler():
     """Регистрируем handlers для бота"""

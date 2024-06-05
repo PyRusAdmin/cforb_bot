@@ -101,7 +101,7 @@ async def get_price_lists(callback_query: types.CallbackQuery, state: FSMContext
 
     price_zip = create_zip_archive('price.zip', 'media/photos/price')
 
-    data = "Связаться с менеджерами: @cargo_cfbM."
+    data = "Связаться с менеджерами: @cargo_cfb"
     document = FSInputFile(price_zip)
 
     await bot.send_document(chat_id=callback_query.message.chat.id, document=document,

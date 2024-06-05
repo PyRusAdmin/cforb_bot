@@ -227,11 +227,11 @@ class Formedit_wooden_corners_bag_tape(StatesGroup):
 @router.message(Command("edit_wooden_corners_bag_tape"))
 async def edit_wooden_corners_bag_tape(message: Message, state: FSMContext):
     """Редактирование: Деревянные уголки + мешок + скотч"""
-    if message.from_user.id == ADMIN_USER_ID:
-        await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_wooden_corners_bag_tape.text_edit_wooden_corners_bag_tape)
-    else:
+    if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
+        return
+    await message.answer("Введите новый текст, используя разметку HTML.")
+    await state.set_state(Formedit_wooden_corners_bag_tape.text_edit_wooden_corners_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)

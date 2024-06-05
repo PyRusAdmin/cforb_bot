@@ -31,8 +31,8 @@ async def main() -> None:
 
     register_services_and_prices_handler()  # Услуги и цены
     register_how_is_payment_made()  # Как совершается оплата?
-    register_handle_white_cargo_callback() # Белая доставка грузов с ГТД
-    register_handle_supplier_inspection() # Информация о посредниках
+    register_handle_white_cargo_callback()  # Белая доставка грузов с ГТД
+    register_handle_supplier_inspection()  # Информация о посредниках
 
     register_order_form_handler()  # 🗒 Бланк заказа
     register_types_of_packaging_handler()  # 📦 Виды упаковки
