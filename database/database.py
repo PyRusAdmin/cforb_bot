@@ -1,6 +1,16 @@
 import sqlite3
 
 
+def reading_from_database():
+    # Подключение к базе данных SQLite
+    conn = sqlite3.connect('your_database.db')
+    cursor = conn.cursor()
+    # Получение данных из базы данных
+    cursor.execute("SELECT * FROM users")
+    orders = cursor.fetchall()
+    return orders
+
+
 def check_user_exists_in_db(user_id):
     # Подключитесь к вашей базе данных
     conn = sqlite3.connect("your_database.db")  # Замените "your_database.db" на имя вашей базы данных

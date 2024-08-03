@@ -11,6 +11,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import FSInputFile
 from loguru import logger
 
+from database.database import reading_from_database
 from system.dispatcher import bot, ADMIN_USER_ID
 from system.dispatcher import dp
 from system.dispatcher import router
@@ -52,13 +53,13 @@ async def admin_send_start(message: types.Message, state: FSMContext):
                          "условия для посредников"
                          "✔️ /edit_main_menu - редактирование: текст меню бота\n"
                          "✔️ /edit_white_cargo_gte - редактирование: Белая доставка грузов с ГТД\n\n"
-                         
-                         
+
+
                          "<b>Получение данных:</b>\n"
                          "✔️ /get_a_list_of_users_registered_in_the_bot - Получение списка зарегистрированных "
                          "пользователей\n"
                          "✔️ /get_users_who_launched_the_bot - Получение данных пользователей, запускающих бота\n\n"
-                         
+
                          "<b>Отправка сообщений:</b>\n"
                          "✔️ /send_an_image_to_bot_users - Отправка изображения через бота + текст\n"
                          "✔️ /send_a_message_to_bot_users - Отправка текста через бота\n\n"
@@ -69,7 +70,7 @@ async def admin_send_start(message: types.Message, state: FSMContext):
                          "✔️ /services_and_prices_photo - Услуги и цены\n"
                          "✔️ /white_cargo_gte_photo - Белая доставка грузов с ГТД "
                          "✔️ /types_of_packaging_photo - Виды упаковки\n\n"
-                         
+
                          "/start - начальное меню\n")
 
 
@@ -104,12 +105,7 @@ async def export_data(message: types.Message, state: FSMContext):
         if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
             return
-        # Подключение к базе данных SQLite
-        conn = sqlite3.connect('your_database.db')
-        cursor = conn.cursor()
-        # Получение данных из базы данных
-        cursor.execute("SELECT * FROM users")
-        orders = cursor.fetchall()
+        orders = reading_from_database()
         # Создание файла Excel
         workbook = create_excel_file(orders)
         filename = 'Зарегистрированные пользователи в боте.xlsx'
@@ -151,14 +147,8 @@ async def get_users_who_launched_the_bot(message: types.Message, state: FSMConte
         if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
             return
-        # Подключение к базе данных SQLite
-        conn = sqlite3.connect('your_database.db')
-        cursor = conn.cursor()
-        # Получение данных из базы данных
-        cursor.execute("SELECT * FROM users_start")
-        orders = cursor.fetchall()
-        # Создание файла Excel
-        workbook = create_excel_file_start(orders)
+        orders = reading_from_database()
+        workbook = create_excel_file_start(orders)  # Создание файла Excel
         filename = 'Данные пользователей запустивших бота.xlsx'
         workbook.save(filename)  # Сохранение файла
         file = FSInputFile(filename)
