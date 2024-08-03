@@ -64,7 +64,7 @@ async def admin_send_start(message: types.Message, state: FSMContext):
 
                          "<b>Замена изображения поста:</b>\n"
                          "✔️ /greeting_photo - Пост приветствие\n"
-                         "✔️ /get_price_lists_photo_1 - Замена цен. Изображений должно быть 4"
+                         "✔️ /get_price_lists_file - Замена цен. Изображений должно быть 4"
                          "✔️ /services_and_prices_photo - Услуги и цены\n"
                          "✔️ /white_cargo_gte_photo - Белая доставка грузов с ГТД "
                          "✔️ /types_of_packaging_photo - Виды упаковки\n\n"

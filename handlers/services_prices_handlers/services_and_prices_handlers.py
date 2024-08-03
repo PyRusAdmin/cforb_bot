@@ -1,5 +1,4 @@
 import os
-import zipfile
 
 from aiogram import types, F
 from aiogram.filters import Command
@@ -83,88 +82,31 @@ async def update_info(message: Message, state: FSMContext):
 """"_____________________________________________________________________________________"""
 
 
-def create_zip_archive(output_filename, source_dir):
-    with zipfile.ZipFile(output_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
-        for root, dirs, files in os.walk(source_dir):
-            for file in files:
-                file_path = os.path.join(root, file)
-                zipf.write(file_path, os.path.relpath(file_path, source_dir))
-    return output_filename
+class FileStates(StatesGroup):
+    waiting_for_file = State()
 
 
-@router.callback_query(F.data == "get_price_lists")
-async def get_price_lists(callback_query: types.CallbackQuery, state: FSMContext):
-    """📌 Кнопка “Прайсы на доставку Карго”"""
-    await state.clear()  # Очищаем состояние
-
-    main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
-
-    price_zip = create_zip_archive('price.zip', 'media/photos/price')
-
-    data = "Связаться с менеджерами: @cargo_cfb"
-    document = FSInputFile(price_zip)
-
-    await bot.send_document(chat_id=callback_query.message.chat.id, document=document,
-                            reply_markup=main_menu_keyboard,
-                            caption=data, parse_mode="HTML")
-    os.remove(price_zip)
-
-
-class PhotoStates(StatesGroup):
-    waiting_for_photo_1 = State()
-    waiting_for_photo_2 = State()
-    waiting_for_photo_3 = State()
-    waiting_for_photo_4 = State()
-
-
-@dp.message(Command("get_price_lists_photo_1"))
+@dp.message(Command("get_price_lists_file"))
 async def get_price_lists_photo_1(message: types.Message, state: FSMContext):
     if message.from_user.id not in ADMIN_USER_ID:
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
-    await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
-    await state.set_state(PhotoStates.waiting_for_photo_1)
+    await message.answer("Пожалуйста, отправьте новый файл 'Прейскурант CFORB.xlsx'.")
+    await state.set_state(FileStates.waiting_for_file)
 
 
-@dp.message(PhotoStates.waiting_for_photo_1, F.photo)
+@dp.message(FileStates.waiting_for_file, F.document)
 async def replace_photo_1(message: types.Message, state: FSMContext):
-    photo = message.photo[-1]
-    file_info = await bot.get_file(photo.file_id)
-    new_photo_path = os.path.join("media/photos/price", '1.png')
-    await bot.download_file(file_info.file_path, new_photo_path)
-    await message.answer("Первое фото успешно заменено! Пожалуйста, отправьте второе фото.")
-    await state.set_state(PhotoStates.waiting_for_photo_2)
+    document = message.document
 
-
-@dp.message(PhotoStates.waiting_for_photo_2, F.photo)
-async def replace_photo_2(message: types.Message, state: FSMContext):
-    photo = message.photo[-1]
-    file_info = await bot.get_file(photo.file_id)
-    new_photo_path = os.path.join("media/photos/price", '2.png')
-    await bot.download_file(file_info.file_path, new_photo_path)
-    await message.answer("Второе фото успешно заменено! Пожалуйста, отправьте третье фото.")
-    await state.set_state(PhotoStates.waiting_for_photo_3)
-
-
-@dp.message(PhotoStates.waiting_for_photo_3, F.photo)
-async def replace_photo_3(message: types.Message, state: FSMContext):
-    photo = message.photo[-1]
-    file_info = await bot.get_file(photo.file_id)
-    new_photo_path = os.path.join("media/photos/price", '3.png')
-    await bot.download_file(file_info.file_path, new_photo_path)
-    await message.answer("Третье фото успешно заменено! Пожалуйста, отправьте четвертое фото.")
-    await state.set_state(PhotoStates.waiting_for_photo_4)
-
-
-@dp.message(PhotoStates.waiting_for_photo_4, F.photo)
-async def replace_photo_4(message: types.Message, state: FSMContext):
-    photo = message.photo[-1]
-    file_info = await bot.get_file(photo.file_id)
-    new_photo_path = os.path.join("media/photos/price", '4.png')
-    await bot.download_file(file_info.file_path, new_photo_path)
-    await message.answer("Четвертое фото успешно заменено!")
-    await state.clear()
-
+    if document.file_name.endswith('.xlsx'):
+        file_info = await bot.get_file(document.file_id)
+        new_file_path = os.path.join("media/document", 'Прейскурант CFORB.xlsx')
+        await bot.download_file(file_info.file_path, new_file_path)
+        await message.answer("Файл 'Прейскурант CFORB.xlsx' успешно заменен!")
+        await state.clear()
+    else:
+        await message.answer("Пожалуйста, отправьте файл в формате .xlsx.")
 
 """"_____________________________________________________________________________________"""
 
@@ -175,13 +117,16 @@ async def cargo_delivery_prices(callback_query: types.CallbackQuery, state: FSMC
     try:
         await state.clear()  # Очищаем состояние
         data = load_bot_info(messages="media/messages/cargo_delivery_prices.json")
+
+        document = FSInputFile('media/document/Прейскурант CFORB.xlsx')
+
         main_menu_keyboard = get_price_lists_keyboard()
-        await bot.edit_message_caption(
-            chat_id=callback_query.message.chat.id,
-            message_id=callback_query.message.message_id,
-            caption=data,
-            reply_markup=main_menu_keyboard
-        )
+
+        await bot.send_document(chat_id=callback_query.message.chat.id, document=document,
+                                reply_markup=main_menu_keyboard,
+                                caption=data,
+                                parse_mode="HTML")
+
     except Exception as error:
         logger.exception(error)
 
@@ -438,7 +383,6 @@ def register_services_and_prices_handler():
     dp.message.register(wechat_registration_service)
     dp.message.register(purchase_a_supplier_database)
     dp.message.register(what_payments_await_me)
-    dp.message.register(get_price_lists)
 
     dp.message.register(edit_what_payments_await_me)  # Редактирование: Какие платежи меня ожидают?
     dp.message.register(edit_purchase_a_supplier_database)  # Редактирование: Приобрести базу данных поставщиков
