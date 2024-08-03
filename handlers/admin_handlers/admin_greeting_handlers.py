@@ -62,14 +62,14 @@ async def admin_send_start(message: types.Message, state: FSMContext):
                          "✔️ /send_an_image_to_bot_users - Отправка изображения через бота + текст\n"
                          "✔️ /send_a_message_to_bot_users - Отправка текста через бота\n\n"
 
-                         "<b>Замена изображения поста:</b>\n"
+                         "<b>Замена изображения постов и файлов:</b>\n"
                          "✔️ /greeting_photo - Пост приветствие\n"
-                         "✔️ /get_price_lists_file - Замена цен. Изображений должно быть 4"
+                         "✔️ /get_price_lists_file - Замена Прейскуранта CFORB.xlsx"
                          "✔️ /services_and_prices_photo - Услуги и цены\n"
                          "✔️ /white_cargo_gte_photo - Белая доставка грузов с ГТД "
                          "✔️ /types_of_packaging_photo - Виды упаковки\n\n"
 
-                         "/start - начальное меню\n")
+                         "/start - начальное меню\n", parse_mode="HTML")
 
 
 # Функция для создания файла Excel с данными заказов
