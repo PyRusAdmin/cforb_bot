@@ -25,7 +25,8 @@ async def order_form(callback_query: types.CallbackQuery, state: FSMContext):
 
         await bot.send_document(chat_id=callback_query.message.chat.id, document=document,
                                 reply_markup=main_menu_keyboard,
-                                caption=data)
+                                caption=data,
+                                parse_mode="HTML")
     except Exception as error:
         logger.exception(error)
 

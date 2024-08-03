@@ -41,11 +41,11 @@ async def types_of_packaging(callback_query: types.CallbackQuery, state: FSMCont
     data = load_bot_info(messages="media/messages/types_of_packaging.json")
     document = FSInputFile('media/photos/types_of_packaging.jpg')
     types_of_packaging_key = create_packaging_keyboard()
-    media = InputMediaPhoto(media=document, caption=data)
+    media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
     await bot.edit_message_media(media=media,
                                  chat_id=callback_query.message.chat.id,
                                  message_id=callback_query.message.message_id,
-                                 reply_markup=types_of_packaging_key
+                                 reply_markup=types_of_packaging_key,
                                  )
 
 
@@ -87,7 +87,8 @@ async def bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=types_of_packaging_key
+        reply_markup=types_of_packaging_key,
+        parse_mode="HTML"
     )
 
 
@@ -129,7 +130,8 @@ async def box_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=types_of_packaging_key
+        reply_markup=types_of_packaging_key,
+        parse_mode="HTML"
     )
 
 
@@ -168,11 +170,11 @@ async def wooden_sheathing_bag_tape(callback_query: types.CallbackQuery, state: 
     types_of_packaging_key = create_packaging_menu_keyboard()
     document = FSInputFile('media/photos/types_of_packaging.jpg')
     data = load_bot_info(messages="media/messages/wooden_sheathing_bag_tape.json")
-    media = InputMediaPhoto(media=document, caption=data)
+    media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
     await bot.edit_message_media(media=media,
                                  chat_id=callback_query.message.chat.id,
                                  message_id=callback_query.message.message_id,
-                                 reply_markup=types_of_packaging_key
+                                 reply_markup=types_of_packaging_key,
                                  )
 
 
@@ -215,7 +217,8 @@ async def wooden_corners_bag_tape(callback_query: types.CallbackQuery, state: FS
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=types_of_packaging_key
+        reply_markup=types_of_packaging_key,
+        parse_mode="HTML"
     )
 
 
@@ -257,7 +260,8 @@ async def pallet_in_crate(callback_query: types.CallbackQuery, state: FSMContext
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=types_of_packaging_key
+        reply_markup=types_of_packaging_key,
+        parse_mode="HTML"
     )
 
 
@@ -299,7 +303,8 @@ async def pallet_with_a_solid_wooden_box(callback_query: types.CallbackQuery, st
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=types_of_packaging_key
+        reply_markup=types_of_packaging_key,
+        parse_mode="HTML"
     )
 
 

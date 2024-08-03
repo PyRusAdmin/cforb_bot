@@ -45,11 +45,11 @@ async def services_and_prices(callback_query: types.CallbackQuery, state: FSMCon
         data = load_bot_info(messages="media/messages/services_prices_messages/services_and_prices.json")
         services_and_prices_keyboard = create_services_and_prices_keyboard()  # Клавиатуры поста приветствия 👋
         document = FSInputFile('media/photos/services_and_prices.jpg')
-        media = InputMediaPhoto(media=document, caption=data)
+        media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
         await bot.edit_message_media(media=media,
                                      chat_id=callback_query.message.chat.id,
                                      message_id=callback_query.message.message_id,
-                                     reply_markup=services_and_prices_keyboard
+                                     reply_markup=services_and_prices_keyboard,
                                      )
     except Exception as error:
         logger.exception(error)
@@ -106,7 +106,7 @@ async def get_price_lists(callback_query: types.CallbackQuery, state: FSMContext
 
     await bot.send_document(chat_id=callback_query.message.chat.id, document=document,
                             reply_markup=main_menu_keyboard,
-                            caption=data)
+                            caption=data, parse_mode="HTML")
     os.remove(price_zip)
 
 
@@ -224,7 +224,8 @@ async def goods_redemption_service(callback_query: types.CallbackQuery, state: F
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard
+        reply_markup=main_menu_keyboard,
+        parse_mode="HTML"
     )
 
 
@@ -267,7 +268,8 @@ async def product_search_service(callback_query: types.CallbackQuery, state: FSM
             chat_id=callback_query.message.chat.id,
             message_id=callback_query.message.message_id,
             caption=data,
-            reply_markup=main_menu_keyboard
+            reply_markup=main_menu_keyboard,
+            parse_mode="HTML"
         )
     except Exception as error:
         logger.exception(error)
@@ -311,7 +313,8 @@ async def wechat_registration_service(callback_query: types.CallbackQuery, state
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard
+        reply_markup=main_menu_keyboard,
+        parse_mode="HTML"
     )
 
 
@@ -353,7 +356,8 @@ async def purchase_a_supplier_database(callback_query: types.CallbackQuery, stat
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard
+        reply_markup=main_menu_keyboard,
+        parse_mode="HTML"
     )
 
 
@@ -395,7 +399,8 @@ async def what_payments_await_me(callback_query: types.CallbackQuery, state: FSM
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard
+        reply_markup=main_menu_keyboard,
+        parse_mode="HTML"
     )
 
 

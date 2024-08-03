@@ -22,7 +22,8 @@ async def partnership_conditions_for_intermediaries(callback_query: types.Callba
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard
+        reply_markup=main_menu_keyboard,
+        parse_mode="HTML"
     )
 
 

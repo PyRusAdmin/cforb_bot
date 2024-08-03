@@ -124,11 +124,11 @@ async def send_start(callback_query: types.CallbackQuery, state: FSMContext):
             greeting_keyboard = create_greeting_keyboard()
             document = FSInputFile('media/photos/greeting.jpg')
             data = load_bot_info(messages="media/messages/main_menu_messages.json")
-            media = InputMediaPhoto(media=document, caption=data)
+            media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
             await bot.edit_message_media(media=media,
                                          chat_id=callback_query.message.chat.id,
                                          message_id=callback_query.message.message_id,
-                                         reply_markup=greeting_keyboard
+                                         reply_markup=greeting_keyboard,
                                          )
         else:
             # Если пользователя нет в базе данных, предлагаем пройти регистрацию

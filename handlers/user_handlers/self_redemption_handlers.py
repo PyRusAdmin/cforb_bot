@@ -22,7 +22,8 @@ async def self_redemption(callback_query: types.CallbackQuery, state: FSMContext
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard
+        reply_markup=main_menu_keyboard,
+        parse_mode="HTML"
     )
 
 

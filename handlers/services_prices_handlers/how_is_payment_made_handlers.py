@@ -22,7 +22,8 @@ async def handle_payment_info_request(callback_query: types.CallbackQuery, state
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard
+        reply_markup=main_menu_keyboard,
+        parse_mode="HTML"
     )
 
 
