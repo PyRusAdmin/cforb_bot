@@ -17,22 +17,7 @@ from system.working_with_files import load_bot_info
 from system.working_with_files import save_bot_info
 
 
-@router.message(Command("types_of_packaging_photo"))
-async def types_of_packaging_photo(message: Message, state: FSMContext):
-    if message.from_user.id not in ADMIN_USER_ID:
-        await message.reply("У вас нет прав на выполнение этой команды.")
-        return
-    await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
 
-
-@router.message(F.photo)
-async def replace_photo(message: types.Message):
-    # Получаем файл фотографии
-    photo = message.photo[-1]
-    file_info = await message.bot.get_file(photo.file_id)
-    # Загружаем файл на диск
-    await message.bot.download_file(file_info.file_path, os.path.join("media/photos/", 'types_of_packaging.jpg'))
-    await message.answer("Фото успешно заменено!")
 
 
 @router.callback_query(F.data == "types_of_packaging")

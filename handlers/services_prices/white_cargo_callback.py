@@ -13,24 +13,6 @@ from system.dispatcher import ADMIN_USER_ID, bot, router
 from system.working_with_files import load_bot_info, save_bot_info
 
 
-@router.message(Command("white_cargo_gte_photo"))
-async def cmd_replace_white_cargo_photo(message: Message, state: FSMContext):
-    if message.from_user.id not in ADMIN_USER_ID:
-        await message.reply("У вас нет прав на выполнение этой команды.")
-        return
-    await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
-
-
-@router.message(F.photo)
-async def handle_photo_upload(message: types.Message):
-    # Получаем файл фотографии
-    photo = message.photo[-1]
-    file_info = await message.bot.get_file(photo.file_id)
-    # Загружаем файл на диск
-    await message.bot.download_file(file_info.file_path, os.path.join("media/photos/", 'white_cargo_gte.jpg'))
-    await message.answer("Фото успешно заменено!")
-
-
 @router.callback_query(F.data == "white_cargo_gte")
 async def handle_white_cargo_callback(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Белая доставка грузов с ГТД ”"""
@@ -74,4 +56,3 @@ def register_handle_white_cargo_callback():
     router.message.register(handle_white_cargo_callback)
     router.message.register(cmd_edit_white_cargo_text)
     router.message.register(update_white_cargo_info)
-    router.message.register(cmd_replace_white_cargo_photo)

@@ -38,6 +38,10 @@ class FormeditCargoDeliveryPrices(StatesGroup):
 
 class FileStates(StatesGroup):
     waiting_for_file = State()
+    greeting_photo = State()  # Изменение фото в главном меню
+    services_and_prices_photo = State()  # Изменение фото в разделе "Услуги и цены"
+    white_cargo_gte_photo = State()  # Изменение фото в разделе "Белая доставка грузов с ГТД"
+    types_of_packaging_photo = State()  # Изменение фото в разделе "Виды упаковки"
 
 
 class FormeeditServicesAndPrices(StatesGroup):
@@ -65,6 +69,7 @@ class ChangingData(StatesGroup):
 
 
 class FormeditMainMenu(StatesGroup):
+    """Замена текста в боте"""
     text_edit_main_menu = State()
 
 
@@ -114,6 +119,7 @@ class FormeditPalletWithASolidWoodenBox(StatesGroup):
 
 class FormeditUsefulInformation(StatesGroup):
     text_edit_useful_information = State()
+
 
 class EditWhiteCargoDeliveryState(StatesGroup):
     edit_text = State()

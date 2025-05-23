@@ -1,10 +1,10 @@
-import os
 from datetime import datetime
 
 from aiogram import types, F
 from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
-from aiogram.types import FSInputFile, InputMediaPhoto, Message
+from aiogram.types import FSInputFile, InputMediaPhoto
+from aiogram.types import Message
 from loguru import logger
 
 from database.database import (check_user_exists_in_db, get_user_data_from_db, insert_user_data_to_database,
@@ -13,27 +13,9 @@ from database.database import (check_user_exists_in_db, get_user_data_from_db, i
 from keyboards.user_keyboards.user_keyboards import (create_contact_keyboard, create_data_modification_keyboard,
                                                      create_greeting_keyboard, create_my_details_keyboard,
                                                      create_sign_up_keyboard)
-from states.states import FormeditMainMenu, ChangingData, MakingAnOrder
+from states.states import (FormeditMainMenu, ChangingData, MakingAnOrder)
 from system.dispatcher import ADMIN_USER_ID, bot, dp, router
 from system.working_with_files import load_bot_info, save_bot_info
-
-
-@router.message(Command("greeting_photo"))
-async def greeting_photo(message: Message, state: FSMContext):
-    if message.from_user.id not in ADMIN_USER_ID:
-        await message.reply("У вас нет прав на выполнение этой команды.")
-        return
-    await message.answer("Пожалуйста, отправьте новое фото для замены в формате jpg")
-
-
-@router.message(F.photo)
-async def replace_photo(message: types.Message):
-    # Получаем файл фотографии
-    photo = message.photo[-1]
-    file_info = await message.bot.get_file(photo.file_id)
-    # Загружаем файл на диск
-    await message.bot.download_file(file_info.file_path, os.path.join("media/photos/", 'greeting.jpg'))
-    await message.answer("Фото успешно заменено!")
 
 
 @dp.message(CommandStart())
@@ -316,8 +298,4 @@ def register_greeting_handler():
     """Регистрируем handlers для бота"""
     router.message.register(send_start)  # Обработчик команды /start, он же пост приветствия 👋
     router.message.register(command_start_handler)  # Обработчик команды /start, он же пост приветствия 👋
-
     router.message.register(edit_main_menu)  # редактирование меню бота
-
-    """Редактирование фото"""
-    router.message.register(greeting_photo)  # редактирование меню бота

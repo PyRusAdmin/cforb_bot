@@ -5,6 +5,7 @@ import sys
 from loguru import logger
 
 from handlers.admin.admin_greeting import register_admin_greeting_handler
+from handlers.admin.image_replacement import register_handlers_image_replacement
 from handlers.admin.sending_messages import register_handlers_sending_messages
 from handlers.services_prices.how_is_payment_made import register_how_is_payment_made
 from handlers.services_prices.supplier_inspection import register_handle_supplier_inspection
@@ -40,7 +41,10 @@ async def main() -> None:
     register_useful_information_handler()  # 📚 Полезная информация
     register_admin_greeting_handler()  # Стартовая админ панель
 
-    register_handlers_sending_messages() # Отправка сообщений, пользователям бота
+    register_handlers_sending_messages()  # Отправка сообщений, пользователям бота
+
+    register_handlers_image_replacement()  # Замена изображений в боте
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
