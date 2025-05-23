@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
-from states.states import FormeditPartnershipConditionsIntermediariesButton
+from states.states import FormeditMainMenu
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot
 from system.dispatcher import router
@@ -33,12 +33,12 @@ async def edit_partnership_conditions_for_intermediaries_button(message: Message
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
     await state.set_state(
-        FormeditPartnershipConditionsIntermediariesButton.text_edit_partnership_conditions_for_intermediaries_button)
+        FormeditMainMenu.edit_partnership_conditions_for_intermediaries_button)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(
-    FormeditPartnershipConditionsIntermediariesButton.text_edit_partnership_conditions_for_intermediaries_button)
+    FormeditMainMenu.edit_partnership_conditions_for_intermediaries_button)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text,
                   file_path='media/messages/partnership_conditions_for_intermediaries_button.json')  # Сохраняем информацию в JSON

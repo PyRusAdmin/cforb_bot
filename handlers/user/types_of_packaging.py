@@ -1,5 +1,3 @@
-import os
-
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
@@ -7,17 +5,12 @@ from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_packaging_keyboard, create_packaging_menu_keyboard
-from states.states import (FormeeditTypesOfPackaging, FormeditBagTape, FormeeditBoxBagTape,
-                           FormeditWoodenSheathingBagTape, FormeditWoodenCornersBagTape, FormeditPalletCrate,
-                           FormeditPalletWithASolidWoodenBox)
+from states.states import (FormeditMainMenu)
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot
 from system.dispatcher import router
 from system.working_with_files import load_bot_info
 from system.working_with_files import save_bot_info
-
-
-
 
 
 @router.callback_query(F.data == "types_of_packaging")
@@ -42,11 +35,11 @@ async def edit_useful_information(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeeditTypesOfPackaging.text_edit_types_of_packaging)
+    await state.set_state(FormeditMainMenu.edit_types_of_packaging)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeeditTypesOfPackaging.text_edit_types_of_packaging)
+@router.message(FormeditMainMenu.edit_types_of_packaging)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text, file_path='media/messages/types_of_packaging.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
@@ -77,11 +70,11 @@ async def edit_bag_tape(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditBagTape.text_edit_bag_tape)
+    await state.set_state(FormeditMainMenu.edit_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditBagTape.text_edit_bag_tape)
+@router.message(FormeditMainMenu.edit_bag_tape)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text, file_path='media/messages/bag_tape.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
@@ -112,11 +105,11 @@ async def edit_box_bag_tape(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeeditBoxBagTape.text_edit_box_bag_tape)
+    await state.set_state(FormeditMainMenu.edit_box_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeeditBoxBagTape.text_edit_box_bag_tape)
+@router.message(FormeditMainMenu.edit_box_bag_tape)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text, file_path='media/messages/box_bag_tape.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
@@ -150,11 +143,11 @@ async def edit_wooden_sheathing_bag_tape(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditWoodenSheathingBagTape.text_edit_wooden_sheathing_bag_tape)
+    await state.set_state(FormeditMainMenu.edit_wooden_sheathing_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditWoodenSheathingBagTape.text_edit_wooden_sheathing_bag_tape)
+@router.message(FormeditMainMenu.edit_wooden_sheathing_bag_tape)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text,
                   file_path='media/messages/wooden_sheathing_bag_tape.json')  # Сохраняем информацию в JSON
@@ -186,11 +179,11 @@ async def edit_wooden_corners_bag_tape(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditWoodenCornersBagTape.text_edit_wooden_corners_bag_tape)
+    await state.set_state(FormeditMainMenu.edit_wooden_corners_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditWoodenCornersBagTape.text_edit_wooden_corners_bag_tape)
+@router.message(FormeditMainMenu.edit_wooden_corners_bag_tape)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text,
                   file_path='media/messages/wooden_corners_bag_tape.json')  # Сохраняем информацию в JSON
@@ -222,11 +215,11 @@ async def edit_pallet_crate(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditPalletCrate.text_edit_pallet_crate)
+    await state.set_state(FormeditMainMenu.edit_pallet_crate)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditPalletCrate.text_edit_pallet_crate)
+@router.message(FormeditMainMenu.edit_pallet_crate)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text, file_path='media/messages/pallet_in_crate.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
@@ -257,11 +250,11 @@ async def edit_pallet_with_a_solid_wooden_box(message: Message, state: FSMContex
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditPalletWithASolidWoodenBox.text_edit_pallet_with_a_solid_wooden_box)
+    await state.set_state(FormeditMainMenu.edit_pallet_with_a_solid_wooden_box)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditPalletWithASolidWoodenBox.text_edit_pallet_with_a_solid_wooden_box)
+@router.message(FormeditMainMenu.edit_pallet_with_a_solid_wooden_box)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text,
                   file_path='media/messages/pallet_with_a_solid_wooden_box.json')  # Сохраняем информацию в JSON
@@ -285,5 +278,3 @@ def register_types_of_packaging_handler():
     router.message.register(edit_wooden_corners_bag_tape)  # Деревянные уголки + мешок + скотч
     router.message.register(edit_pallet_crate)  # Паллет в обрешетке
     router.message.register(edit_pallet_with_a_solid_wooden_box)  # Паллет в обрешетке
-    """Редактирование фото"""
-    router.message.register(types_of_packaging_photo)  # Паллет в обрешетке

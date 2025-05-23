@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_services_and_prices_main_menu_keyboard
-from states.states import EditPaymentInfoStates
+from states.states import FormeditMainMenu
 from system.dispatcher import ADMIN_USER_ID, bot, router
 from system.working_with_files import save_bot_info, load_bot_info
 
@@ -30,10 +30,10 @@ async def prompt_for_new_payment_info(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(EditPaymentInfoStates.edit_payment_text)
+    await state.set_state(FormeditMainMenu.edit_payment_text)
 
 
-@router.message(EditPaymentInfoStates.edit_payment_text)
+@router.message(FormeditMainMenu.edit_payment_text)
 async def update_payment_info(message: Message, state: FSMContext):
     """Обработчик текстовых сообщений (для админа, чтобы обновить информацию)"""
     save_bot_info(message.html_text, file_path='media/messages/how_is_payment_made.json')  # Сохраняем информацию в JSON

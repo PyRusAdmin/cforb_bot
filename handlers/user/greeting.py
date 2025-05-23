@@ -53,11 +53,11 @@ async def edit_main_menu(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditMainMenu.text_edit_main_menu)
+    await state.set_state(FormeditMainMenu.edit_main_menu)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditMainMenu.text_edit_main_menu)
+@router.message(FormeditMainMenu.edit_main_menu)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text, file_path='media/messages/main_menu_messages.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")

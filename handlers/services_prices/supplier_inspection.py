@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_services_and_prices_main_menu_keyboard
-from states.states import EditSupplierInspectionState
+from states.states import FormeditMainMenu
 from system.dispatcher import ADMIN_USER_ID, bot, router
 from system.working_with_files import load_bot_info, save_bot_info
 
@@ -30,11 +30,11 @@ async def cmd_edit_supplier_inspection(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(EditSupplierInspectionState.edit_text)
+    await state.set_state(FormeditMainMenu.edit_text)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(EditSupplierInspectionState.edit_text)
+@router.message(FormeditMainMenu.edit_text)
 async def update_supplier_inspection_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text, file_path='media/messages/services_prices_messages/supplier_inspection.json')
     await message.reply("Информация обновлена.")
