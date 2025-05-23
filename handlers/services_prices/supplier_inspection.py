@@ -5,11 +5,8 @@ from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_services_and_prices_main_menu_keyboard
 from states.states import EditSupplierInspectionState
-from system.dispatcher import ADMIN_USER_ID
-from system.dispatcher import bot, dp
-from system.dispatcher import router
-from system.working_with_files import load_bot_info
-from system.working_with_files import save_bot_info
+from system.dispatcher import ADMIN_USER_ID, bot, router
+from system.working_with_files import load_bot_info, save_bot_info
 
 
 @router.callback_query(F.data == "supplier_inspection")

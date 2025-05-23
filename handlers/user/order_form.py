@@ -7,9 +7,7 @@ from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from states.states import FormorderForm
-from system.dispatcher import bot, ADMIN_USER_ID
-from system.dispatcher import dp
-from system.dispatcher import router
+from system.dispatcher import bot, ADMIN_USER_ID, router
 from system.working_with_files import load_bot_info, save_bot_info
 
 

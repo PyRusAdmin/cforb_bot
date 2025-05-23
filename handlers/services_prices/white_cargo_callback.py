@@ -9,11 +9,8 @@ from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_services_and_prices_main_menu_keyboard
 from states.states import EditWhiteCargoDeliveryState
-from system.dispatcher import ADMIN_USER_ID
-from system.dispatcher import bot, dp
-from system.dispatcher import router
-from system.working_with_files import load_bot_info
-from system.working_with_files import save_bot_info
+from system.dispatcher import ADMIN_USER_ID, bot, router
+from system.working_with_files import load_bot_info, save_bot_info
 
 
 @router.message(Command("white_cargo_gte_photo"))
