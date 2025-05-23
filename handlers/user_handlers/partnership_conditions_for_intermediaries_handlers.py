@@ -1,10 +1,10 @@
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
+from states.states import FormeditPartnershipConditionsIntermediariesButton
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -27,10 +27,6 @@ async def partnership_conditions_for_intermediaries(callback_query: types.Callba
     )
 
 
-class Formedit_partnership_conditions_for_intermediaries_button(StatesGroup):
-    text_edit_partnership_conditions_for_intermediaries_button = State()
-
-
 # Обработчик команды /edit_partnership_conditions_for_intermediaries_button (только для админа)
 @router.message(Command("edit_partnership_conditions_for_intermediaries_button"))
 async def edit_partnership_conditions_for_intermediaries_button(message: Message, state: FSMContext):
@@ -39,13 +35,11 @@ async def edit_partnership_conditions_for_intermediaries_button(message: Message
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(
-        Formedit_partnership_conditions_for_intermediaries_button.text_edit_partnership_conditions_for_intermediaries_button)
+    await state.set_state(FormeditPartnershipConditionsIntermediariesButton.text_edit_partnership_conditions_for_intermediaries_button)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(
-    Formedit_partnership_conditions_for_intermediaries_button.text_edit_partnership_conditions_for_intermediaries_button)
+@router.message(FormeditPartnershipConditionsIntermediariesButton.text_edit_partnership_conditions_for_intermediaries_button)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text

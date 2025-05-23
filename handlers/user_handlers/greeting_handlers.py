@@ -6,7 +6,6 @@ from aiogram.filters import Command
 from aiogram.filters import CommandStart
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.types import Message
 from loguru import logger
@@ -24,6 +23,7 @@ from keyboards.user_keyboards.user_keyboards import create_data_modification_key
 from keyboards.user_keyboards.user_keyboards import create_greeting_keyboard
 from keyboards.user_keyboards.user_keyboards import create_my_details_keyboard
 from keyboards.user_keyboards.user_keyboards import create_sign_up_keyboard
+from states.states import Formedit_main_menu, ChangingData, MakingAnOrder
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -81,10 +81,6 @@ async def command_start_handler(message: Message) -> None:
         await bot.send_message(message.from_user.id, sign_up_text,
                                reply_markup=my_details_key,
                                disable_web_page_preview=True)
-
-
-class Formedit_main_menu(StatesGroup):
-    text_edit_main_menu = State()
 
 
 # Обработчик команды /edit_main_menu (только для админа)
@@ -180,22 +176,6 @@ async def call_us_handler(callback_query: types.CallbackQuery, state: FSMContext
         await bot.send_message(callback_query.from_user.id, sign_up_text,
                                reply_markup=keyboards_sign_up,
                                disable_web_page_preview=True)
-
-
-class MakingAnOrder(StatesGroup):
-    """Создание класса состояний"""
-    write_name = State()  # Имя
-    write_surname = State()  # Фамилия
-    phone_input = State()  # Передача номера телефона кнопкой
-    write_city = State()  # Запись города
-
-
-class ChangingData(StatesGroup):
-    """Создание класса состояний, для смены данных пользователем"""
-    changing_name = State()  # Имя
-    changing_surname = State()  # Фамилия
-    changing_phone = State()  # Передача номера телефона кнопкой
-    changing_city = State()  # Запись города
 
 
 @router.callback_query(F.data == "edit_name")

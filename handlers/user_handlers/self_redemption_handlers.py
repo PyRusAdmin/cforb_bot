@@ -1,10 +1,10 @@
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
+from states.states import Formedit_self_redemption
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -25,10 +25,6 @@ async def self_redemption(callback_query: types.CallbackQuery, state: FSMContext
         reply_markup=main_menu_keyboard,
         parse_mode="HTML"
     )
-
-
-class Formedit_self_redemption(StatesGroup):
-    text_edit_self_redemption = State()
 
 
 # Обработчик команды /edit_self_redemption (только для админа)

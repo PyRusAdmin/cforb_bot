@@ -5,6 +5,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
+from states.states import Formedit_reviews
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -26,10 +27,6 @@ async def reviews(callback_query: types.CallbackQuery, state: FSMContext):
         reply_markup=main_menu_keyboard,
         parse_mode="HTML"
     )
-
-
-class Formedit_reviews(StatesGroup):
-    text_edit_reviews = State()
 
 
 # Обработчик команды /edit_reviews (только для админа)

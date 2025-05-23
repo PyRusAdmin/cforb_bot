@@ -3,11 +3,13 @@ import os
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_packaging_keyboard, create_packaging_menu_keyboard
+from states.states import (Formeedit_types_of_packaging, Formedit_bag_tape, Formeedit_box_bag_tape,
+                           Formedit_wooden_sheathing_bag_tape, Formedit_wooden_corners_bag_tape, Formedit_pallet_crate,
+                           Formedit_pallet_with_a_solid_wooden_box)
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -49,10 +51,6 @@ async def types_of_packaging(callback_query: types.CallbackQuery, state: FSMCont
                                  )
 
 
-class Formeedit_types_of_packaging(StatesGroup):
-    text_edit_types_of_packaging = State()
-
-
 # Обработчик команды /edit_types_of_packaging (только для админа)
 @router.message(Command("edit_types_of_packaging"))
 async def edit_useful_information(message: Message, state: FSMContext):
@@ -90,10 +88,6 @@ async def bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
         reply_markup=types_of_packaging_key,
         parse_mode="HTML"
     )
-
-
-class Formedit_bag_tape(StatesGroup):
-    text_edit_bag_tape = State()
 
 
 # Обработчик команды /edit_bag_tape (только для админа)
@@ -135,10 +129,6 @@ async def box_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     )
 
 
-class Formeedit_box_bag_tape(StatesGroup):
-    text_edit_box_bag_tape = State()
-
-
 # Обработчик команды /edit_box_bag_tape (только для админа)
 @router.message(Command("edit_box_bag_tape"))
 async def edit_box_bag_tape(message: Message, state: FSMContext):
@@ -176,10 +166,6 @@ async def wooden_sheathing_bag_tape(callback_query: types.CallbackQuery, state: 
                                  message_id=callback_query.message.message_id,
                                  reply_markup=types_of_packaging_key,
                                  )
-
-
-class Formedit_wooden_sheathing_bag_tape(StatesGroup):
-    text_edit_wooden_sheathing_bag_tape = State()
 
 
 # Обработчик команды /edit_wooden_sheathing_bag_tape (только для админа)
@@ -222,10 +208,6 @@ async def wooden_corners_bag_tape(callback_query: types.CallbackQuery, state: FS
     )
 
 
-class Formedit_wooden_corners_bag_tape(StatesGroup):
-    text_edit_wooden_corners_bag_tape = State()
-
-
 # Обработчик команды /edit_wooden_corners_bag_tape (только для админа)
 @router.message(Command("edit_wooden_corners_bag_tape"))
 async def edit_wooden_corners_bag_tape(message: Message, state: FSMContext):
@@ -265,10 +247,6 @@ async def pallet_in_crate(callback_query: types.CallbackQuery, state: FSMContext
     )
 
 
-class Formedit_pallet_crate(StatesGroup):
-    text_edit_pallet_crate = State()
-
-
 # Обработчик команды /edit_pallet_crate (только для админа)
 @router.message(Command("edit_pallet_crate"))
 async def edit_pallet_crate(message: Message, state: FSMContext):
@@ -306,10 +284,6 @@ async def pallet_with_a_solid_wooden_box(callback_query: types.CallbackQuery, st
         reply_markup=types_of_packaging_key,
         parse_mode="HTML"
     )
-
-
-class Formedit_pallet_with_a_solid_wooden_box(StatesGroup):
-    text_edit_pallet_with_a_solid_wooden_box = State()
 
 
 # Обработчик команды /edit_pallet_with_a_solid_wooden_box (только для админа)

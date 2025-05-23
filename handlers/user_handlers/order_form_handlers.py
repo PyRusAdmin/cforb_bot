@@ -7,6 +7,7 @@ from aiogram.types import Message
 from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
+from states.states import Formorder_form
 from system.dispatcher import bot, ADMIN_USER_ID
 from system.dispatcher import dp
 from system.dispatcher import router
@@ -29,10 +30,6 @@ async def order_form(callback_query: types.CallbackQuery, state: FSMContext):
                                 parse_mode="HTML")
     except Exception as error:
         logger.exception(error)
-
-
-class Formorder_form(StatesGroup):
-    text_order_form = State()
 
 
 # Обработчик команды /edit_order_form (только для админа)

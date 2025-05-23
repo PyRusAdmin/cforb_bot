@@ -1,11 +1,10 @@
 from aiogram import types, F
-from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
+from states.states import Formedit_useful_information
 from system.dispatcher import bot, dp, ADMIN_USER_ID
 from system.dispatcher import router
 from system.working_with_files import load_bot_info
@@ -26,10 +25,6 @@ async def useful_information(callback_query: types.CallbackQuery, state: FSMCont
         reply_markup=main_menu_keyboard,
         parse_mode="HTML"
     )
-
-
-class Formedit_useful_information(StatesGroup):
-    text_edit_useful_information = State()
 
 
 # Обработчик команды /edit_useful_information (только для админа)

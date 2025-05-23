@@ -1,10 +1,10 @@
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_services_and_prices_main_menu_keyboard
+from states.states import EditPaymentInfoStates
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -25,10 +25,6 @@ async def handle_payment_info_request(callback_query: types.CallbackQuery, state
         reply_markup=main_menu_keyboard,
         parse_mode="HTML"
     )
-
-
-class EditPaymentInfoStates(StatesGroup):
-    edit_payment_text = State()
 
 
 # Обработчик команды /edit_how_is_payment_made (только для админа)

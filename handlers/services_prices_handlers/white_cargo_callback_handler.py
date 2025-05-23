@@ -44,11 +44,12 @@ async def handle_white_cargo_callback(callback_query: types.CallbackQuery, state
         main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         document = FSInputFile('media/photos/white_cargo_gte.jpg')
         media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
-        await bot.edit_message_media(media=media,
-                                     chat_id=callback_query.message.chat.id,
-                                     message_id=callback_query.message.message_id,
-                                     reply_markup=main_menu_keyboard,
-                                     )
+        await bot.edit_message_media(
+            media=media,
+            chat_id=callback_query.message.chat.id,
+            message_id=callback_query.message.message_id,
+            reply_markup=main_menu_keyboard,
+        )
     except Exception as error:
         logger.exception(error)
 

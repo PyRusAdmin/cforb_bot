@@ -3,13 +3,17 @@ import os
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.types import Message
 from loguru import logger
 
-from keyboards.user_keyboards.user_keyboards import create_services_and_prices_keyboard, \
-    create_services_and_prices_main_menu_keyboard, get_price_lists_keyboard
+from keyboards.user_keyboards.user_keyboards import (create_services_and_prices_keyboard,
+                                                     create_services_and_prices_main_menu_keyboard,
+                                                     get_price_lists_keyboard)
+from states.states import (Formeedit_services_and_prices, FileStates, Formedit_cargo_delivery_prices,
+                           Formedit_goods_redemption_service, Formedit_product_search_service,
+                           Formedit_wechat_registration_service, Formedit_purchase_a_supplier_database,
+                           Formedit_what_payments_await_me)
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -54,10 +58,6 @@ async def services_and_prices(callback_query: types.CallbackQuery, state: FSMCon
         logger.exception(error)
 
 
-class Formeedit_services_and_prices(StatesGroup):
-    text_edit_services_and_prices = State()
-
-
 # Обработчик команды /edit_services_and_prices (только для админа)
 @router.message(Command("edit_services_and_prices"))
 async def edit_services_and_prices(message: Message, state: FSMContext):
@@ -82,10 +82,6 @@ async def update_info(message: Message, state: FSMContext):
 """"_____________________________________________________________________________________"""
 
 
-class FileStates(StatesGroup):
-    waiting_for_file = State()
-
-
 @dp.message(Command("get_price_lists_file"))
 async def get_price_lists_photo_1(message: types.Message, state: FSMContext):
     if message.from_user.id not in ADMIN_USER_ID:
@@ -108,6 +104,7 @@ async def replace_photo_1(message: types.Message, state: FSMContext):
     else:
         await message.answer("Пожалуйста, отправьте файл в формате .xlsx.")
 
+
 """"_____________________________________________________________________________________"""
 
 
@@ -129,10 +126,6 @@ async def cargo_delivery_prices(callback_query: types.CallbackQuery, state: FSMC
 
     except Exception as error:
         logger.exception(error)
-
-
-class Formedit_cargo_delivery_prices(StatesGroup):
-    text_edit_cargo_delivery_prices = State()
 
 
 # Обработчик команды /edit_cargo_delivery_prices (только для админа)
@@ -172,10 +165,6 @@ async def goods_redemption_service(callback_query: types.CallbackQuery, state: F
         reply_markup=main_menu_keyboard,
         parse_mode="HTML"
     )
-
-
-class Formedit_goods_redemption_service(StatesGroup):
-    text_edit_goods_redemption_service = State()
 
 
 # Обработчик команды /edit_goods_redemption_service (только для админа)
@@ -220,10 +209,6 @@ async def product_search_service(callback_query: types.CallbackQuery, state: FSM
         logger.exception(error)
 
 
-class Formedit_product_search_service(StatesGroup):
-    text_edit_product_search_service = State()
-
-
 # Обработчик команды /edit_product_search_service (только для админа)
 @router.message(Command("edit_product_search_service"))
 async def edit_product_search_service(message: Message, state: FSMContext):
@@ -261,10 +246,6 @@ async def wechat_registration_service(callback_query: types.CallbackQuery, state
         reply_markup=main_menu_keyboard,
         parse_mode="HTML"
     )
-
-
-class Formedit_wechat_registration_service(StatesGroup):
-    text_edit_wechat_registration_service = State()
 
 
 # Обработчик команды /edit_wechat_registration_service (только для админа)
@@ -306,10 +287,6 @@ async def purchase_a_supplier_database(callback_query: types.CallbackQuery, stat
     )
 
 
-class Formedit_purchase_a_supplier_database(StatesGroup):
-    text_edit_purchase_a_supplier_database = State()
-
-
 # Обработчик команды /edit_purchase_a_supplier_database (только для админа)
 @router.message(Command("edit_purchase_a_supplier_database"))
 async def edit_purchase_a_supplier_database(message: Message, state: FSMContext):
@@ -347,10 +324,6 @@ async def what_payments_await_me(callback_query: types.CallbackQuery, state: FSM
         reply_markup=main_menu_keyboard,
         parse_mode="HTML"
     )
-
-
-class Formedit_what_payments_await_me(StatesGroup):
-    text_edit_what_payments_await_me = State()
 
 
 # Обработчик команды /edit_what_payments_await_me (только для админа)
