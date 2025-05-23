@@ -327,10 +327,10 @@ async def handle_confirmation(message: types.Message, state: FSMContext):
 
 def register_greeting_handler():
     """Регистрируем handlers для бота"""
-    dp.message.register(send_start)  # Обработчик команды /start, он же пост приветствия 👋
-    dp.message.register(command_start_handler)  # Обработчик команды /start, он же пост приветствия 👋
+    router.message.register(send_start)  # Обработчик команды /start, он же пост приветствия 👋
+    router.message.register(command_start_handler)  # Обработчик команды /start, он же пост приветствия 👋
 
-    dp.message.register(edit_main_menu)  # редактирование меню бота
+    router.message.register(edit_main_menu)  # редактирование меню бота
 
     """Редактирование фото"""
-    dp.message.register(greeting_photo)  # редактирование меню бота
+    router.message.register(greeting_photo)  # редактирование меню бота

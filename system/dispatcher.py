@@ -1,13 +1,12 @@
-#import configparser
+import os
 
 from aiogram import Bot, Dispatcher, Router
 from aiogram.fsm.storage.memory import MemoryStorage
+from dotenv import load_dotenv
 
-#config = configparser.ConfigParser(empty_lines_in_values=False, allow_no_value=True)
-#config.read("setting/config.ini")  # Чтение файла
-#BOT_TOKEN = config["BOT_TOKEN"]["BOT_TOKEN"]
+load_dotenv()
 
-BOT_TOKEN = "6979734406:AAE_xRbLTVu8Crbus2L5Px0QIXlvdjABYnc"
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 bot = Bot(
     token=BOT_TOKEN,

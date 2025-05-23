@@ -316,22 +316,22 @@ async def update_info(message: Message, state: FSMContext):
 
 def register_services_and_prices_handler():
     """Регистрируем handlers для бота"""
-    dp.message.register(services_and_prices)
-    dp.message.register(cargo_delivery_prices)
-    dp.message.register(goods_redemption_service)
-    dp.message.register(product_search_service)
-    dp.message.register(wechat_registration_service)
-    dp.message.register(purchase_a_supplier_database)
-    dp.message.register(what_payments_await_me)
+    router.message.register(services_and_prices)
+    router.message.register(cargo_delivery_prices)
+    router.message.register(goods_redemption_service)
+    router.message.register(product_search_service)
+    router.message.register(wechat_registration_service)
+    router.message.register(purchase_a_supplier_database)
+    router.message.register(what_payments_await_me)
 
-    dp.message.register(edit_what_payments_await_me)  # Редактирование: Какие платежи меня ожидают?
-    dp.message.register(edit_purchase_a_supplier_database)  # Редактирование: Приобрести базу данных поставщиков
-    dp.message.register(edit_wechat_registration_service)  # Редактирование: Услуга регистрации на WeChat
-    dp.message.register(edit_product_search_service)  # Редактирование: Услуга Поиска товаров (производителей в Китае)
-    dp.message.register(edit_goods_redemption_service)  # Редактирование: Услуга Выкупа товаров
-    dp.message.register(edit_cargo_delivery_prices)  # Редактирование: Прайсы на доставку Карго
-    dp.message.register(edit_services_and_prices)  # Редактирование: Услуги и цены
+    router.message.register(edit_what_payments_await_me)  # Редактирование: Какие платежи меня ожидают?
+    router.message.register(edit_purchase_a_supplier_database)  # Редактирование: Приобрести базу данных поставщиков
+    router.message.register(edit_wechat_registration_service)  # Редактирование: Услуга регистрации на WeChat
+    router.message.register(edit_product_search_service)  # Редактирование: Услуга Поиска товаров (производителей в Китае)
+    router.message.register(edit_goods_redemption_service)  # Редактирование: Услуга Выкупа товаров
+    router.message.register(edit_cargo_delivery_prices)  # Редактирование: Прайсы на доставку Карго
+    router.message.register(edit_services_and_prices)  # Редактирование: Услуги и цены
 
     """Редактирование фото"""
-    dp.message.register(services_and_prices_photo)
-    dp.message.register(get_price_lists_photo_1)
+    router.message.register(services_and_prices_photo)
+    router.message.register(get_price_lists_photo_1)

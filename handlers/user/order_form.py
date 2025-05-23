@@ -49,5 +49,5 @@ async def update_info(message: Message, state: FSMContext):
 
 def register_order_form_handler():
     """Регистрируем handlers для бота"""
-    dp.message.register(order_form)
-    dp.message.register(edit_order_form)
+    router.message.register(order_form)
+    router.message.register(edit_order_form)

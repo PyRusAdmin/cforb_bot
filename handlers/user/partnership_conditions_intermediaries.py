@@ -48,5 +48,5 @@ async def update_info(message: Message, state: FSMContext):
 
 def register_partnership_conditions_intermediaries_handler():
     """Регистрируем handlers для бота"""
-    dp.message.register(partnership_conditions_for_intermediaries)
-    dp.message.register(edit_partnership_conditions_for_intermediaries_button)
+    router.message.register(partnership_conditions_for_intermediaries)
+    router.message.register(edit_partnership_conditions_for_intermediaries_button)

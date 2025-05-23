@@ -46,5 +46,5 @@ async def update_info(message: Message, state: FSMContext):
 
 def register_reviews_handler():
     """Регистрируем handlers для бота"""
-    dp.message.register(reviews)
-    dp.message.register(edit_reviews)
+    router.message.register(reviews)
+    router.message.register(edit_reviews)

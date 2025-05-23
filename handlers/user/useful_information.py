@@ -45,5 +45,5 @@ async def update_info(message: Message, state: FSMContext):
 
 def register_useful_information_handler():
     """Регистрируем handlers для бота"""
-    dp.message.register(useful_information)
-    dp.message.register(edit_useful_information)
+    router.message.register(useful_information)
+    router.message.register(edit_useful_information)

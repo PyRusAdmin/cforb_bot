@@ -74,7 +74,7 @@ async def update_white_cargo_info(message: Message, state: FSMContext):
 
 def register_handle_white_cargo_callback():
     """Регистрируем handlers для бота"""
-    dp.message.register(handle_white_cargo_callback)
-    dp.message.register(cmd_edit_white_cargo_text)
-    dp.message.register(update_white_cargo_info)
-    dp.message.register(cmd_replace_white_cargo_photo)
+    router.message.register(handle_white_cargo_callback)
+    router.message.register(cmd_edit_white_cargo_text)
+    router.message.register(update_white_cargo_info)
+    router.message.register(cmd_replace_white_cargo_photo)

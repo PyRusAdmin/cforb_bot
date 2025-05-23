@@ -46,5 +46,5 @@ async def update_supplier_inspection_info(message: Message, state: FSMContext):
 
 def register_handle_supplier_inspection():
     """Регистрируем handlers для бота"""
-    dp.message.register(handle_supplier_inspection)
-    dp.message.register(cmd_edit_supplier_inspection)
+    router.message.register(handle_supplier_inspection)
+    router.message.register(cmd_edit_supplier_inspection)

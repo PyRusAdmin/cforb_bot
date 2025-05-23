@@ -286,19 +286,19 @@ async def update_info(message: Message, state: FSMContext):
 
 def register_types_of_packaging_handler():
     """Регистрируем handlers для бота"""
-    dp.message.register(types_of_packaging)
-    dp.message.register(bag_tape)
-    dp.message.register(box_bag_tape)
-    dp.message.register(wooden_sheathing_bag_tape)
-    dp.message.register(wooden_corners_bag_tape)
-    dp.message.register(pallet_in_crate)
-    dp.message.register(pallet_with_a_solid_wooden_box)
-    dp.message.register(edit_useful_information)  # редактирование: Виды упаковки
-    dp.message.register(edit_bag_tape)  # редактирование: Мешок + скотч
-    dp.message.register(edit_box_bag_tape)  # редактирование: Коробка + мешок + скотч
-    dp.message.register(edit_wooden_sheathing_bag_tape)  # Деревянная обрешетка + мешок + скотч
-    dp.message.register(edit_wooden_corners_bag_tape)  # Деревянные уголки + мешок + скотч
-    dp.message.register(edit_pallet_crate)  # Паллет в обрешетке
-    dp.message.register(edit_pallet_with_a_solid_wooden_box)  # Паллет в обрешетке
+    router.message.register(types_of_packaging)
+    router.message.register(bag_tape)
+    router.message.register(box_bag_tape)
+    router.message.register(wooden_sheathing_bag_tape)
+    router.message.register(wooden_corners_bag_tape)
+    router.message.register(pallet_in_crate)
+    router.message.register(pallet_with_a_solid_wooden_box)
+    router.message.register(edit_useful_information)  # редактирование: Виды упаковки
+    router.message.register(edit_bag_tape)  # редактирование: Мешок + скотч
+    router.message.register(edit_box_bag_tape)  # редактирование: Коробка + мешок + скотч
+    router.message.register(edit_wooden_sheathing_bag_tape)  # Деревянная обрешетка + мешок + скотч
+    router.message.register(edit_wooden_corners_bag_tape)  # Деревянные уголки + мешок + скотч
+    router.message.register(edit_pallet_crate)  # Паллет в обрешетке
+    router.message.register(edit_pallet_with_a_solid_wooden_box)  # Паллет в обрешетке
     """Редактирование фото"""
-    dp.message.register(types_of_packaging_photo)  # Паллет в обрешетке
+    router.message.register(types_of_packaging_photo)  # Паллет в обрешетке

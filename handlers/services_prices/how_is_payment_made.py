@@ -46,6 +46,6 @@ async def update_payment_info(message: Message, state: FSMContext):
 
 def register_how_is_payment_made():
     """Регистрируем handlers для бота"""
-    dp.message.register(handle_payment_info_request)  # Как совершается оплата?
-    dp.message.register(prompt_for_new_payment_info)  # Редактирование: Как совершается оплата?
-    dp.message.register(update_payment_info)  # Обновление: Как совершается оплата?
+    router.message.register(handle_payment_info_request)  # Как совершается оплата?
+    router.message.register(prompt_for_new_payment_info)  # Редактирование: Как совершается оплата?
+    router.message.register(update_payment_info)  # Обновление: Как совершается оплата?

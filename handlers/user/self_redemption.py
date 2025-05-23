@@ -46,5 +46,5 @@ async def update_info(message: Message, state: FSMContext):
 
 def register_self_redemption_handler():
     """Регистрируем handlers для бота"""
-    dp.message.register(self_redemption)
-    dp.message.register(edit_self_redemption)
+    router.message.register(self_redemption)
+    router.message.register(edit_self_redemption)
