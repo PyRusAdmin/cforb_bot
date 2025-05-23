@@ -62,12 +62,10 @@ async def command_start_handler(message: Message) -> None:
 
     user_exists = check_user_exists_in_db(user_id)  # Проверяем наличие пользователя в базе данных
     if user_exists:
-        main_menu_key = create_greeting_keyboard()
-
         document = FSInputFile('media/photos/greeting.jpg')
         data = load_bot_info(messages="media/messages/main_menu_messages.json")
         await message.answer_photo(photo=document, caption=data,
-                                   reply_markup=main_menu_key,
+                                   reply_markup=create_greeting_keyboard(),
                                    parse_mode="HTML")
     else:
         # Если пользователя нет в базе данных, предлагаем пройти регистрацию
@@ -129,10 +127,9 @@ async def send_start(callback_query: types.CallbackQuery, state: FSMContext):
                             "Для перехода в начальное меню нажмите /start")
 
             # Создаем клавиатуру с помощью my_details() (предполагается, что она существует)
-            my_details_key = create_my_details_keyboard()
             # Отправляем сообщение с предложением зарегистрироваться и клавиатурой
             await bot.send_message(callback_query.from_user.id, sign_up_text,
-                                   reply_markup=my_details_key,
+                                   reply_markup=create_my_details_keyboard(),
                                    disable_web_page_preview=True)
     except Exception as error:
         logger.exception(error)
@@ -158,19 +155,17 @@ async def call_us_handler(callback_query: types.CallbackQuery, state: FSMContext
                     f"✅ <b>Город:</b> {city}\n"
                     f"✅ <b>Номер телефона:</b> {phone_number}\n"
                     f"✅ <b>Дата регистрации:</b> {registration_date}\n\n")
-        edit_data_keyboard = create_data_modification_keyboard()
         await bot.send_message(callback_query.from_user.id, text_mes,
-                               reply_markup=edit_data_keyboard,
+                               reply_markup=create_data_modification_keyboard(),
                                )
     else:
         # Если данные о пользователе не найдены, предложите пройти регистрацию
-        keyboards_sign_up = create_sign_up_keyboard()
         sign_up_text = ("👋 Предлагаем нам с Вами познакомиться!\n\n"
                         "Информация о Ваших Ф.И.О., городе и номере телефона нужны для оптимизации и персонализации "
                         "работы нашего бота под наших клиентов.\n\n"
                         "Для возврата нажмите /start")
         await bot.send_message(callback_query.from_user.id, sign_up_text,
-                               reply_markup=keyboards_sign_up,
+                               reply_markup=create_sign_up_keyboard(),
                                disable_web_page_preview=True)
 
 
@@ -302,9 +297,8 @@ async def write_name_handler(message: types.Message, state: FSMContext):
     sign_up_texts = (
         "Для ввода номера телефона вы можете поделиться номером телефона, нажав на кнопку или ввести его вручную.\n\n"
         "Чтобы ввести номер вручную, просто отправьте его в текстовом поле.")
-    contact_keyboard = create_contact_keyboard()
     await bot.send_message(message.from_user.id, sign_up_texts,
-                           reply_markup=contact_keyboard,  # Установить пользовательскую клавиатуру
+                           reply_markup=create_contact_keyboard(),  # Установить пользовательскую клавиатуру
                            disable_web_page_preview=True)
     await state.set_state(MakingAnOrder.phone_input)
 

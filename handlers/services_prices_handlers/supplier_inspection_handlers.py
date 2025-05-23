@@ -17,12 +17,11 @@ async def handle_supplier_inspection(callback_query: types.CallbackQuery, state:
     """📌 Кнопка “Инспекция поставщиков по провинциям (выезд на производство)”"""
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/services_prices_messages/supplier_inspection.json")
-    main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard,
+        reply_markup=create_services_and_prices_main_menu_keyboard(),
         parse_mode="HTML"
     )
 

@@ -17,12 +17,11 @@ async def handle_payment_info_request(callback_query: types.CallbackQuery, state
     """📌 Кнопка “Как совершается оплата?”"""
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/how_is_payment_made.json")
-    main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard,
+        reply_markup=create_services_and_prices_main_menu_keyboard(),
         parse_mode="HTML"
     )
 
