@@ -11,7 +11,7 @@ from states.states import (FormeeditTypesOfPackaging, FormeditBagTape, Formeedit
                            FormeditWoodenSheathingBagTape, FormeditWoodenCornersBagTape, FormeditPalletCrate,
                            FormeditPalletWithASolidWoodenBox)
 from system.dispatcher import ADMIN_USER_ID
-from system.dispatcher import bot, dp
+from system.dispatcher import bot
 from system.dispatcher import router
 from system.working_with_files import load_bot_info
 from system.working_with_files import save_bot_info

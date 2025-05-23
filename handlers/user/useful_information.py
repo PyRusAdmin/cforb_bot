@@ -5,7 +5,7 @@ from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
 from states.states import FormeditUsefulInformation
-from system.dispatcher import bot, dp, ADMIN_USER_ID
+from system.dispatcher import bot, ADMIN_USER_ID
 from system.dispatcher import router
 from system.working_with_files import load_bot_info
 from system.working_with_files import save_bot_info
