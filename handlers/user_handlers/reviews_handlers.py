@@ -1,7 +1,6 @@
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
@@ -18,13 +17,11 @@ async def reviews(callback_query: types.CallbackQuery, state: FSMContext):
     """💌 Отзывы"""
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/reviews.json")
-    main_menu_keyboard = create_main_menu_keyboard()
-
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard,
+        reply_markup=create_main_menu_keyboard(),
         parse_mode="HTML"
     )
 

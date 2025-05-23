@@ -16,13 +16,11 @@ from system.working_with_files import save_bot_info
 async def partnership_conditions_for_intermediaries(callback_query: types.CallbackQuery):
     """Партнерские условия для посредников"""
     data = load_bot_info(messages="media/messages/partnership_conditions_for_intermediaries_button.json")
-    main_menu_keyboard = create_main_menu_keyboard()
-
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard,
+        reply_markup=create_main_menu_keyboard(),
         parse_mode="HTML"
     )
 

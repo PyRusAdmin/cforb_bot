@@ -17,12 +17,11 @@ async def self_redemption(callback_query: types.CallbackQuery, state: FSMContext
     """🛍 Самовыкуп"""
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/self_redemption.json")
-    main_menu_keyboard = create_main_menu_keyboard()
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard,
+        reply_markup=create_main_menu_keyboard(),
         parse_mode="HTML"
     )
 

@@ -46,13 +46,12 @@ async def services_and_prices(callback_query: types.CallbackQuery, state: FSMCon
     try:
         await state.clear()  # Очищаем состояние
         data = load_bot_info(messages="media/messages/services_prices_messages/services_and_prices.json")
-        services_and_prices_keyboard = create_services_and_prices_keyboard()  # Клавиатуры поста приветствия 👋
         document = FSInputFile('media/photos/services_and_prices.jpg')
         media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
         await bot.edit_message_media(media=media,
                                      chat_id=callback_query.message.chat.id,
                                      message_id=callback_query.message.message_id,
-                                     reply_markup=services_and_prices_keyboard,
+                                     reply_markup=create_services_and_prices_keyboard(),
                                      )
     except Exception as error:
         logger.exception(error)
@@ -73,8 +72,7 @@ async def edit_services_and_prices(message: Message, state: FSMContext):
 @router.message(FormeeditServicesAndPrices.text_edit_services_and_prices)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/services_prices_messages/services_and_prices.json')
+    save_bot_info(text, file_path='media/messages/services_prices_messages/services_and_prices.json')
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -114,16 +112,11 @@ async def cargo_delivery_prices(callback_query: types.CallbackQuery, state: FSMC
     try:
         await state.clear()  # Очищаем состояние
         data = load_bot_info(messages="media/messages/cargo_delivery_prices.json")
-
         document = FSInputFile('media/document/Прейскурант CFORB.xlsx')
-
-        main_menu_keyboard = get_price_lists_keyboard()
-
         await bot.send_document(chat_id=callback_query.message.chat.id, document=document,
-                                reply_markup=main_menu_keyboard,
+                                reply_markup=get_price_lists_keyboard(),
                                 caption=data,
                                 parse_mode="HTML")
-
     except Exception as error:
         logger.exception(error)
 
@@ -143,8 +136,7 @@ async def edit_cargo_delivery_prices(message: Message, state: FSMContext):
 @router.message(FormeditCargoDeliveryPrices.text_edit_cargo_delivery_prices)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/cargo_delivery_prices.json')  # Сохраняем информацию в JSON
+    save_bot_info(text, file_path='media/messages/cargo_delivery_prices.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -157,12 +149,11 @@ async def goods_redemption_service(callback_query: types.CallbackQuery, state: F
     """Услуга Выкупа товаров"""
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/goods_redemption_service.json")
-    main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard,
+        reply_markup=create_services_and_prices_main_menu_keyboard(),
         parse_mode="HTML"
     )
 
@@ -182,8 +173,7 @@ async def edit_goods_redemption_service(message: Message, state: FSMContext):
 @router.message(FormeditGoodsRedemptionService.text_edit_goods_redemption_service)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/goods_redemption_service.json')  # Сохраняем информацию в JSON
+    save_bot_info(text, file_path='media/messages/goods_redemption_service.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -197,12 +187,11 @@ async def product_search_service(callback_query: types.CallbackQuery, state: FSM
     try:
         await state.clear()  # Очищаем состояние
         data = load_bot_info(messages="media/messages/product_search_service.json")
-        main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
         await bot.edit_message_caption(
             chat_id=callback_query.message.chat.id,
             message_id=callback_query.message.message_id,
             caption=data,
-            reply_markup=main_menu_keyboard,
+            reply_markup=create_services_and_prices_main_menu_keyboard(),
             parse_mode="HTML"
         )
     except Exception as error:
@@ -224,8 +213,7 @@ async def edit_product_search_service(message: Message, state: FSMContext):
 @router.message(FormeditProductSearchService.text_edit_product_search_service)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/product_search_service.json')  # Сохраняем информацию в JSON
+    save_bot_info(text, file_path='media/messages/product_search_service.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -238,12 +226,11 @@ async def wechat_registration_service(callback_query: types.CallbackQuery, state
     """Услуга регистрации на WeChat"""
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/wechat_registration_service.json")
-    main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard,
+        reply_markup=create_services_and_prices_main_menu_keyboard(),
         parse_mode="HTML"
     )
 
@@ -263,8 +250,7 @@ async def edit_wechat_registration_service(message: Message, state: FSMContext):
 @router.message(FormeditWechatRegistrationService.text_edit_wechat_registration_service)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/wechat_registration_service.json')  # Сохраняем информацию в JSON
+    save_bot_info(text, file_path='media/messages/wechat_registration_service.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -277,12 +263,11 @@ async def purchase_a_supplier_database(callback_query: types.CallbackQuery, stat
     """Приобрести базу данных поставщиков"""
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/purchase_a_supplier_database.json")
-    main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard,
+        reply_markup=create_services_and_prices_main_menu_keyboard(),
         parse_mode="HTML"
     )
 
@@ -302,8 +287,7 @@ async def edit_purchase_a_supplier_database(message: Message, state: FSMContext)
 @router.message(FormeditPurchaseASupplierDatabase.text_edit_purchase_a_supplier_database)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/purchase_a_supplier_database.json')  # Сохраняем информацию в JSON
+    save_bot_info(text, file_path='media/messages/purchase_a_supplier_database.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -316,12 +300,11 @@ async def what_payments_await_me(callback_query: types.CallbackQuery, state: FSM
     """📌 Кнопка “Какие платежи меня ожидают?”"""
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/what_payments_await_me.json")
-    main_menu_keyboard = create_services_and_prices_main_menu_keyboard()
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard,
+        reply_markup=create_services_and_prices_main_menu_keyboard(),
         parse_mode="HTML"
     )
 
@@ -341,8 +324,7 @@ async def edit_what_payments_await_me(message: Message, state: FSMContext):
 @router.message(FormeditWhatPaymentsAwaitMe.text_edit_what_payments_await_me)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/what_payments_await_me.json')  # Сохраняем информацию в JSON
+    save_bot_info(text, file_path='media/messages/what_payments_await_me.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 

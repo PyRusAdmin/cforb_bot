@@ -1,7 +1,6 @@
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import FSInputFile
 from aiogram.types import Message
 from loguru import logger
@@ -19,13 +18,10 @@ async def order_form(callback_query: types.CallbackQuery, state: FSMContext):
     """Бланк заказа"""
     try:
         await state.clear()  # Очищаем состояние
-
-        main_menu_keyboard = create_main_menu_keyboard()
         data = load_bot_info(messages="media/messages/order_form.json")
         document = FSInputFile('media/document/Бланк Заказа CFORB.xls')
-
         await bot.send_document(chat_id=callback_query.message.chat.id, document=document,
-                                reply_markup=main_menu_keyboard,
+                                reply_markup=create_main_menu_keyboard(),
                                 caption=data,
                                 parse_mode="HTML")
     except Exception as error:

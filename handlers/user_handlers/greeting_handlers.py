@@ -74,12 +74,10 @@ async def command_start_handler(message: Message) -> None:
         sign_up_text = ("⚠️ <b>Вы не зарегистрированы в нашей системе</b> ⚠️\n\n"
                         "Для доступа к этому разделу, пожалуйста, <b>зарегистрируйтесь</b>.\n\n"
                         "Для перехода в начальное меню нажмите /start")
-
         # Создаем клавиатуру с помощью my_details() (предполагается, что она существует)
-        my_details_key = create_my_details_keyboard()
         # Отправляем сообщение с предложением зарегистрироваться и клавиатурой
         await bot.send_message(message.from_user.id, sign_up_text,
-                               reply_markup=my_details_key,
+                               reply_markup=create_my_details_keyboard(),
                                disable_web_page_preview=True)
 
 
@@ -98,8 +96,7 @@ async def edit_main_menu(message: Message, state: FSMContext):
 @router.message(FormeditMainMenu.text_edit_main_menu)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/main_menu_messages.json')  # Сохраняем информацию в JSON
+    save_bot_info(text, file_path='media/messages/main_menu_messages.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -117,14 +114,13 @@ async def send_start(callback_query: types.CallbackQuery, state: FSMContext):
 
         user_exists = check_user_exists_in_db(user_id)  # Проверяем наличие пользователя в базе данных
         if user_exists:
-            greeting_keyboard = create_greeting_keyboard()
             document = FSInputFile('media/photos/greeting.jpg')
             data = load_bot_info(messages="media/messages/main_menu_messages.json")
             media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
             await bot.edit_message_media(media=media,
                                          chat_id=callback_query.message.chat.id,
                                          message_id=callback_query.message.message_id,
-                                         reply_markup=greeting_keyboard,
+                                         reply_markup=create_greeting_keyboard(),
                                          )
         else:
             # Если пользователя нет в базе данных, предлагаем пройти регистрацию

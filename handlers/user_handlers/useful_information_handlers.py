@@ -14,15 +14,13 @@ from system.working_with_files import save_bot_info
 @router.callback_query(F.data == "useful_information")
 async def useful_information(callback_query: types.CallbackQuery, state: FSMContext):
     """📚 Полезная информация"""
-
     await state.clear()  # Очищаем состояние
     data = load_bot_info(messages="media/messages/useful_information.json")
-    main_menu_keyboard = create_main_menu_keyboard()
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
         caption=data,
-        reply_markup=main_menu_keyboard,
+        reply_markup=create_main_menu_keyboard(),
         parse_mode="HTML"
     )
 
