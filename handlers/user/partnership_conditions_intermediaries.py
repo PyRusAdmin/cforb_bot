@@ -15,11 +15,10 @@ from system.working_with_files import save_bot_info
 @router.callback_query(F.data == "partnership_conditions_for_intermediaries_button")
 async def partnership_conditions_for_intermediaries(callback_query: types.CallbackQuery):
     """Партнерские условия для посредников"""
-    data = load_bot_info(messages="media/messages/partnership_conditions_for_intermediaries_button.json")
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
-        caption=data,
+        caption=load_bot_info(messages="media/messages/partnership_conditions_for_intermediaries_button.json"),
         reply_markup=create_main_menu_keyboard(),
         parse_mode="HTML"
     )
@@ -33,21 +32,21 @@ async def edit_partnership_conditions_for_intermediaries_button(message: Message
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditPartnershipConditionsIntermediariesButton.text_edit_partnership_conditions_for_intermediaries_button)
+    await state.set_state(
+        FormeditPartnershipConditionsIntermediariesButton.text_edit_partnership_conditions_for_intermediaries_button)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditPartnershipConditionsIntermediariesButton.text_edit_partnership_conditions_for_intermediaries_button)
+@router.message(
+    FormeditPartnershipConditionsIntermediariesButton.text_edit_partnership_conditions_for_intermediaries_button)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info,
+    save_bot_info(message.html_text,
                   file_path='media/messages/partnership_conditions_for_intermediaries_button.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
 
-def register_partnership_conditions_for_intermediaries_handler():
+def register_partnership_conditions_intermediaries_handler():
     """Регистрируем handlers для бота"""
     dp.message.register(partnership_conditions_for_intermediaries)
     dp.message.register(edit_partnership_conditions_for_intermediaries_button)

@@ -89,12 +89,11 @@ async def process_send_message(message: types.Message, state: FSMContext):
     Этот хендлер будет ждать введенного текста и выполнять рассылку
     """
     # Получаем список уникальных ID пользователей из базы данных
-    message_text = message.text
     user_ids = get_user_ids()
     if user_ids:
         for user_id in user_ids:  # Рассылка сообщения всем пользователям из списка
             try:
-                await bot.send_message(chat_id=user_id, text=message_text, parse_mode="HTML")
+                await bot.send_message(chat_id=user_id, text=message.text, parse_mode="HTML")
             except Exception as e:
                 print(f"Ошибка при отправке сообщения пользователю {user_id}: {str(e)}")
     await message.answer("Сообщение успешно разослано всем пользователям.")

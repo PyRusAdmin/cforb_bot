@@ -42,9 +42,7 @@ async def edit_order_form(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(FormorderForm.text_order_form)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/order_form.json')  # Сохраняем информацию в JSON
+    save_bot_info(message.html_text, file_path='media/messages/order_form.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 

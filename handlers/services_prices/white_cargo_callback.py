@@ -3,12 +3,12 @@ import os
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.types import Message
 from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_services_and_prices_main_menu_keyboard
+from states.states import EditWhiteCargoDeliveryState
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -29,9 +29,8 @@ async def handle_photo_upload(message: types.Message):
     # Получаем файл фотографии
     photo = message.photo[-1]
     file_info = await message.bot.get_file(photo.file_id)
-    new_photo_path = os.path.join("media/photos/", 'white_cargo_gte.jpg')
     # Загружаем файл на диск
-    await message.bot.download_file(file_info.file_path, new_photo_path)
+    await message.bot.download_file(file_info.file_path, os.path.join("media/photos/", 'white_cargo_gte.jpg'))
     await message.answer("Фото успешно заменено!")
 
 
@@ -40,21 +39,18 @@ async def handle_white_cargo_callback(callback_query: types.CallbackQuery, state
     """📌 Кнопка “Белая доставка грузов с ГТД ”"""
     try:
         await state.clear()  # Очищаем состояние
-        data = load_bot_info(messages="media/messages/services_prices_messages/white_cargo_gte.json")
-        document = FSInputFile('media/photos/white_cargo_gte.jpg')
-        media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
         await bot.edit_message_media(
-            media=media,
+            media=InputMediaPhoto(
+                media=FSInputFile('media/photos/white_cargo_gte.jpg'),
+                caption=load_bot_info(messages="media/messages/services_prices_messages/white_cargo_gte.json"),
+                parse_mode="HTML"
+            ),
             chat_id=callback_query.message.chat.id,
             message_id=callback_query.message.message_id,
             reply_markup=create_services_and_prices_main_menu_keyboard(),
         )
     except Exception as error:
         logger.exception(error)
-
-
-class EditWhiteCargoDeliveryState(StatesGroup):
-    edit_text = State()
 
 
 # Обработчик команды /edit_white_cargo_gte (только для админа)
@@ -71,9 +67,7 @@ async def cmd_edit_white_cargo_text(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(EditWhiteCargoDeliveryState.edit_text)
 async def update_white_cargo_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/services_prices_messages/white_cargo_gte.json')
+    save_bot_info(message.html_text, file_path='media/messages/services_prices_messages/white_cargo_gte.json')
     await message.reply("Информация обновлена.")
     await state.clear()
 

@@ -44,9 +44,8 @@ async def replace_photo(message: types.Message):
     # Получаем файл фотографии
     photo = message.photo[-1]
     file_info = await message.bot.get_file(photo.file_id)
-    new_photo_path = os.path.join("media/photos/", 'greeting.jpg')
     # Загружаем файл на диск
-    await message.bot.download_file(file_info.file_path, new_photo_path)
+    await message.bot.download_file(file_info.file_path, os.path.join("media/photos/", 'greeting.jpg'))
     await message.answer("Фото успешно заменено!")
 
 
@@ -62,19 +61,17 @@ async def command_start_handler(message: Message) -> None:
 
     user_exists = check_user_exists_in_db(user_id)  # Проверяем наличие пользователя в базе данных
     if user_exists:
-        document = FSInputFile('media/photos/greeting.jpg')
-        data = load_bot_info(messages="media/messages/main_menu_messages.json")
-        await message.answer_photo(photo=document, caption=data,
+        await message.answer_photo(photo=FSInputFile('media/photos/greeting.jpg'),
+                                   caption=load_bot_info(messages="media/messages/main_menu_messages.json"),
                                    reply_markup=create_greeting_keyboard(),
                                    parse_mode="HTML")
     else:
         # Если пользователя нет в базе данных, предлагаем пройти регистрацию
-        sign_up_text = ("⚠️ <b>Вы не зарегистрированы в нашей системе</b> ⚠️\n\n"
-                        "Для доступа к этому разделу, пожалуйста, <b>зарегистрируйтесь</b>.\n\n"
-                        "Для перехода в начальное меню нажмите /start")
         # Создаем клавиатуру с помощью my_details() (предполагается, что она существует)
         # Отправляем сообщение с предложением зарегистрироваться и клавиатурой
-        await bot.send_message(message.from_user.id, sign_up_text,
+        await bot.send_message(message.from_user.id, ("⚠️ <b>Вы не зарегистрированы в нашей системе</b> ⚠️\n\n"
+                                                      "Для доступа к этому разделу, пожалуйста, <b>зарегистрируйтесь</b>.\n\n"
+                                                      "Для перехода в начальное меню нажмите /start"),
                                reply_markup=create_my_details_keyboard(),
                                disable_web_page_preview=True)
 
@@ -93,8 +90,7 @@ async def edit_main_menu(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(FormeditMainMenu.text_edit_main_menu)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    save_bot_info(text, file_path='media/messages/main_menu_messages.json')  # Сохраняем информацию в JSON
+    save_bot_info(message.html_text, file_path='media/messages/main_menu_messages.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -112,23 +108,22 @@ async def send_start(callback_query: types.CallbackQuery, state: FSMContext):
 
         user_exists = check_user_exists_in_db(user_id)  # Проверяем наличие пользователя в базе данных
         if user_exists:
-            document = FSInputFile('media/photos/greeting.jpg')
-            data = load_bot_info(messages="media/messages/main_menu_messages.json")
-            media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
-            await bot.edit_message_media(media=media,
-                                         chat_id=callback_query.message.chat.id,
-                                         message_id=callback_query.message.message_id,
-                                         reply_markup=create_greeting_keyboard(),
-                                         )
+            await bot.edit_message_media(
+                media=InputMediaPhoto(media=FSInputFile('media/photos/greeting.jpg'),
+                                      caption=load_bot_info(messages="media/messages/main_menu_messages.json"),
+                                      parse_mode="HTML"),
+                chat_id=callback_query.message.chat.id,
+                message_id=callback_query.message.message_id,
+                reply_markup=create_greeting_keyboard(),
+            )
         else:
             # Если пользователя нет в базе данных, предлагаем пройти регистрацию
-            sign_up_text = ("⚠️ <b>Вы не зарегистрированы в нашей системе</b> ⚠️\n\n"
-                            "Для доступа к этому разделу, пожалуйста, <b>зарегистрируйтесь</b>.\n\n"
-                            "Для перехода в начальное меню нажмите /start")
-
             # Создаем клавиатуру с помощью my_details() (предполагается, что она существует)
             # Отправляем сообщение с предложением зарегистрироваться и клавиатурой
-            await bot.send_message(callback_query.from_user.id, sign_up_text,
+            await bot.send_message(callback_query.from_user.id,
+                                   ("⚠️ <b>Вы не зарегистрированы в нашей системе</b> ⚠️\n\n"
+                                    "Для доступа к этому разделу, пожалуйста, <b>зарегистрируйтесь</b>.\n\n"
+                                    "Для перехода в начальное меню нажмите /start"),
                                    reply_markup=create_my_details_keyboard(),
                                    disable_web_page_preview=True)
     except Exception as error:
@@ -148,23 +143,21 @@ async def call_us_handler(callback_query: types.CallbackQuery, state: FSMContext
         phone_number = user_data.get('phone_number', 'не указано')
         registration_date = user_data.get('registration_date')
 
-        text_mes = (f"🤝 Добро пожаловать, {name} {surname}!\n"
-                    "Ваши данные:\n\n"
-                    f"✅ <b>Имя:</b> {name}\n"
-                    f"✅ <b>Фамилия:</b> {surname}\n"
-                    f"✅ <b>Город:</b> {city}\n"
-                    f"✅ <b>Номер телефона:</b> {phone_number}\n"
-                    f"✅ <b>Дата регистрации:</b> {registration_date}\n\n")
-        await bot.send_message(callback_query.from_user.id, text_mes,
+        await bot.send_message(callback_query.from_user.id, (f"🤝 Добро пожаловать, {name} {surname}!\n"
+                                                             "Ваши данные:\n\n"
+                                                             f"✅ <b>Имя:</b> {name}\n"
+                                                             f"✅ <b>Фамилия:</b> {surname}\n"
+                                                             f"✅ <b>Город:</b> {city}\n"
+                                                             f"✅ <b>Номер телефона:</b> {phone_number}\n"
+                                                             f"✅ <b>Дата регистрации:</b> {registration_date}\n\n"),
                                reply_markup=create_data_modification_keyboard(),
                                )
     else:
         # Если данные о пользователе не найдены, предложите пройти регистрацию
-        sign_up_text = ("👋 Предлагаем нам с Вами познакомиться!\n\n"
-                        "Информация о Ваших Ф.И.О., городе и номере телефона нужны для оптимизации и персонализации "
-                        "работы нашего бота под наших клиентов.\n\n"
-                        "Для возврата нажмите /start")
-        await bot.send_message(callback_query.from_user.id, sign_up_text,
+        await bot.send_message(callback_query.from_user.id, ("👋 Предлагаем нам с Вами познакомиться!\n\n"
+                                                             "Информация о Ваших Ф.И.О., городе и номере телефона нужны для оптимизации и персонализации "
+                                                             "работы нашего бота под наших клиентов.\n\n"
+                                                             "Для возврата нажмите /start"),
                                reply_markup=create_sign_up_keyboard(),
                                disable_web_page_preview=True)
 
@@ -181,13 +174,11 @@ async def process_entered_name(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     new_name = message.text
     if update_name_in_db(user_id, new_name):
-        text_name = f"✅ Имя успешно изменено на {new_name} ✅\n\n" \
-                    "Для возврата нажмите /start"
-        await bot.send_message(user_id, text_name)
+        await bot.send_message(user_id, (f"✅ Имя успешно изменено на {new_name} ✅\n\n"
+                                         "Для возврата нажмите /start"))
     else:
-        text_name = "❌ Произошла ошибка при изменении имени ❌\n\n" \
-                    "Для возврата нажмите /start"
-        await bot.send_message(user_id, text_name)
+        await bot.send_message(user_id, ("❌ Произошла ошибка при изменении имени ❌\n\n"
+                                         "Для возврата нажмите /start"))
     # Завершаем состояние после изменения имени
     await state.clear()
 
@@ -204,13 +195,11 @@ async def process_entered_edit_surname(message: types.Message, state: FSMContext
     user_id = message.from_user.id
     new_surname = message.text
     if update_surname_in_db(user_id, new_surname):
-        text_surname = f"✅ Фамилия успешно изменена на {new_surname} ✅\n\n" \
-                       "Для возврата нажмите /start"
-        await bot.send_message(user_id, text_surname)
+        await bot.send_message(user_id, (f"✅ Фамилия успешно изменена на {new_surname} ✅\n\n"
+                                         "Для возврата нажмите /start"))
     else:
-        text_surname = "❌ Произошла ошибка при изменении фамилии ❌\n\n" \
-                       "Для возврата нажмите /start"
-        await bot.send_message(user_id, text_surname)
+        await bot.send_message(user_id, ("❌ Произошла ошибка при изменении фамилии ❌\n\n"
+                                         "Для возврата нажмите /start"))
     # Завершаем состояние после изменения имени
     await state.clear()
 
@@ -227,13 +216,11 @@ async def process_entered_edit_city(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     new_city = message.text
     if update_city_in_db(user_id, new_city):
-        text_city = f"✅ Город успешно изменен на {new_city} ✅\n\n" \
-                    "Для возврата нажмите /start"
-        await bot.send_message(user_id, text_city)
+        await bot.send_message(user_id, (f"✅ Город успешно изменен на {new_city} ✅\n\n"
+                                         "Для возврата нажмите /start"))
     else:
-        text_city = "❌ Произошла ошибка при изменении города ❌\n\n" \
-                    "Для возврата нажмите /start"
-        await bot.send_message(user_id, text_city)
+        await bot.send_message(user_id, ("❌ Произошла ошибка при изменении города ❌\n\n"
+                                         "Для возврата нажмите /start"))
     # Завершаем состояние после изменения имени
     await state.clear()
 
@@ -250,13 +237,11 @@ async def process_entered_edit_city(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     new_phone = message.text
     if update_phone_in_db(user_id, new_phone):
-        text_phone = f"✅ Номер телефона успешно изменен на {new_phone} ✅\n\n" \
-                     "Для возврата нажмите /start"
-        await bot.send_message(user_id, text_phone)
+        await bot.send_message(user_id, (f"✅ Номер телефона успешно изменен на {new_phone} ✅\n\n"
+                                         "Для возврата нажмите /start"))
     else:
-        text_phone = "❌ Произошла ошибка при изменении номера телефона ❌\n\n" \
-                     "Для возврата нажмите /start"
-        await bot.send_message(user_id, text_phone)
+        await bot.send_message(user_id, ("❌ Произошла ошибка при изменении номера телефона ❌\n\n"
+                                         "Для возврата нажмите /start"))
     # Завершаем состояние после изменения имени
     await state.clear()
 
@@ -265,9 +250,8 @@ async def process_entered_edit_city(message: types.Message, state: FSMContext):
 async def agree_handler(callback_query: types.CallbackQuery, state: FSMContext):
     await state.clear()  # Очищаем состояние
     await state.set_state(MakingAnOrder.write_surname)
-    text_mes = ("👥 Введите вашу фамилию (желательно кириллицей):\n"
-                "Пример: Петров, Иванова, Сидоренко")
-    await bot.send_message(callback_query.from_user.id, text_mes)
+    await bot.send_message(callback_query.from_user.id, ("👥 Введите вашу фамилию (желательно кириллицей):\n"
+                                                         "Пример: Петров, Иванова, Сидоренко"))
 
 
 @router.message(MakingAnOrder.write_surname)
@@ -275,9 +259,8 @@ async def write_surname_handler(message: types.Message, state: FSMContext):
     surname = message.text
     await state.update_data(surname=surname)
     await state.set_state(MakingAnOrder.write_name)
-    text_mes = ("👤 Введите ваше имя (желательно кириллицей):\n"
-                "Пример: Иван, Ольга, Анастасия")
-    await bot.send_message(message.from_user.id, text_mes)
+    await bot.send_message(message.from_user.id, ("👤 Введите ваше имя (желательно кириллицей):\n"
+                                                  "Пример: Иван, Ольга, Анастасия"))
 
 
 @router.message(MakingAnOrder.write_name)
@@ -285,19 +268,17 @@ async def write_city_handlers(message: types.Message, state: FSMContext):
     name = message.text
     await state.update_data(name=name)
     await state.set_state(MakingAnOrder.write_city)
-    text_mes = ("🏙️ Введите ваш город (желательно кириллицей):\n"
-                "Пример: Москва, Санкт-Петербург")
-    await bot.send_message(message.from_user.id, text_mes)
+    await bot.send_message(message.from_user.id, ("🏙️ Введите ваш город (желательно кириллицей):\n"
+                                                  "Пример: Москва, Санкт-Петербург"))
 
 
 @router.message(MakingAnOrder.write_city)
 async def write_name_handler(message: types.Message, state: FSMContext):
     city = message.text
     await state.update_data(city=city)
-    sign_up_texts = (
+    await bot.send_message(message.from_user.id, (
         "Для ввода номера телефона вы можете поделиться номером телефона, нажав на кнопку или ввести его вручную.\n\n"
-        "Чтобы ввести номер вручную, просто отправьте его в текстовом поле.")
-    await bot.send_message(message.from_user.id, sign_up_texts,
+        "Чтобы ввести номер вручную, просто отправьте его в текстовом поле."),
                            reply_markup=create_contact_keyboard(),  # Установить пользовательскую клавиатуру
                            disable_web_page_preview=True)
     await state.set_state(MakingAnOrder.phone_input)
@@ -330,19 +311,18 @@ async def handle_confirmation(message: types.Message, state: FSMContext):
     # Получение ID аккаунта Telegram
     user_id = message.from_user.id
     # Составьте подтверждающее сообщение
-    text_mes = (f"🤝 Рады познакомиться {name} {surname}! 🤝\n"
-                "Ваши регистрационные данные:\n\n"
-                f"✅ <b>Ваше Имя:</b> {name}\n"
-                f"✅ <b>Ваша Фамилия:</b> {surname}\n"
-                f"✅ <b>Ваш Город:</b> {city}\n"
-                f"✅ <b>Ваш номер телефона:</b> {phone_number}\n"
-                f"✅ <b>Ваша Дата регистрации:</b> {registration_date}\n\n"
-                "Вы можете изменить свои данные в меню \"Мои данные\".\n\n"
-                "Для возврата нажмите /start")
     insert_user_data_to_database(user_id, name, surname, city, phone_number, registration_date)
     await state.clear()
     # Создаем клавиатуру с помощью my_details() (предполагается, что она существует)
-    await bot.send_message(message.from_user.id, text_mes)
+    await bot.send_message(message.from_user.id, (f"🤝 Рады познакомиться {name} {surname}! 🤝\n"
+                                                  "Ваши регистрационные данные:\n\n"
+                                                  f"✅ <b>Ваше Имя:</b> {name}\n"
+                                                  f"✅ <b>Ваша Фамилия:</b> {surname}\n"
+                                                  f"✅ <b>Ваш Город:</b> {city}\n"
+                                                  f"✅ <b>Ваш номер телефона:</b> {phone_number}\n"
+                                                  f"✅ <b>Ваша Дата регистрации:</b> {registration_date}\n\n"
+                                                  "Вы можете изменить свои данные в меню \"Мои данные\".\n\n"
+                                                  "Для возврата нажмите /start"))
 
 
 def register_greeting_handler():

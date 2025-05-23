@@ -16,11 +16,10 @@ from system.working_with_files import save_bot_info
 async def handle_supplier_inspection(callback_query: types.CallbackQuery, state: FSMContext):
     """📌 Кнопка “Инспекция поставщиков по провинциям (выезд на производство)”"""
     await state.clear()  # Очищаем состояние
-    data = load_bot_info(messages="media/messages/services_prices_messages/supplier_inspection.json")
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
-        caption=data,
+        caption=load_bot_info(messages="media/messages/services_prices_messages/supplier_inspection.json"),
         reply_markup=create_services_and_prices_main_menu_keyboard(),
         parse_mode="HTML"
     )
@@ -40,9 +39,7 @@ async def cmd_edit_supplier_inspection(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(EditSupplierInspectionState.edit_text)
 async def update_supplier_inspection_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/services_prices_messages/supplier_inspection.json')
+    save_bot_info(message.html_text, file_path='media/messages/services_prices_messages/supplier_inspection.json')
     await message.reply("Информация обновлена.")
     await state.clear()
 

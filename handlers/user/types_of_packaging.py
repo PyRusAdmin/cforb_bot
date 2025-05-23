@@ -30,9 +30,8 @@ async def replace_photo(message: types.Message):
     # Получаем файл фотографии
     photo = message.photo[-1]
     file_info = await message.bot.get_file(photo.file_id)
-    new_photo_path = os.path.join("media/photos/", 'types_of_packaging.jpg')
     # Загружаем файл на диск
-    await message.bot.download_file(file_info.file_path, new_photo_path)
+    await message.bot.download_file(file_info.file_path, os.path.join("media/photos/", 'types_of_packaging.jpg'))
     await message.answer("Фото успешно заменено!")
 
 
@@ -40,14 +39,14 @@ async def replace_photo(message: types.Message):
 async def types_of_packaging(callback_query: types.CallbackQuery, state: FSMContext):
     """Виды упаковки"""
     await state.clear()  # Очищаем состояние
-    data = load_bot_info(messages="media/messages/types_of_packaging.json")
-    document = FSInputFile('media/photos/types_of_packaging.jpg')
-    media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
-    await bot.edit_message_media(media=media,
-                                 chat_id=callback_query.message.chat.id,
-                                 message_id=callback_query.message.message_id,
-                                 reply_markup=create_packaging_keyboard(),
-                                 )
+    await bot.edit_message_media(
+        media=InputMediaPhoto(media=FSInputFile('media/photos/types_of_packaging.jpg'),
+                              caption=load_bot_info(messages="media/messages/types_of_packaging.json"),
+                              parse_mode="HTML"),
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+        reply_markup=create_packaging_keyboard(),
+    )
 
 
 # Обработчик команды /edit_types_of_packaging (только для админа)
@@ -64,9 +63,7 @@ async def edit_useful_information(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(FormeeditTypesOfPackaging.text_edit_types_of_packaging)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/types_of_packaging.json')  # Сохраняем информацию в JSON
+    save_bot_info(message.html_text, file_path='media/messages/types_of_packaging.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -78,11 +75,10 @@ async def update_info(message: Message, state: FSMContext):
 async def bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Мешок + скотч"""
     await state.clear()  # Очищаем состояние
-    data = load_bot_info(messages="media/messages/bag_tape.json")
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
-        caption=data,
+        caption=load_bot_info(messages="media/messages/bag_tape.json"),
         reply_markup=create_packaging_menu_keyboard(),
         parse_mode="HTML"
     )
@@ -102,9 +98,7 @@ async def edit_bag_tape(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(FormeditBagTape.text_edit_bag_tape)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/bag_tape.json')  # Сохраняем информацию в JSON
+    save_bot_info(message.html_text, file_path='media/messages/bag_tape.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -116,11 +110,10 @@ async def update_info(message: Message, state: FSMContext):
 async def box_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Коробка + мешок + скотч"""
     await state.clear()  # Очищаем состояние
-    data = load_bot_info(messages="media/messages/box_bag_tape.json")
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
-        caption=data,
+        caption=load_bot_info(messages="media/messages/box_bag_tape.json"),
         reply_markup=create_packaging_menu_keyboard(),
         parse_mode="HTML"
     )
@@ -140,9 +133,7 @@ async def edit_box_bag_tape(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(FormeeditBoxBagTape.text_edit_box_bag_tape)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/box_bag_tape.json')  # Сохраняем информацию в JSON
+    save_bot_info(message.html_text, file_path='media/messages/box_bag_tape.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -154,14 +145,16 @@ async def update_info(message: Message, state: FSMContext):
 async def wooden_sheathing_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Деревянная обрешетка + мешок + скотч"""
     await state.clear()  # Очищаем состояние
-    document = FSInputFile('media/photos/types_of_packaging.jpg')
-    data = load_bot_info(messages="media/messages/wooden_sheathing_bag_tape.json")
-    media = InputMediaPhoto(media=document, caption=data, parse_mode="HTML")
-    await bot.edit_message_media(media=media,
-                                 chat_id=callback_query.message.chat.id,
-                                 message_id=callback_query.message.message_id,
-                                 reply_markup=create_packaging_menu_keyboard(),
-                                 )
+    await bot.edit_message_media(
+        media=InputMediaPhoto(
+            media=FSInputFile('media/photos/types_of_packaging.jpg'),
+            caption=load_bot_info(messages="media/messages/wooden_sheathing_bag_tape.json"),
+            parse_mode="HTML"
+        ),
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+        reply_markup=create_packaging_menu_keyboard(),
+    )
 
 
 # Обработчик команды /edit_wooden_sheathing_bag_tape (только для админа)
@@ -178,9 +171,8 @@ async def edit_wooden_sheathing_bag_tape(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(FormeditWoodenSheathingBagTape.text_edit_wooden_sheathing_bag_tape)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/wooden_sheathing_bag_tape.json')  # Сохраняем информацию в JSON
+    save_bot_info(message.html_text,
+                  file_path='media/messages/wooden_sheathing_bag_tape.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -192,11 +184,10 @@ async def update_info(message: Message, state: FSMContext):
 async def wooden_corners_bag_tape(callback_query: types.CallbackQuery, state: FSMContext):
     """Деревянные уголки + мешок + скотч"""
     await state.clear()  # Очищаем состояние
-    data = load_bot_info(messages="media/messages/wooden_corners_bag_tape.json")
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
-        caption=data,
+        caption=load_bot_info(messages="media/messages/wooden_corners_bag_tape.json"),
         reply_markup=create_packaging_menu_keyboard(),
         parse_mode="HTML"
     )
@@ -216,9 +207,8 @@ async def edit_wooden_corners_bag_tape(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(FormeditWoodenCornersBagTape.text_edit_wooden_corners_bag_tape)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/wooden_corners_bag_tape.json')  # Сохраняем информацию в JSON
+    save_bot_info(message.html_text,
+                  file_path='media/messages/wooden_corners_bag_tape.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -230,11 +220,10 @@ async def update_info(message: Message, state: FSMContext):
 async def pallet_in_crate(callback_query: types.CallbackQuery, state: FSMContext):
     """Паллет в обрешетке"""
     await state.clear()  # Очищаем состояние
-    data = load_bot_info(messages="media/messages/pallet_in_crate.json")
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
-        caption=data,
+        caption=load_bot_info(messages="media/messages/pallet_in_crate.json"),
         reply_markup=create_packaging_menu_keyboard(),
         parse_mode="HTML"
     )
@@ -254,9 +243,7 @@ async def edit_pallet_crate(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(FormeditPalletCrate.text_edit_pallet_crate)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/pallet_in_crate.json')  # Сохраняем информацию в JSON
+    save_bot_info(message.html_text, file_path='media/messages/pallet_in_crate.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 
@@ -268,11 +255,10 @@ async def update_info(message: Message, state: FSMContext):
 async def pallet_with_a_solid_wooden_box(callback_query: types.CallbackQuery, state: FSMContext):
     """Паллет с глухим деревянным коробом"""
     await state.clear()  # Очищаем состояние
-    data = load_bot_info(messages="media/messages/pallet_with_a_solid_wooden_box.json")
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
-        caption=data,
+        caption=load_bot_info(messages="media/messages/pallet_with_a_solid_wooden_box.json"),
         reply_markup=create_packaging_menu_keyboard(),
         parse_mode="HTML"
     )
@@ -292,8 +278,7 @@ async def edit_pallet_with_a_solid_wooden_box(message: Message, state: FSMContex
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(FormeditPalletWithASolidWoodenBox.text_edit_pallet_with_a_solid_wooden_box)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    save_bot_info(text,
+    save_bot_info(message.html_text,
                   file_path='media/messages/pallet_with_a_solid_wooden_box.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()

@@ -15,11 +15,10 @@ from system.working_with_files import save_bot_info
 async def useful_information(callback_query: types.CallbackQuery, state: FSMContext):
     """📚 Полезная информация"""
     await state.clear()  # Очищаем состояние
-    data = load_bot_info(messages="media/messages/useful_information.json")
     await bot.edit_message_caption(
         chat_id=callback_query.message.chat.id,
         message_id=callback_query.message.message_id,
-        caption=data,
+        caption=load_bot_info(messages="media/messages/useful_information.json"),
         reply_markup=create_main_menu_keyboard(),
         parse_mode="HTML"
     )
@@ -39,9 +38,7 @@ async def edit_useful_information(message: Message, state: FSMContext):
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
 @router.message(FormeditUsefulInformation.text_edit_useful_information)
 async def update_info(message: Message, state: FSMContext):
-    text = message.html_text
-    bot_info = text
-    save_bot_info(bot_info, file_path='media/messages/useful_information.json')  # Сохраняем информацию в JSON
+    save_bot_info(message.html_text, file_path='media/messages/useful_information.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
     await state.clear()
 

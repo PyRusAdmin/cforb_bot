@@ -114,3 +114,6 @@ class FormeditPalletWithASolidWoodenBox(StatesGroup):
 
 class FormeditUsefulInformation(StatesGroup):
     text_edit_useful_information = State()
+
+class EditWhiteCargoDeliveryState(StatesGroup):
+    edit_text = State()

@@ -98,15 +98,15 @@ async def export_data(message: types.Message, state: FSMContext):
         if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
             return
-        orders = reading_from_database()
         # Создание файла Excel
-        workbook = create_excel_file(orders)
+        workbook = create_excel_file(reading_from_database())
         filename = 'Зарегистрированные пользователи в боте.xlsx'
         workbook.save(filename)  # Сохранение файла
-        text = ("Данные пользователей зарегистрированных в боте\n\n"
-                "Для возврата в начальное меню нажми на /start или /help")
-        file = FSInputFile(filename)
-        await bot.send_document(message.from_user.id, document=file, caption=text)  # Отправка файла пользователю
+        await bot.send_document(message.from_user.id,
+                                document=FSInputFile(filename),
+                                caption=("Данные пользователей зарегистрированных в боте\n\n"
+                                         "Для возврата в начальное меню нажми на /start или /help")
+                                )  # Отправка файла пользователю
         os.remove(filename)  # Удаление файла
     except Exception as e:
         logger.error(e)
@@ -140,14 +140,12 @@ async def get_users_who_launched_the_bot(message: types.Message, state: FSMConte
         if message.from_user.id not in [535185511, 301634256]:
             await message.reply('У вас нет доступа к этой команде.')
             return
-        orders = reading_from_database()
-        workbook = create_excel_file_start(orders)  # Создание файла Excel
+        workbook = create_excel_file_start(reading_from_database())  # Создание файла Excel
         filename = 'Данные пользователей запустивших бота.xlsx'
         workbook.save(filename)  # Сохранение файла
-        file = FSInputFile(filename)
-        text = ("Данные пользователей зарегистрированных в боте\n\n"
-                "Для возврата в начальное меню нажми на /start или /help")
-        await bot.send_document(message.from_user.id, document=file, caption=text)  # Отправка файла пользователю
+        await bot.send_document(message.from_user.id, document=FSInputFile(filename),
+                                caption=("Данные пользователей зарегистрированных в боте\n\n"
+                                         "Для возврата в начальное меню нажми на /start или /help"))  # Отправка файла пользователю
         os.remove(filename)  # Удаление файла
     except Exception as e:
         logger.error(e)
