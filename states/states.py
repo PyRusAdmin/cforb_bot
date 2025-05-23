@@ -32,7 +32,7 @@ class ChangingData(StatesGroup):
     changing_city = State()  # Запись города
 
 
-class FormeditMainMenu(StatesGroup):
+class BotContentEditStates(StatesGroup):
     """Замена текста в боте"""
     edit_main_menu = State()
     edit_types_of_packaging = State()  # Замена текста в разделе "Виды упаковки"
@@ -56,10 +56,4 @@ class FormeditMainMenu(StatesGroup):
     edit_reviews = State()  # Замена текста в разделе "💌 Отзывы"
     edit_partnership_conditions_for_intermediaries_button = State()  # Замена текста в разделе "Партнерские условия для посредников"
     edit_text_white_cargo_gte = State()  # Замена текста в разделе "Белая доставка грузов с ГТД"
-
-
-class FormeditUsefulInformation(StatesGroup):
-    text_edit_useful_information = State()
-
-
-
+    text_edit_useful_information = State()  # Замена текста в разделе "📚 Полезная информация"

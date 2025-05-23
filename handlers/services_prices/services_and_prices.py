@@ -3,14 +3,13 @@ import os
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import FSInputFile, InputMediaPhoto
-from aiogram.types import Message
+from aiogram.types import FSInputFile, InputMediaPhoto, Message
 from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import (create_services_and_prices_keyboard,
                                                      create_services_and_prices_main_menu_keyboard,
                                                      get_price_lists_keyboard)
-from states.states import (FileStates, FormeditMainMenu)
+from states.states import (FileStates, BotContentEditStates)
 from system.dispatcher import ADMIN_USER_ID, bot, dp, router
 from system.working_with_files import load_bot_info, save_bot_info
 
@@ -41,11 +40,11 @@ async def edit_services_and_prices(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditMainMenu.edit_services_and_prices)
+    await state.set_state(BotContentEditStates.edit_services_and_prices)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditMainMenu.edit_services_and_prices)
+@router.message(BotContentEditStates.edit_services_and_prices)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text, file_path='media/messages/services_prices_messages/services_and_prices.json')
     await message.reply("Информация обновлена.")
@@ -103,11 +102,11 @@ async def edit_cargo_delivery_prices(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditMainMenu.edit_cargo_delivery_prices)
+    await state.set_state(BotContentEditStates.edit_cargo_delivery_prices)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditMainMenu.edit_cargo_delivery_prices)
+@router.message(BotContentEditStates.edit_cargo_delivery_prices)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text,
                   file_path='media/messages/cargo_delivery_prices.json')  # Сохраняем информацию в JSON
@@ -139,11 +138,11 @@ async def edit_goods_redemption_service(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditMainMenu.edit_goods_redemption_service)
+    await state.set_state(BotContentEditStates.edit_goods_redemption_service)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditMainMenu.edit_goods_redemption_service)
+@router.message(BotContentEditStates.edit_goods_redemption_service)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text,
                   file_path='media/messages/goods_redemption_service.json')  # Сохраняем информацию в JSON
@@ -178,11 +177,11 @@ async def edit_product_search_service(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditMainMenu.edit_product_search_service)
+    await state.set_state(BotContentEditStates.edit_product_search_service)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditMainMenu.edit_product_search_service)
+@router.message(BotContentEditStates.edit_product_search_service)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text,
                   file_path='media/messages/product_search_service.json')  # Сохраняем информацию в JSON
@@ -214,11 +213,11 @@ async def edit_wechat_registration_service(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditMainMenu.edit_wechat_registration_service)
+    await state.set_state(BotContentEditStates.edit_wechat_registration_service)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditMainMenu.edit_wechat_registration_service)
+@router.message(BotContentEditStates.edit_wechat_registration_service)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text,
                   file_path='media/messages/wechat_registration_service.json')  # Сохраняем информацию в JSON
@@ -250,11 +249,11 @@ async def edit_purchase_a_supplier_database(message: Message, state: FSMContext)
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditMainMenu.edit_purchase_a_supplier_database)
+    await state.set_state(BotContentEditStates.edit_purchase_a_supplier_database)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditMainMenu.edit_purchase_a_supplier_database)
+@router.message(BotContentEditStates.edit_purchase_a_supplier_database)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text,
                   file_path='media/messages/purchase_a_supplier_database.json')  # Сохраняем информацию в JSON
@@ -286,11 +285,11 @@ async def edit_what_payments_await_me(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditMainMenu.edit_what_payments_await_me)
+    await state.set_state(BotContentEditStates.edit_what_payments_await_me)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditMainMenu.edit_what_payments_await_me)
+@router.message(BotContentEditStates.edit_what_payments_await_me)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text,
                   file_path='media/messages/what_payments_await_me.json')  # Сохраняем информацию в JSON

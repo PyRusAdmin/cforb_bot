@@ -4,11 +4,9 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
-from states.states import FormeditUsefulInformation
-from system.dispatcher import bot, ADMIN_USER_ID
-from system.dispatcher import router
-from system.working_with_files import load_bot_info
-from system.working_with_files import save_bot_info
+from states.states import BotContentEditStates
+from system.dispatcher import bot, ADMIN_USER_ID, router
+from system.working_with_files import load_bot_info, save_bot_info
 
 
 @router.callback_query(F.data == "useful_information")
@@ -27,16 +25,16 @@ async def useful_information(callback_query: types.CallbackQuery, state: FSMCont
 # Обработчик команды /edit_useful_information (только для админа)
 @router.message(Command("edit_useful_information"))
 async def edit_useful_information(message: Message, state: FSMContext):
-    """Редактирование: Бланк заказа"""
+    """Редактирование: 📚 Полезная информация"""
     if message.from_user.id == ADMIN_USER_ID:
         await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(FormeditUsefulInformation.text_edit_useful_information)
+        await state.set_state(BotContentEditStates.text_edit_useful_information)
     else:
         await message.reply("У вас нет прав на выполнение этой команды.")
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditUsefulInformation.text_edit_useful_information)
+@router.message(BotContentEditStates.text_edit_useful_information)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text, file_path='media/messages/useful_information.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")

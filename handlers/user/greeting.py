@@ -3,8 +3,7 @@ from datetime import datetime
 from aiogram import types, F
 from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
-from aiogram.types import FSInputFile, InputMediaPhoto
-from aiogram.types import Message
+from aiogram.types import FSInputFile, InputMediaPhoto, Message
 from loguru import logger
 
 from database.database import (check_user_exists_in_db, get_user_data_from_db, insert_user_data_to_database,
@@ -13,7 +12,7 @@ from database.database import (check_user_exists_in_db, get_user_data_from_db, i
 from keyboards.user_keyboards.user_keyboards import (create_contact_keyboard, create_data_modification_keyboard,
                                                      create_greeting_keyboard, create_my_details_keyboard,
                                                      create_sign_up_keyboard)
-from states.states import (FormeditMainMenu, ChangingData, MakingAnOrder)
+from states.states import (BotContentEditStates, ChangingData, MakingAnOrder)
 from system.dispatcher import ADMIN_USER_ID, bot, dp, router
 from system.working_with_files import load_bot_info, save_bot_info
 
@@ -53,11 +52,11 @@ async def edit_main_menu(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditMainMenu.edit_main_menu)
+    await state.set_state(BotContentEditStates.edit_main_menu)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditMainMenu.edit_main_menu)
+@router.message(BotContentEditStates.edit_main_menu)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text, file_path='media/messages/main_menu_messages.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")

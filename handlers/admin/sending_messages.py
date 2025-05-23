@@ -1,14 +1,12 @@
 import sqlite3
 
 from aiogram import types
-from aiogram.filters import Command
-from aiogram.filters import StateFilter
+from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from loguru import logger
 
 from states.states import MyStates
-from system.dispatcher import bot
-from system.dispatcher import router
+from system.dispatcher import bot, router
 
 
 def get_user_ids():
@@ -43,7 +41,6 @@ async def process_send_image(message: types.Message, state: FSMContext):
     """
     Этот хендлер будет ждать загруженного изображения и переходить в состояние "ожидание подписи"
     """
-
     await state.update_data(photo=message.photo[-1].file_id)
     await bot.send_message(message.from_user.id, text="Введите подпись к изображению:")
     await state.set_state(MyStates.waiting_for_caption)

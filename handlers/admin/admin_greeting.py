@@ -8,8 +8,7 @@ from aiogram.types import FSInputFile
 from loguru import logger
 
 from database.database import reading_from_database
-from system.dispatcher import bot, ADMIN_USER_ID
-from system.dispatcher import router
+from system.dispatcher import bot, ADMIN_USER_ID, router
 
 
 @router.message(Command('help'))
@@ -46,7 +45,8 @@ async def admin_send_start(message: types.Message, state: FSMContext):
                          "✔️ /edit_reviews - 💌 Отзывы\n"
                          "✔️ /edit_partnership_conditions_for_intermediaries_button - Партнерские условия для посредников"
                          "✔️ /edit_main_menu - текст меню бота\n"
-                         "✔️ /edit_white_cargo_gte - Белая доставка грузов с ГТД\n\n"
+                         "✔️ /edit_white_cargo_gte - Белая доставка грузов с ГТД\n"
+                         "✔️ /edit_useful_information - 📚 Полезная информация\n"
 
                          "<b>Получение данных:</b>\n"
                          "✔️ /get_a_list_of_users_registered_in_the_bot - Получение списка зарегистрированных "

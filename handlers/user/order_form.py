@@ -1,12 +1,11 @@
 from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import FSInputFile
-from aiogram.types import Message
+from aiogram.types import FSInputFile, Message
 from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
-from states.states import FormeditMainMenu
+from states.states import BotContentEditStates
 from system.dispatcher import bot, ADMIN_USER_ID, router
 from system.working_with_files import load_bot_info, save_bot_info
 
@@ -34,11 +33,11 @@ async def edit_order_form(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(FormeditMainMenu.order_form)
+    await state.set_state(BotContentEditStates.order_form)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(FormeditMainMenu.order_form)
+@router.message(BotContentEditStates.order_form)
 async def update_info(message: Message, state: FSMContext):
     save_bot_info(message.html_text, file_path='media/messages/order_form.json')  # Сохраняем информацию в JSON
     await message.reply("Информация обновлена.")
