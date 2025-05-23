@@ -23,7 +23,7 @@ from keyboards.user_keyboards.user_keyboards import create_data_modification_key
 from keyboards.user_keyboards.user_keyboards import create_greeting_keyboard
 from keyboards.user_keyboards.user_keyboards import create_my_details_keyboard
 from keyboards.user_keyboards.user_keyboards import create_sign_up_keyboard
-from states.states import Formedit_main_menu, ChangingData, MakingAnOrder
+from states.states import FormeditMainMenu, ChangingData, MakingAnOrder
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -91,11 +91,11 @@ async def edit_main_menu(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_main_menu.text_edit_main_menu)
+    await state.set_state(FormeditMainMenu.text_edit_main_menu)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_main_menu.text_edit_main_menu)
+@router.message(FormeditMainMenu.text_edit_main_menu)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text

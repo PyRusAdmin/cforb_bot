@@ -10,10 +10,10 @@ from loguru import logger
 from keyboards.user_keyboards.user_keyboards import (create_services_and_prices_keyboard,
                                                      create_services_and_prices_main_menu_keyboard,
                                                      get_price_lists_keyboard)
-from states.states import (Formeedit_services_and_prices, FileStates, Formedit_cargo_delivery_prices,
-                           Formedit_goods_redemption_service, Formedit_product_search_service,
-                           Formedit_wechat_registration_service, Formedit_purchase_a_supplier_database,
-                           Formedit_what_payments_await_me)
+from states.states import (FormeeditServicesAndPrices, FileStates, FormeditCargoDeliveryPrices,
+                           FormeditGoodsRedemptionService, FormeditProductSearchService,
+                           FormeditWechatRegistrationService, FormeditPurchaseASupplierDatabase,
+                           FormeditWhatPaymentsAwaitMe)
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -66,11 +66,11 @@ async def edit_services_and_prices(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formeedit_services_and_prices.text_edit_services_and_prices)
+    await state.set_state(FormeeditServicesAndPrices.text_edit_services_and_prices)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formeedit_services_and_prices.text_edit_services_and_prices)
+@router.message(FormeeditServicesAndPrices.text_edit_services_and_prices)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -136,11 +136,11 @@ async def edit_cargo_delivery_prices(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_cargo_delivery_prices.text_edit_cargo_delivery_prices)
+    await state.set_state(FormeditCargoDeliveryPrices.text_edit_cargo_delivery_prices)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_cargo_delivery_prices.text_edit_cargo_delivery_prices)
+@router.message(FormeditCargoDeliveryPrices.text_edit_cargo_delivery_prices)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -175,11 +175,11 @@ async def edit_goods_redemption_service(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_goods_redemption_service.text_edit_goods_redemption_service)
+    await state.set_state(FormeditGoodsRedemptionService.text_edit_goods_redemption_service)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_goods_redemption_service.text_edit_goods_redemption_service)
+@router.message(FormeditGoodsRedemptionService.text_edit_goods_redemption_service)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -217,11 +217,11 @@ async def edit_product_search_service(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_product_search_service.text_edit_product_search_service)
+    await state.set_state(FormeditProductSearchService.text_edit_product_search_service)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_product_search_service.text_edit_product_search_service)
+@router.message(FormeditProductSearchService.text_edit_product_search_service)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -256,11 +256,11 @@ async def edit_wechat_registration_service(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_wechat_registration_service.text_edit_wechat_registration_service)
+    await state.set_state(FormeditWechatRegistrationService.text_edit_wechat_registration_service)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_wechat_registration_service.text_edit_wechat_registration_service)
+@router.message(FormeditWechatRegistrationService.text_edit_wechat_registration_service)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -295,11 +295,11 @@ async def edit_purchase_a_supplier_database(message: Message, state: FSMContext)
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_purchase_a_supplier_database.text_edit_purchase_a_supplier_database)
+    await state.set_state(FormeditPurchaseASupplierDatabase.text_edit_purchase_a_supplier_database)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_purchase_a_supplier_database.text_edit_purchase_a_supplier_database)
+@router.message(FormeditPurchaseASupplierDatabase.text_edit_purchase_a_supplier_database)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -334,11 +334,11 @@ async def edit_what_payments_await_me(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_what_payments_await_me.text_edit_what_payments_await_me)
+    await state.set_state(FormeditWhatPaymentsAwaitMe.text_edit_what_payments_await_me)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_what_payments_await_me.text_edit_what_payments_await_me)
+@router.message(FormeditWhatPaymentsAwaitMe.text_edit_what_payments_await_me)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text

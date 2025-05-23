@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
 
-def get_price_lists_keyboard():
+def get_price_lists_keyboard() -> InlineKeyboardMarkup:
     rows = [
         [InlineKeyboardButton(text='Назад к ⭐️ Услуги и цены', callback_data='services_and_prices')],
         [InlineKeyboardButton(text='↩️ Главное меню', callback_data='main_menu')],
@@ -10,7 +10,7 @@ def get_price_lists_keyboard():
     return packaging_menu_keyboard
 
 
-def create_packaging_menu_keyboard():
+def create_packaging_menu_keyboard() -> InlineKeyboardMarkup:
     """
     Создает клавиатуру для выбора видов упаковки.
     Кнопка "Назад к упаковкам" возвращает к предыдущему меню ('types_of_packaging').
@@ -24,7 +24,7 @@ def create_packaging_menu_keyboard():
     return packaging_menu_keyboard
 
 
-def create_packaging_keyboard():
+def create_packaging_keyboard() -> InlineKeyboardMarkup:
     """
     Создаем клавиатуру для видов упаковки
     Кнопка "Мешок + скотч" ('bag_tape')
@@ -50,7 +50,7 @@ def create_packaging_keyboard():
     return packaging_keyboard
 
 
-def create_greeting_keyboard():
+def create_greeting_keyboard() -> InlineKeyboardMarkup:
     """
     Создаем клавиатуру для приветственного сообщения 👋
     Кнопка "Услуги и цены" ('services_and_prices')
@@ -76,7 +76,7 @@ def create_greeting_keyboard():
     return greeting_keyboard
 
 
-def create_services_and_prices_keyboard():
+def create_services_and_prices_keyboard() -> InlineKeyboardMarkup:
     """
     Создает клавиатуру для раздела 'Услуги и цены'
     Кнопка "Прайсы на доставку Карго" ('cargo_delivery_prices')
@@ -109,7 +109,7 @@ def create_services_and_prices_keyboard():
     return services_and_prices_keyboard
 
 
-def create_services_and_prices_main_menu_keyboard():
+def create_services_and_prices_main_menu_keyboard() -> InlineKeyboardMarkup:
     """Создает клавиатуру для кнопки 'Главное меню' из раздела 'Услуги и цены'"""
     rows = [
         [InlineKeyboardButton(text='Назад к услугам', callback_data="services_and_prices")],
@@ -119,7 +119,7 @@ def create_services_and_prices_main_menu_keyboard():
     return main_menu_key
 
 
-def create_main_menu_keyboard():
+def create_main_menu_keyboard() -> InlineKeyboardMarkup:
     """Создает клавиатуру для кнопки 'Главное меню'"""
     rows = [
         [InlineKeyboardButton(text="↩️Главное меню", callback_data="main_menu")],
@@ -128,7 +128,7 @@ def create_main_menu_keyboard():
     return main_menu_key
 
 
-def create_my_details_keyboard():
+def create_my_details_keyboard() -> InlineKeyboardMarkup:
     """Создает клавиатуру для кнопки 'Мои данные'"""
     my_details_keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text='Регистрация', callback_data='my_details')]
@@ -137,7 +137,7 @@ def create_my_details_keyboard():
     return my_details_keyboard
 
 
-def create_contact_keyboard():
+def create_contact_keyboard() -> ReplyKeyboardMarkup:
     """Создает клавиатуру для отправки контакта"""
     rows = [
         [KeyboardButton(text="📱 Отправить", request_contact=True)]
@@ -163,13 +163,10 @@ def create_data_modification_keyboard() -> InlineKeyboardMarkup:
 
 def create_sign_up_keyboard() -> InlineKeyboardMarkup:
     """Создает клавиатуру для кнопок 'Согласен' и 'Не согласен'"""
-    # sign_up_keyboard = InlineKeyboardMarkup()
-    rows = [
-        [InlineKeyboardButton(text='👍 Согласен', callback_data='agree'),
-         InlineKeyboardButton(text='👎 Не согласен', callback_data='disagree')]]
-
-    sign_up_keyboard = InlineKeyboardMarkup(inline_keyboard=rows)
-    return sign_up_keyboard
+    return InlineKeyboardMarkup(
+        inline_keyboard=[[InlineKeyboardButton(text='👍 Согласен', callback_data='agree'),
+                          InlineKeyboardButton(text='👎 Не согласен', callback_data='disagree')]]
+    )
 
 
 if __name__ == '__main__':

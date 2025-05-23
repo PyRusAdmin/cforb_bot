@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
-from states.states import Formedit_useful_information
+from states.states import FormeditUsefulInformation
 from system.dispatcher import bot, dp, ADMIN_USER_ID
 from system.dispatcher import router
 from system.working_with_files import load_bot_info
@@ -33,13 +33,13 @@ async def edit_useful_information(message: Message, state: FSMContext):
     """Редактирование: Бланк заказа"""
     if message.from_user.id == ADMIN_USER_ID:
         await message.answer("Введите новый текст, используя разметку HTML.")
-        await state.set_state(Formedit_useful_information.text_edit_useful_information)
+        await state.set_state(FormeditUsefulInformation.text_edit_useful_information)
     else:
         await message.reply("У вас нет прав на выполнение этой команды.")
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_useful_information.text_edit_useful_information)
+@router.message(FormeditUsefulInformation.text_edit_useful_information)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text

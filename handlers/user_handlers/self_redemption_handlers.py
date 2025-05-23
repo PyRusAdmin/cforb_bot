@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
-from states.states import Formedit_self_redemption
+from states.states import FormeditSelfRedemption
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -35,11 +35,11 @@ async def edit_self_redemption(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_self_redemption.text_edit_self_redemption)
+    await state.set_state(FormeditSelfRedemption.text_edit_self_redemption)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_self_redemption.text_edit_self_redemption)
+@router.message(FormeditSelfRedemption.text_edit_self_redemption)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text

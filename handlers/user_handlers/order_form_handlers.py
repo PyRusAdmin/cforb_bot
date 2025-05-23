@@ -7,7 +7,7 @@ from aiogram.types import Message
 from loguru import logger
 
 from keyboards.user_keyboards.user_keyboards import create_main_menu_keyboard
-from states.states import Formorder_form
+from states.states import FormorderForm
 from system.dispatcher import bot, ADMIN_USER_ID
 from system.dispatcher import dp
 from system.dispatcher import router
@@ -40,11 +40,11 @@ async def edit_order_form(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formorder_form.text_order_form)
+    await state.set_state(FormorderForm.text_order_form)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formorder_form.text_order_form)
+@router.message(FormorderForm.text_order_form)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text

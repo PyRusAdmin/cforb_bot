@@ -7,9 +7,9 @@ from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.types import Message
 
 from keyboards.user_keyboards.user_keyboards import create_packaging_keyboard, create_packaging_menu_keyboard
-from states.states import (Formeedit_types_of_packaging, Formedit_bag_tape, Formeedit_box_bag_tape,
-                           Formedit_wooden_sheathing_bag_tape, Formedit_wooden_corners_bag_tape, Formedit_pallet_crate,
-                           Formedit_pallet_with_a_solid_wooden_box)
+from states.states import (FormeeditTypesOfPackaging, FormeditBagTape, FormeeditBoxBagTape,
+                           FormeditWoodenSheathingBagTape, FormeditWoodenCornersBagTape, FormeditPalletCrate,
+                           FormeditPalletWithASolidWoodenBox)
 from system.dispatcher import ADMIN_USER_ID
 from system.dispatcher import bot, dp
 from system.dispatcher import router
@@ -59,11 +59,11 @@ async def edit_useful_information(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formeedit_types_of_packaging.text_edit_types_of_packaging)
+    await state.set_state(FormeeditTypesOfPackaging.text_edit_types_of_packaging)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formeedit_types_of_packaging.text_edit_types_of_packaging)
+@router.message(FormeeditTypesOfPackaging.text_edit_types_of_packaging)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -98,11 +98,11 @@ async def edit_bag_tape(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_bag_tape.text_edit_bag_tape)
+    await state.set_state(FormeditBagTape.text_edit_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_bag_tape.text_edit_bag_tape)
+@router.message(FormeditBagTape.text_edit_bag_tape)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -137,11 +137,11 @@ async def edit_box_bag_tape(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formeedit_box_bag_tape.text_edit_box_bag_tape)
+    await state.set_state(FormeeditBoxBagTape.text_edit_box_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formeedit_box_bag_tape.text_edit_box_bag_tape)
+@router.message(FormeeditBoxBagTape.text_edit_box_bag_tape)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -176,11 +176,11 @@ async def edit_wooden_sheathing_bag_tape(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_wooden_sheathing_bag_tape.text_edit_wooden_sheathing_bag_tape)
+    await state.set_state(FormeditWoodenSheathingBagTape.text_edit_wooden_sheathing_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_wooden_sheathing_bag_tape.text_edit_wooden_sheathing_bag_tape)
+@router.message(FormeditWoodenSheathingBagTape.text_edit_wooden_sheathing_bag_tape)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -216,11 +216,11 @@ async def edit_wooden_corners_bag_tape(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_wooden_corners_bag_tape.text_edit_wooden_corners_bag_tape)
+    await state.set_state(FormeditWoodenCornersBagTape.text_edit_wooden_corners_bag_tape)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_wooden_corners_bag_tape.text_edit_wooden_corners_bag_tape)
+@router.message(FormeditWoodenCornersBagTape.text_edit_wooden_corners_bag_tape)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -255,11 +255,11 @@ async def edit_pallet_crate(message: Message, state: FSMContext):
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_pallet_crate.text_edit_pallet_crate)
+    await state.set_state(FormeditPalletCrate.text_edit_pallet_crate)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_pallet_crate.text_edit_pallet_crate)
+@router.message(FormeditPalletCrate.text_edit_pallet_crate)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
@@ -294,11 +294,11 @@ async def edit_pallet_with_a_solid_wooden_box(message: Message, state: FSMContex
         await message.reply("У вас нет прав на выполнение этой команды.")
         return
     await message.answer("Введите новый текст, используя разметку HTML.")
-    await state.set_state(Formedit_pallet_with_a_solid_wooden_box.text_edit_pallet_with_a_solid_wooden_box)
+    await state.set_state(FormeditPalletWithASolidWoodenBox.text_edit_pallet_with_a_solid_wooden_box)
 
 
 # Обработчик текстовых сообщений (для админа, чтобы обновить информацию)
-@router.message(Formedit_pallet_with_a_solid_wooden_box.text_edit_pallet_with_a_solid_wooden_box)
+@router.message(FormeditPalletWithASolidWoodenBox.text_edit_pallet_with_a_solid_wooden_box)
 async def update_info(message: Message, state: FSMContext):
     text = message.html_text
     bot_info = text
