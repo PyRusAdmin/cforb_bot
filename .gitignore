@@ -246,3 +246,5 @@ cython_debug/
 /Работа с сервером.txt
 /media/document/Бланк Заказа CFORB.xls
 /media/document/Прейскурант CFORB.xlsx
+/.idea/
+/.qwen/
