@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import FSInputFile, InputMediaPhoto, Message
 
 from keyboards.user_keyboards.user_keyboards import create_packaging_keyboard, create_packaging_menu_keyboard
-from states.states import (BotContentEditStates)
+from states.states import BotContentEditStates
 from system.dispatcher import ADMIN_USER_ID, bot, router
 from system.working_with_files import load_bot_info, save_bot_info
 

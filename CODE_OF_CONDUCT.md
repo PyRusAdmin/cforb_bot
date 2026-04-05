@@ -2,7 +2,10 @@
 
 ## 🇷🇺 Наша цель
 
-В интересах создания открытой и дружелюбной атмосферы мы, как участники и разработчики проекта, обязуемся сделать участие в нашем проекте и сообществе свободным от притеснений для всех, независимо от возраста, телосложения, состояния здоровья, инвалидности, этнической принадлежности, пола и гендерной идентичности, уровня опыта, образования, социально-экономического статуса, национальности, внешнего вида, расы, религии, сексуальной идентичности и ориентации.
+В интересах создания открытой и дружелюбной атмосферы мы, как участники и разработчики проекта, обязуемся сделать
+участие в нашем проекте и сообществе свободным от притеснений для всех, независимо от возраста, телосложения, состояния
+здоровья, инвалидности, этнической принадлежности, пола и гендерной идентичности, уровня опыта, образования,
+социально-экономического статуса, национальности, внешнего вида, расы, религии, сексуальной идентичности и ориентации.
 
 ## Стандарты поведения
 
@@ -24,13 +27,17 @@
 
 ## Обязанности
 
-Участники проекта несут ответственность за разъяснение стандартов приемлемого поведения и обязаны принимать соответствующие и справедливые меры по исправлению ситуации в случае неприемлемого поведения.
+Участники проекта несут ответственность за разъяснение стандартов приемлемого поведения и обязаны принимать
+соответствующие и справедливые меры по исправлению ситуации в случае неприемлемого поведения.
 
-Участники проекта имеют право и обязаны удалять, редактировать или отклонять комментарии, коммиты, код, правки в вики, вопросы и другой вклад, который не соответствует этому Кодексу поведения, или временно или навсегда заблокировать любого участника за поведение, которое они считают неуместным, угрожающим, оскорбительным или вредным.
+Участники проекта имеют право и обязаны удалять, редактировать или отклонять комментарии, коммиты, код, правки в вики,
+вопросы и другой вклад, который не соответствует этому Кодексу поведения, или временно или навсегда заблокировать любого
+участника за поведение, которое они считают неуместным, угрожающим, оскорбительным или вредным.
 
 ## Область применения
 
-Этот Кодекс поведения применяется как в рамках проекта, так и в публичных пространствах, когда участник представляет проект или сообщество.
+Этот Кодекс поведения применяется как в рамках проекта, так и в публичных пространствах, когда участник представляет
+проект или сообщество.
 
 ## Контактная информация
 
@@ -42,7 +49,10 @@
 
 ## 🇬🇧 Our Pledge
 
-In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making
+participation in our project and community a harassment-free experience for everyone, regardless of age, body size,
+disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education,
+socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
 ## Our Standards
 
@@ -64,20 +74,27 @@ In the interest of fostering an open and welcoming environment, we as contributo
 
 ## Responsibilities
 
-Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response to any instances of unacceptable behavior.
+Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take
+appropriate and fair corrective action in response to any instances of unacceptable behavior.
 
-Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
+Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits,
+issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any
+contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
 
 ## Scope
 
-This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community.
+This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the
+project or its community.
 
 ## Contact
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team via Telegram: [@pyadminru](https://t.me/pyadminru)
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team via
+Telegram: [@pyadminru](https://t.me/pyadminru)
 
-All complaints will be reviewed and investigated. We are obligated to maintain confidentiality with regard to the reporter of an incident.
+All complaints will be reviewed and investigated. We are obligated to maintain confidentiality with regard to the
+reporter of an incident.
 
 ---
 
-*Основано на [Contributor Covenant](https://www.contributor-covenant.org/) версии 1.4.2 и [Мозаилле](https://www.mozilla.org/ru/about/governance/policies/participation/) кодексе поведения.*
+*Основано на [Contributor Covenant](https://www.contributor-covenant.org/) версии 1.4.2
+и [Мозаилле](https://www.mozilla.org/ru/about/governance/policies/participation/) кодексе поведения.*

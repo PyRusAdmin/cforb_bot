@@ -6,13 +6,16 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import FSInputFile, InputMediaPhoto, Message
 from loguru import logger
 
-from database.database import (check_user_exists_in_db, get_user_data_from_db, insert_user_data_to_database,
-                               recording_data_of_users_who_launched_the_bot, update_city_in_db, update_name_in_db,
-                               update_phone_in_db, update_surname_in_db)
-from keyboards.user_keyboards.user_keyboards import (create_contact_keyboard, create_data_modification_keyboard,
-                                                     create_greeting_keyboard, create_my_details_keyboard,
-                                                     create_sign_up_keyboard)
-from states.states import (BotContentEditStates, ChangingData, MakingAnOrder)
+from database.database import (
+    check_user_exists_in_db, get_user_data_from_db, insert_user_data_to_database,
+    recording_data_of_users_who_launched_the_bot, update_city_in_db, update_name_in_db, update_phone_in_db,
+    update_surname_in_db
+)
+from keyboards.user_keyboards.user_keyboards import (
+    create_contact_keyboard, create_data_modification_keyboard, create_greeting_keyboard, create_my_details_keyboard,
+    create_sign_up_keyboard
+)
+from states.states import BotContentEditStates, ChangingData, MakingAnOrder
 from system.dispatcher import ADMIN_USER_ID, bot, dp, router
 from system.working_with_files import load_bot_info, save_bot_info
 

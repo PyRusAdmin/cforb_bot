@@ -4,7 +4,7 @@ from aiogram import types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 
-from states.states import (FileStates)
+from states.states import FileStates
 from system.dispatcher import ADMIN_USER_ID, router
 
 

@@ -3,9 +3,9 @@ from aiogram.fsm.state import StatesGroup, State
 
 class MyStates(StatesGroup):
     """Отправка сообщений: текстовое сообщение, фото + текст"""
-    waiting_for_message = State()
-    waiting_for_image = State()
-    waiting_for_caption = State()
+    waiting_for_message = State()  # Состояние ожидания текста
+    waiting_for_image = State()  # Состояние ожидания фото
+    waiting_for_caption = State()  # Состояние ожидания текста
 
 
 class FileStates(StatesGroup):
@@ -34,7 +34,7 @@ class ChangingData(StatesGroup):
 
 class BotContentEditStates(StatesGroup):
     """Замена текста в боте"""
-    edit_main_menu = State()
+    edit_main_menu = State()  # Замена текста в главном меню
     edit_types_of_packaging = State()  # Замена текста в разделе "Виды упаковки"
     edit_services_and_prices = State()  # Замена текста в разделе "Услуги и цены"
     edit_wooden_corners_bag_tape = State()  # Замена текста в разделе "Деревянные уголки + мешок + скотч"

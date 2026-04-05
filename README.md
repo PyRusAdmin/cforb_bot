@@ -1,15 +1,16 @@
 ##### Вопросы и обратная связь
+
 Если у вас возникли вопросы или предложения по улучшению бота, пожалуйста, свяжитесь со мной:
 
 Email: zh.vitaliy92@gmail.com\
 Telegram: https://t.me/PyAdminRU
 
-
 Команды админа:
 
 <b>Редактирование текста и отправка сообщений:</b>
-                         
+
 <b>Редактирование текста:</b>
+
 - ✔️ /edit_types_of_packaging - Виды упаковки
 - ✔️ /edit_services_and_prices - Услуги и цены
 - ✔️ /edit_wooden_corners_bag_tape - Деревянные уголки + мешок + скотч
@@ -34,14 +35,17 @@ Telegram: https://t.me/PyAdminRU
 - ✔️ /edit_white_cargo_gte - Белая доставка грузов с ГТД
 
 <b>Получение данных:</b>
+
 - ✔️ /get_a_list_of_users_registered_in_the_bot - Получение списка зарегистрированных пользователей
 - ✔️ /get_users_who_launched_the_bot - Получение данных пользователей, запускающих бота
 
 <b>Отправка сообщений:</b>
+
 - ✔️ /send_an_image_to_bot_users - Отправка изображения через бота + текст
 - ✔️ /send_a_message_to_bot_users - Отправка текста через бота
 
 <b>Замена изображения поста:</b>
+
 - ✔️ /greeting_photo - Пост приветствие
 - ✔️ /get_price_lists_photo_1 - Замена цен. Изображений должно быть 4
 - ✔️ /services_and_prices_photo - Услуги и цены

@@ -2,7 +2,8 @@
 
 ## 🇷🇺 На русском
 
-Спасибо за ваш интерес к проекту! Мы рады любому вкладу. Пожалуйста, ознакомьтесь с этими правилами, чтобы участие было комфортным для всех.
+Спасибо за ваш интерес к проекту! Мы рады любому вкладу. Пожалуйста, ознакомьтесь с этими правилами, чтобы участие было
+комфортным для всех.
 
 ### 📋 Содержание
 
@@ -21,12 +22,12 @@
 
 1. Проверьте, не создана ли уже похожая задача в [Issues](https://gitverse.ru/pyadminru/cforb_bot/issues)
 2. Создайте новый Issue, указав:
-   - **Описание** — краткое и понятное название проблемы
-   - **Шаги воспроизведения** — подробно опишите, как воспроизвести ошибку
-   - **Ожидаемое поведение** — что должно было произойти
-   - **Фактическое поведение** — что произошло на самом деле
-   - **Окружение** — версия Python, ОС, зависимости
-   - **Скриншоты/логи** — если применимо
+    - **Описание** — краткое и понятное название проблемы
+    - **Шаги воспроизведения** — подробно опишите, как воспроизвести ошибку
+    - **Ожидаемое поведение** — что должно было произойти
+    - **Фактическое поведение** — что произошло на самом деле
+    - **Окружение** — версия Python, ОС, зависимости
+    - **Скриншоты/логи** — если применимо
 
 ---
 
@@ -37,9 +38,9 @@
 1. Проверьте существующие [Issues](https://gitverse.ru/pyadminru/cforb_bot/issues)
 2. Создайте новый Issue с меткой `enhancement`
 3. Опишите:
-   - Какую проблему решает предложение
-   - Как вы видите реализацию
-   - Какие могут быть побочные эффекты
+    - Какую проблему решает предложение
+    - Как вы видите реализацию
+    - Какие могут быть побочные эффекты
 
 ---
 
@@ -64,15 +65,16 @@
    ```
 
 6. **Заполните описание** в MR:
-   - Что изменилось
-   - Зачем это нужно
-   - Как протестировать
+    - Что изменилось
+    - Зачем это нужно
+    - Как протестировать
 
 ---
 
 ### 💻 Стиль кода
 
 **Python:**
+
 - Следуйте [PEP 8](https://peps.python.org/pep-0008/)
 - Используйте `snake_case` для функций и переменных
 - Используйте `PascalCase` для классов
@@ -80,6 +82,7 @@
 - Максимальная длина строки — 120 символов
 
 **Пример:**
+
 ```python
 async def handle_start(message: Message) -> None:
     """Обработка команды /start."""
@@ -110,6 +113,7 @@ async def handle_start(message: Message) -> None:
 ### 📝 Коммиты
 
 **Формат сообщения:**
+
 ```
 тип: краткое описание
 
@@ -117,6 +121,7 @@ async def handle_start(message: Message) -> None:
 ```
 
 **Типы:**
+
 - `feat` — новая функция
 - `fix` — исправление ошибки
 - `docs` — изменение документации
@@ -126,6 +131,7 @@ async def handle_start(message: Message) -> None:
 - `chore` — рутинные задачи (обновление зависимостей и т.д.)
 
 **Примеры:**
+
 ```
 feat: добавить обработку команды оплаты
 fix: исправить ошибку с пагинацией
@@ -143,7 +149,8 @@ refactor: вынести валидацию в отдельную функцию
 
 ## 🇬🇧 In English
 
-Thank you for your interest in the project! We welcome any contributions. Please review these guidelines to ensure a smooth experience for everyone.
+Thank you for your interest in the project! We welcome any contributions. Please review these guidelines to ensure a
+smooth experience for everyone.
 
 ### 🐛 Bug Reports
 
@@ -151,12 +158,12 @@ If you find a bug:
 
 1. Check if a similar issue already exists in [Issues](https://gitverse.ru/pyadminru/cforb_bot/issues)
 2. Create a new Issue including:
-   - **Title** — short and descriptive
-   - **Steps to reproduce** — how to trigger the bug
-   - **Expected behavior** — what should happen
-   - **Actual behavior** — what actually happens
-   - **Environment** — Python version, OS, dependencies
-   - **Screenshots/logs** — if applicable
+    - **Title** — short and descriptive
+    - **Steps to reproduce** — how to trigger the bug
+    - **Expected behavior** — what should happen
+    - **Actual behavior** — what actually happens
+    - **Environment** — Python version, OS, dependencies
+    - **Screenshots/logs** — if applicable
 
 ---
 
@@ -167,9 +174,9 @@ If you have an improvement idea:
 1. Check existing [Issues](https://gitverse.ru/pyadminru/cforb_bot/issues)
 2. Create a new Issue with `enhancement` label
 3. Describe:
-   - What problem it solves
-   - How you envision the implementation
-   - Any potential side effects
+    - What problem it solves
+    - How you envision the implementation
+    - Any potential side effects
 
 ---
 
@@ -194,15 +201,16 @@ Before submitting a PR:
    ```
 
 6. **Fill in the MR description**:
-   - What changed
-   - Why it's needed
-   - How to test it
+    - What changed
+    - Why it's needed
+    - How to test it
 
 ---
 
 ### 💻 Code Style
 
 **Python:**
+
 - Follow [PEP 8](https://peps.python.org/pep-0008/)
 - Use `snake_case` for functions and variables
 - Use `PascalCase` for classes
@@ -214,6 +222,7 @@ Before submitting a PR:
 ### 📝 Commits
 
 **Message format:**
+
 ```
 type: short description
 
@@ -221,6 +230,7 @@ detailed description (if needed)
 ```
 
 **Types:**
+
 - `feat` — new feature
 - `fix` — bug fix
 - `docs` — documentation changes
@@ -230,6 +240,7 @@ detailed description (if needed)
 - `chore` — maintenance tasks
 
 **Examples:**
+
 ```
 feat: add payment command handler
 fix: fix pagination bug
